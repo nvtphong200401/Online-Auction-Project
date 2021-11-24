@@ -1,8 +1,12 @@
+import authRoute from '../routes/auth_routes.js';
+
 export default function (app) {
     //use your route here
 
 
 
+
+    app.use('/auth', authRoute);
 
     
     // 404 and 500 pages
