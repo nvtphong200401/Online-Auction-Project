@@ -20,4 +20,13 @@ router.get('/', function (req, res) {
     });
 })
 
+router.get('/search', (req, res) => {
+    res.render('vwGuest/search', {
+        layout: '../vwGuest/guest',
+        category : categoryModel.findAllMain(),
+        recent: guestModel.findTopBid(),
+        related: guestModel.findTopPrice()
+    })
+})
+
 export default router;

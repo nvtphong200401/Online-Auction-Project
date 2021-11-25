@@ -1,7 +1,4 @@
 	/* Coded with love by Mutiullah Samim */
-html {
-    background-color: #50bee6;
-}
 .login-card {
     margin-top: 100px;
     margin-bottom: auto;
@@ -23,6 +20,7 @@ html {
     border-radius: 50%;
     background: #5db6d6;
     padding: 10px;
+    
 }
 .logo {
     height: 150px;
@@ -33,3 +31,15 @@ html {
 .form-container {
     margin-top: 75px;
 }
+
+.fb {
+    text-align: center;
+    color: white;
+    background-color: #3B5998;
+    margin-bottom: 3px;
+}
+.google {
+    background-color: #dd4b39;
+    color: white;
+    margin-bottom: 3px;
+  }

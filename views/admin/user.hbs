@@ -1,14 +1,25 @@
-<div class="panel panel-primary shadow">
-    <div class="panel-heading p-4">
+<div class="card border-primary">
+    <div class="card-header p-4" style="background-color: #2fbdd3;">
         <i class="fa fa-user" aria-hidden="true"></i> User management
+        <span class="float-right">
+            <div class="dropdown">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-filter" aria-hidden="true"></i> Filter
+                    </button>
+                <ul class="dropdown-menu">
+                    <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Bidder</a></li>
+                    <li><a href="#"><i class="fa fa-user-secret" aria-hidden="true"></i> Seller</a></li>
+                </ul>
+            </div>
+        </span>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Email</th>
+                    <th class="text-right"></th>
                 </tr>
             </thead>
             <tbody>
@@ -30,7 +41,7 @@
             </tbody>
         </table>
     </div>
-    <div class="panel-footer text-center">
+    <div class="card-footer d-flex justify-content-center">
         <nav aria-label="Page navigation">
             <ul class="pagination text-center">
                 <li class="page-item disabled">
