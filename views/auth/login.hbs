@@ -1,5 +1,7 @@
- <script src="https://www.google.com/recaptcha/api.js"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <form class="show1">
+
+
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
@@ -12,19 +14,36 @@
     </div>
     <input type="password" class="form-control" placeholder="Password">
   </div>
+
   <div class="form-group form-check">
     <input type="checkbox" class="form-check-input">
-    <label class="form-check-label" for="remember">Remember me</label>
+    <span class="form-check-label" for="remember">Remember me</span>
+    <span class="ml-4">
+      <a href="#" id="get-new-password">Forgot your password?</a>
+    </span>
   </div>
+
   <center>
     <button type="submit" class="btn btn-primary">Login</button>
   </center>
-  <div class="mt-4">
-    <div class="d-flex justify-content-center">
-      Don't have an account? <a href="#" class="ml-2" id="register">Sign Up</a>
+
+
+  <div class="other text-center">
+    <div class="hl">
+      or
+    </div>
+    <div class="mt-3">
+      <a href="#" class="fb btn">
+        <i class="fa fa-facebook-square" aria-hidden="true"></i> Login with Facebook
+      </a>
+    </div>
+    <div>
+      <a href="#" class="google btn">
+        <i class="fa fa-google-plus" aria-hidden="true"></i> Login with Google+
+      </a>
     </div>
     <div class="d-flex justify-content-center">
-      <a href="#" id="get-new-password">Forgot your password?</a>
+      Don't have an account? <a href="#" class="ml-2" id="register">Sign Up</a>
     </div>
   </div>
 </form>
@@ -39,9 +58,9 @@
   <center>
     <button type="submit" class="btn btn-primary">Request password</button>
   </center>
-   <div class="d-flex justify-content-center mt-4" id="goback"> Want to try again ?
-     <a href="#" class="ml-2">Go back</a>
-    </div>
+  <div class="d-flex justify-content-center mt-4" id="goback"> Want to try again ?
+    <a href="#" class="ml-2">Go back</a>
+  </div>
 </form>
 
 <form class="show3" style="display: none;">
@@ -76,7 +95,7 @@
   <div class="form-group">
     <div class="g-recaptcha" data-sitekey="6LeQeVkdAAAAAETp3LBvY2nsOHF0ZFObrGYWe-_o"></div>
   </div>
-  
+
   <center>
     <button type="submit" class="btn btn-primary">Register</button>
   </center>
