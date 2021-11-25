@@ -8,7 +8,7 @@ export default function (app) {
         helpers: {
             format_number(val) {
                 return numeral(val).format('0,0') + ' VND';
-            }
+            },
         }
     }));
     app.set('view engine', 'hbs');
