@@ -1,3 +1,182 @@
-<h1>
-    Hello world!
-</h1>
+<div id="main-content">
+    <!--Main Content-->
+    <!-- Category -->
+    <div class="container-fluid">
+        <div class="row mb-3 bg-secondary ">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <ul class="nav justify-content-center ">
+                    {{#each this.category}}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="#">{{CatName}}</a>
+                        </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="col-lg-1"></div>
+        </div>
+    </div>
+    <!-- End of Category -->
+
+    <!-- Top End -->
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="">End soon!</h4>
+                            <a class="text-success font-weight-bold ml-auto mr-0" href="#">See all
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-deck">
+                            {{#each this.top_end}}
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                                         alt="{{ProName}}"
+                                         title="{{ProName}}">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title">{{ProName}}</h5>
+                                        <h5 class="card-title text-success">{{{format_number Price}}}</h5>
+
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural
+                                            lead-in to additional content. This content is a little bit longer.</p>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary mb-3">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
+                                        </button>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Top End -->
+
+    <!-- Top Bid -->
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="">Highest Bid</h4>
+                            <a class="text-success font-weight-bold ml-auto mr-0" href="#">See all
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-deck">
+                            {{#each this.top_bid}}
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                                         alt="{{ProName}}"
+                                         title="{{ProName}}">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title">{{ProName}}</h5>
+                                        <h5 class="card-title text-success">{{{format_number Price}}}</h5>
+
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural
+                                            lead-in to additional content. This content is a little bit longer.</p>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary mb-3">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
+                                        </button>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Top Bid -->
+
+    <!-- Top Price -->
+    <div class="container-fluid py-3">
+        <div class="row">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <h4 class="">Highest Price</h4>
+                            <a class="text-success font-weight-bold ml-auto mr-0" href="#">See all
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="card-deck">
+                            {{#each this.top_price}}
+                                <div class="card h-100">
+                                    <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                                         alt="{{ProName}}"
+                                         title="{{ProName}}">
+                                    <div class="card-body">
+
+                                        <h5 class="card-title">{{ProName}}</h5>
+                                        <h5 class="card-title text-success">{{{format_number Price}}}</h5>
+
+                                        <p class="card-text">This is a wider card with supporting text below as a
+                                            natural
+                                            lead-in to additional content. This content is a little bit longer.</p>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary mb-3">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
+                                        </button>
+
+                                    </div>
+                                    <div class="card-footer">
+                                        <small class="text-muted">Last updated 3 mins ago</small>
+                                    </div>
+                                </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Top Price -->
+
+    <!-- End of Main Content -->
+</div>
+

@@ -1,8 +1,10 @@
+import guestRoute from "../routes/guest.route.js";
+
 export default function (app) {
     //use your route here
 
-
-
+    // guestRoot
+    app.use('/', guestRoute);
 
     
     // 404 and 500 pages
