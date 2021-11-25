@@ -1,0 +1,35 @@
+	/* Coded with love by Mutiullah Samim */
+html {
+    background-color: #50bee6;
+}
+.login-card {
+    margin-top: 100px;
+    margin-bottom: auto;
+    background: #daa857;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 50px;
+    box-shadow: 2px 2px 2px 2px #888888;
+    border-radius: 5px;
+
+}
+.logo-container {
+    position: absolute;
+    height: 170px;
+    width: 170px;
+    top: -75px;
+    border-radius: 50%;
+    background: #5db6d6;
+    padding: 10px;
+}
+.logo {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+.form-container {
+    margin-top: 75px;
+}
