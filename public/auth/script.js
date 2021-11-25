@@ -18,5 +18,8 @@ $(document).ready(function() {
         e.preventDefault();
         $('.show3').toggle('500');
         $('.show1').toggle('500');
-    })
+    });
+    function onSubmit(token) {
+      document.getElementById("demo-form").submit();
+    }
   });
