@@ -1,26 +1,22 @@
 <div class="panel panel-primary shadow">
     <div class="panel-heading p-4">
-        <i class="fa fa-desktop" aria-hidden="true"></i> Category management
-        <span class="float-right"><a class="btn btn-sm btn-success" href="/admin/add" role="button">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            Add Category
-        </a>
-        </span>
-        
+        <i class="fa fa-user" aria-hidden="true"></i> User management
     </div>
     <div class="panel-body">
         <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">CateName</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
                 </tr>
             </thead>
             <tbody>
-                {{#each this.cates}}
+                {{#each this.users}}
                 <tr>
-                    <th scope="row">{{CatID}}</th>
-                    <td>{{CatName}}</td>
+                    <th scope="row">{{UserID}}</th>
+                    <td>{{UserName}}</td>
+                    <td>{{UserEmail}}</td>
                     <td class="text-right">
                         <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
                                 aria-hidden="true"></i>
