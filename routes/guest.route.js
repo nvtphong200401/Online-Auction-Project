@@ -2,6 +2,8 @@ import express from "express";
 
 import guestModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
+import userModel from "../models/users_model.js";
+
 
 const router = express.Router();
 
@@ -20,10 +22,24 @@ router.get('/', function (req, res) {
     });
 })
 
+router.get('/user/:id', function (req, res){
+    const userId = req.params.id || 0;
+    const userInfo = userModel.findById(userId);
+
+    //if (userInfo === null) {
+    //   res.redirect('/');
+    //}
+
+    res.render('vwBider/info', {
+       layout: '../vwGuest/guest',
+       userInfo: userInfo
+    });
+});
+
 router.get('/search', (req, res) => {
     res.render('vwGuest/search', {
         layout: '../vwGuest/guest',
-        category : categoryModel.findAllMain(),
+        category : categoryModel.findAllMain() || 0,
         recent: guestModel.findTopBid(),
         related: guestModel.findTopPrice()
     })

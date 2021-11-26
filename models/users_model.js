@@ -10,5 +10,12 @@ export default {
     },
     pending(){
         return list
+    },
+    findById(id) {
+        for (let x in list) {
+            if (list[x].UserID === id)
+                return list[x];
+        }
+        return null;
     }
 }

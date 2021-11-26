@@ -1,4 +1,4 @@
-<div id="main-content" onload="f()">
+<div id="main-content">
     <!--Main Content-->
     <!-- Category -->
     <div class="container-fluid">
@@ -24,7 +24,7 @@
                     {{/each}}
                 </ul>
             </div>
-            <div class="col-lg-1" style="background-color: #eda500;"></div>
+            <div class="col-lg-1"></div>
         </div>
     </div>
     <!-- End of Category -->
@@ -57,16 +57,16 @@
                                             <span class="tag-picture bg-info text-white">New</span>
                                         {{/if}}
                                         <div class="details">
-                                            <div class="user">
+                                            <a href="/user/{{BidderID}}" class="user">
                                                 <div class="user-photo">
                                                     <img alt="Thumb"
                                                          src="./public/imgs/avatar/0/avatar1.png">
                                                 </div>
                                                 <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bider}}">
-                                                    {{Bider}}
+                                                     title="{{Bidder}}">
+                                                    {{Bidder}}
                                                 </div>
-                                            </div>
+                                            </a>
                                             <div class="numbers">
                                                 <b class="views mr-1"><i class="fa fa-arrow-circle-up"
                                                                          aria-hidden="true"></i> {{BidNumber}}</b>
@@ -165,8 +165,8 @@
                                                          src="./public/imgs/avatar/0/avatar1.png">
                                                 </div>
                                                 <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bider}}">
-                                                    {{Bider}}
+                                                     title="{{Bidder}}">
+                                                    {{Bidder}}
                                                 </div>
                                             </div>
                                             <div class="numbers">
@@ -267,8 +267,8 @@
                                                          src="./public/imgs/avatar/0/avatar1.png">
                                                 </div>
                                                 <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bider}}">
-                                                    {{Bider}}
+                                                     title="{{Bidder}}">
+                                                    {{Bidder}}
                                                 </div>
                                             </div>
                                             <div class="numbers">
