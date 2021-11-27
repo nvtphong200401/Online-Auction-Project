@@ -147,3 +147,21 @@ footer hr {
     font-size: 15px;
     font-weight: 500;
 }
+
+.pro-title {
+    color: #5A5A5A;
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.product-list .price {
+    color:#fc5959 ;
+    font-size: 15px;
+}
+
+a > img {
+    width: 115px;
+    height: 100px;
+}
+

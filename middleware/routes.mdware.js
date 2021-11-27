@@ -1,6 +1,7 @@
 import guestRoute from "../routes/guest.route.js";
 import authRoute from '../routes/auth_routes.js';
 import adminRoute from '../routes/admin_routes.js';
+import productRoute from '../routes/product.routes.js';
 
 export default function (app) {
     //use your route here
@@ -8,6 +9,7 @@ export default function (app) {
     // guestRoot
     app.use('/', guestRoute);
 
+    app.use('/product', productRoute);
     
     app.use('/auth', authRoute);
 
