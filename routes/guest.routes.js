@@ -62,7 +62,7 @@ router.get('/user/:id', function (req, res){
     //   res.redirect('/');
     //}
 
-    res.render('vwBider/info', {
+    res.render('vwBidder/info', {
        layout: '../vwGuest/guest',
        userInfo: userInfo
     });
