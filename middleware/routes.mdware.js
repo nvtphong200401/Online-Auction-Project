@@ -8,7 +8,6 @@ export default function (app) {
     // guestRoot
     app.use('/', guestRoute);
 
-    
     app.use('/auth', authRoute);
 
     app.use('/admin', adminRoute);    

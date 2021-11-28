@@ -25,6 +25,33 @@ const list = [
 ];
 
 export default {
+    splitList(list, chunk) {
+        let i,j, temporary;
+        let result = [];
+        for (i = 0,j = list.length; i < j; i += chunk) {
+            temporary = list.slice(i, i + chunk);
+            result.push(temporary);
+        }
+        return result;
+    },
+    findAll() {
+        // check new items ( New items are uploaded 45 minutes ago )
+        for (let x in list)
+        {
+            let distance = untilNow(list[x].UploadDate);
+            list[x].New = distance > 0 && distance < 45 * OneMin;
+        }
+        return list;
+    },
+    findByCat(CatId) {
+        // check new items ( New items are uploaded 45 minutes ago )
+        for (let x in list)
+        {
+            let distance = untilNow(list[x].UploadDate);
+            list[x].New = distance > 0 && distance < 45 * OneMin;
+        }
+        return list;
+    },
     findTopEnd() {
 
         // check new items ( New items are uploaded 45 minutes ago )
