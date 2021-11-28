@@ -37,6 +37,13 @@ router.get('/user/:id', function (req, res){
 });
 
 router.get('/search', (req, res) => {
+    const q = req.query.q;
+    //perform sql search here
+
+    // assume that we receive
+    // all category match to the keywords
+    // product in N mins related to keywords
+    // product related to keyword but not in N mins 
     res.render('vwGuest/search', {
         layout: '../vwGuest/guest',
         category : categoryModel.findAllMain() || 0,
