@@ -28,7 +28,7 @@ router.get('/byCat/:id/:page', function (req, res) {
     const CatList = categoryModel.findAllMain() || 0;
     const ProductList = productModel.findByCat(CatId) || 0;
 
-    const ListByPage= productModel.splitList(ProductList, 2);
+    const ListByPage= productModel.splitList(ProductList, 12); // 12 products per page
 
     if (ListByPage.length === 0 || PageNow > ListByPage.length)
         PageNow = 1;
@@ -70,12 +70,12 @@ router.get('/search', (req, res) => {
     // assume that we receive
     // all category match to the keywords
     // product in N mins related to keywords
-    // product related to keyword but not in N mins 
+    // product related to keyword but not in N mins
     res.render('vwGuest/search', {
         layout: '../vwGuest/guest',
         category : categoryModel.findAllMain() || 0,
-        recent: guestModel.findTopBid(),
-        related: guestModel.findTopPrice()
+        recent: productModel.findTopBid().slice(0, 4),
+        related: productModel.findTopPrice()
     })
 })
 

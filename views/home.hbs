@@ -8,18 +8,19 @@
                 <ul class="nav justify-content-center">
                     {{#each this.category}}
                     <li class="nav-item dropdown">
+                        <a class="text-white" href="/byCat/{{CatID}}/1">
+                            <button class="nav-link btn btn-secondary" aria-expanded="false">
+                                {{CatName}}
+                            </button>
+                        </a>
 
-                        <button type="button" class=" nav-link btn btn-secondary dropdown-toggle" data-toggle="dropdown"
-                            aria-expanded="false">
-                            <a class=" text-white" href="#">{{CatName}}</a>
-                        </button>
                         <div class="dropdown-menu">
-
                             <a class="dropdown-item" href="#">Please</a>
                             <a class="dropdown-item" href="#">Help</a>
                             <a class="dropdown-item" href="#">Me</a>
                             <a class="dropdown-item" href="#">Sleepy...</a>
                         </div>
+
                     </li>
                     {{/each}}
                 </ul>
@@ -48,7 +49,7 @@
                     <div class="card-body">
                         <div class="card-group">
                             {{#each this.top_end}}
-                            <div class="card card-small">
+                            <div class="card card-small mr-2 rounded">
                                 <div class="thumbnail">
                                     <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                         alt="{{ProName}}" title="{{ProName}}">
@@ -108,15 +109,17 @@
 
                                 </div>
                                 <div class="card-text mr-auto ml-3 mb-0">
-                                    <button type="button" class="btn btn-sm btn-outline-primary my-2">
-                                        <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
-                                    </button>
+                                    <a href="./product/{{ProID}}">
+                                        <button type="button" class="btn btn-sm btn-outline-primary my-2">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-danger my-2">
                                         <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
                                     </button>
                                 </div>
                                 <div class="card-footer text-right mt-4">
-                                    <small class="text-muted">Upload date: {{UploadDate}}</small>
+                                    <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
                                 </div>
                             </div>
                             {{/each}}
@@ -148,7 +151,7 @@
                     <div class="card-body">
                         <div class="card-group">
                             {{#each this.top_end}}
-                            <div class="card card-small">
+                            <div class="card card-small mr-2 rounded">
                                 <div class="thumbnail">
                                     <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                         alt="{{ProName}}" title="{{ProName}}">
@@ -208,15 +211,17 @@
 
                                 </div>
                                 <div class="card-text mr-auto ml-3 mb-0">
-                                    <button type="button" class="btn btn-sm btn-outline-primary my-2">
-                                        <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
-                                    </button>
+                                    <a href="./product/{{ProID}}">
+                                        <button type="button" class="btn btn-sm btn-outline-primary my-2">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-danger my-2">
                                         <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
                                     </button>
                                 </div>
                                 <div class="card-footer text-right mt-4">
-                                    <small class="text-muted">Upload date: {{UploadDate}}</small>
+                                    <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
                                 </div>
                             </div>
                             {{/each}}
@@ -248,7 +253,7 @@
                     <div class="card-body">
                         <div class="card-group">
                             {{#each this.top_end}}
-                            <div class="card card-small">
+                            <div class="card card-small mr-2 rounded">
                                 <div class="thumbnail">
                                     <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                         alt="{{ProName}}" title="{{ProName}}">
@@ -300,7 +305,6 @@
 
                                     <script type="text/javascript">
                                         f('time-left-price{{ProID}}', "{{EndDate}}");
-                                        console.log('time-left-price{{ProID}} -  {{EndDate}}');
                                     </script>
 
                                     </p>
@@ -308,15 +312,17 @@
 
                                 </div>
                                 <div class="card-text mr-auto ml-3 mb-0">
-                                    <button type="button" class="btn btn-sm btn-outline-primary my-2">
-                                        <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
-                                    </button>
+                                    <a href="./product/{{ProID}}">
+                                        <button type="button" class="btn btn-sm btn-outline-primary my-2">
+                                            <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                        </button>
+                                    </a>
                                     <button type="button" class="btn btn-sm btn-outline-danger my-2">
                                         <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
                                     </button>
                                 </div>
                                 <div class="card-footer text-right mt-4">
-                                    <small class="text-muted">Upload date: {{UploadDate}}</small>
+                                    <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
                                 </div>
                             </div>
                             {{/each}}
