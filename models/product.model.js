@@ -75,7 +75,9 @@ export default {
             let distance = untilNow(list[x].UploadDate);
             list[x].New = distance > 0 && distance < 45 * OneMin;
         }
-        return list;
+
+        const chosen_list = list.slice(CatId - 1, CatId + 22);
+        return chosen_list;
     },
     findTopEnd() {
         const chosen_products = list.slice(0, 5);

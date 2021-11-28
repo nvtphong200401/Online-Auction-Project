@@ -33,9 +33,14 @@ router.get('/byCat/:id/:page', function (req, res) {
     if (ListByPage.length === 0 || PageNow > ListByPage.length)
         PageNow = 1;
 
+    for (const c of res.locals.lcCategories) {
+        c.isActive = c.CatID === CatId;
+    }
+
     const chosenProduct = ListByPage[PageNow - 1] || null;
     const nPage = ListByPage.length || 1;
     let PageList = [];
+
     for (let i = 1; i <= nPage; ++i) {
         PageList.push({ index: i.toString(), active: (i.toString() === PageNow)})
     }

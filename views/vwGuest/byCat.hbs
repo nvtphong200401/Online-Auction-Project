@@ -32,7 +32,43 @@
     <!-- Item List -->
     <div class="container-fluid py-3">
         <div class="row">
-            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">Category</h3>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        {{#each lcCategories}}
+                            <a data-toggle="collapse" href="#collapse{{CatID}}" class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
+                                <h7 class="font-weight-bold">{{CatName}}</h7>
+                                <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
+                            </a>
+                            <div class="collapse ml-4 mt-3" id="collapse{{CatID}}">
+                                <div class="form-check">
+                                    <a href="../2/1" class="form-check-label">
+                                        Super Laptop
+                                    </a>
+                                    {{#if ProductCount}}
+                                        <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
+                                    {{/if}}
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <div class="form-check">
+                                    <a href="../3/1" class="form-check-label">
+                                        Car
+                                    </a>
+                                    {{#if ProductCount}}
+                                        <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
+                                    {{/if}}
+
+                                </div>
+                                <div class="dropdown-divider"></div>
+                            </div>
+                        {{/each}}
+                    </div>
+                </div>
+
+            </div>
             <div class="col-sm-9">
                 <div class="card">
                     <h4 class="card-header d-flex justify-content-between">
@@ -152,10 +188,9 @@
             </a>
         </li>
         {{#each this.page}}
-            <li class="page-item"><a class="page-link {{#if this.page.active}} active {{/if}}"
+            <li class="page-item {{#if active}} active {{/if}}"><a class="page-link"
                                      href="./{{index}}">{{index}}</a></li>
         {{/each}}
-        <li class="page-item">
             <a class="page-link" href="./2" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
