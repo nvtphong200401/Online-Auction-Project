@@ -1,0 +1,96 @@
+<div class="container mt-5">
+    <section class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="pro-img-details">
+                        <img src="/public/imgs/sp/{{this.product.ProID}}/main_thumbs.jpg" alt="test"
+                            style="width: 100%;">
+                    </div>
+                    <div class="pro-img-list">
+                        <a href="#">
+                            <img src="/public/imgs/sp/{{this.product.ProID}}/1.jpg" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="/public/imgs/sp/{{this.product.ProID}}/2.jpg" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="/public/imgs/sp/{{this.product.ProID}}/1_thumbs.jpg" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="/public/imgs/sp/{{this.product.ProID}}/main.jpg" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="pro-d-title">
+                        <a href="#" class="">
+                            {{this.product.ProName}}
+                        </a>
+                    </h4>
+                    <p>
+                        Praesent ac condimentum felis. Nulla at nisl orci, at dignissim dolor, The best product
+                        descriptions address your ideal buyer directly and personally. The best product descriptions
+                        address your ideal buyer directly and personally.
+                    </p>
+                    <div class="product_meta">
+                        <span class="posted_in"> <strong>Categories:</strong> <a rel="tag" href="#">Jackets</a>, <a
+                                rel="tag" href="#">Men</a>, <a rel="tag" href="#">Shirts</a>, <a rel="tag"
+                                href="#">T-shirt</a>.</span>
+                        <span class="tagged_as"><strong>Tags:</strong> <a rel="tag" href="#">mens</a>, <a rel="tag"
+                                href="#">womens</a>.</span>
+                    </div>
+                    <div class="bidder mt-3">
+                        <h5 style="color: rgb(187, 82, 82)">Danh sách bidder</h5>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Thời điểm</th>
+                                    <th scope="col">Người mua</th>
+                                    <th scope="col">Giá</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td scope="row">1/11/2019 10:43</td>
+                                    <td>{{this.product.Bidder}}</td>
+                                    <td>6,000,000</td>
+                                </tr>
+                                <tr>
+                                    <td scope="row">1/11/2019 10:43</td>
+                                    <td>	****Khoa</td>
+                                    <td>6,000,000</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="control-switch btn-group" data-toggle="buttons" role="group">
+                        <label class="btn btn-secondary active">
+                            <input type="radio" name="options" id="option1" autocomplete="off" checked> Bid
+                        </label>
+                        <label class="btn btn-secondary">
+                            <input type="radio" name="options" id="option2" autocomplete="off"> Buy now
+                        </label>
+                    </div>
+                    <div class="bid mt-3">
+                        <form>
+                            <div class="form-group">
+                                <label for="">US Dollar</label>
+                                <input type="text" name="" id="" class="form-control" placeholder=""
+                                    aria-describedby="helpId">
+                                <small id="helpId" class="text-muted">Help text</small>
+                            </div>
+                            <button class="btn btn-round btn-danger" type="button"><i class="fa fa-money" aria-hidden="true"></i> Bid</button>
+                        </form>
+                    </div>
+                    <div class="buy mt-3" style="display: none;">
+                        <div class="price"> <strong>Price : </strong><span class="pro-price">{{this.product.Price}}</span></div>
+                        <form>
+                            <button class="btn btn-round btn-success" type="button"><i class="fa fa-cart-plus" aria-hidden="true"></i> Buy now</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

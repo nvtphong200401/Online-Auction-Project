@@ -1,3 +1,14 @@
+$(document).ready(function() {
+    $('#option2').click(function(e) {
+        $('.bid').toggle('500');
+        $('.buy').toggle('500');
+        console.log("test")
+      });
+      $('#option1').click(function(e) {
+        $('.bid').toggle('500');
+        $('.buy').toggle('500');
+      });
+});
 let countDown = function (id, endTime) {
 
     let myfunc = function (id, time) {
@@ -48,4 +59,3 @@ let countDown = function (id, endTime) {
 const f = function (id, endDate) {
     countDown(id, endDate);
 }
-
