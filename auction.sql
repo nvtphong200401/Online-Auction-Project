@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2021 at 04:48 AM
+-- Generation Time: Nov 30, 2021 at 08:53 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -58,6 +58,27 @@ CREATE TABLE `category` (
   `CatName` varchar(50) NOT NULL,
   `CatParent` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`CatID`, `CatName`, `CatParent`) VALUES
+(1, 'Đồ điện tử', NULL),
+(2, 'Thời trang', NULL),
+(3, 'Mỹ phẩm', NULL),
+(4, 'Nội thất', NULL),
+(5, 'Trang sức', NULL),
+(6, 'Laptop', 1),
+(7, 'Điện thoại', 1),
+(8, 'Quần áo Nam', 2),
+(9, 'Quần áo Nữ', 2),
+(10, 'Son', 3),
+(11, 'Nước hoa', 3),
+(12, 'Bàn', 4),
+(13, 'Ghế', 4),
+(14, 'Dây chuyền', 5),
+(15, 'Vòng tay', 5);
 
 -- --------------------------------------------------------
 
@@ -197,7 +218,7 @@ ALTER TABLE `watchlist`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-  MODIFY `CatID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `CatID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `product`
