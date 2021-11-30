@@ -1,13 +1,17 @@
 <script src="https://www.google.com/recaptcha/api.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+
 <form class="show1">
-
-
+  {{!-- Username --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
-      <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+      <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
     </div>
-    <input type="email" class="form-control" placeholder="Email">
+    <input type="text" class="form-control" placeholder="Username">
   </div>
+
+  {{!-- Password --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
@@ -49,6 +53,7 @@
 </form>
 
 <form class="show2" style="display: none;">
+  
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
@@ -63,28 +68,39 @@
   </div>
 </form>
 
-<form class="show3" style="display: none;">
+{{!-- Register --}}
+<form class="show3" method="post" style="display: none;">
+  <input type="hidden" name="action" value="Register">
+  {{!-- Username --}}
+  <div class="form-group input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
+    </div>
+    <input type="text" class="form-control" placeholder="Username" name="username" id="txtUsername">
+  </div>
+  {{!-- Full name --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
     </div>
-    <input type="text" class="form-control" placeholder="Full name">
+    <input type="text" class="form-control" placeholder="Full name" name="fullname">
   </div>
-
+  {{!-- Email --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
     </div>
-    <input type="email" class="form-control" placeholder="Email">
+    <input type="email" class="form-control" placeholder="Email" name="email">
   </div>
-
+  {{!-- Password --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
     </div>
-    <input type="password" class="form-control" placeholder="Password">
+    <input type="password" class="form-control" placeholder="Password" name="password">
   </div>
 
+  {{!-- Re-enter password --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
@@ -92,6 +108,14 @@
     <input type="password" class="form-control" placeholder="Re-enter Password">
   </div>
 
+  {{!-- DOB --}}
+  <div class="form-group input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+    </div>
+    <input type="text" class="form-control" id="txtDOB" name="dob">
+  </div>
+  {{!-- captcha --}}
   <div class="form-group">
     <div class="g-recaptcha" data-sitekey="6LeQeVkdAAAAAETp3LBvY2nsOHF0ZFObrGYWe-_o"></div>
   </div>

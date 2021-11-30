@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 30, 2021 at 08:53 AM
+-- Generation Time: Nov 30, 2021 at 11:04 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -138,12 +138,19 @@ CREATE TABLE `user` (
   `ID` int(11) NOT NULL,
   `Username` varchar(50) NOT NULL,
   `FullName` varchar(50) NOT NULL,
-  `Password` varchar(50) NOT NULL,
+  `Password` varchar(500) NOT NULL,
   `DOB` date NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Role` int(11) NOT NULL,
-  `Pending` int(11) NOT NULL
+  `Role` int(11) NOT NULL DEFAULT 3,
+  `Pending` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`ID`, `Username`, `FullName`, `Password`, `DOB`, `Email`, `Role`, `Pending`) VALUES
+(1, 'admin', 'admin', '$2a$12$yKN06N8iAi57JPT1o8TQzOT64x3mMsL15tbXlApl4IXfYUdA4j0vC', '2001-04-20', 'nvtphong19@clc.fitus.edu.vn', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -230,7 +237,7 @@ ALTER TABLE `product`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

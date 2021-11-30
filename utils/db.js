@@ -7,7 +7,7 @@ const knex = kn({
     port: 3306,
     user: 'root',
     password: '',
-    database: 'actiondb'
+    database: 'auction'
   },
   pool: { min: 0, max: 10 }
 });
