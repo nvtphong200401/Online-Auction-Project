@@ -1,12 +1,33 @@
 <div class="card border-primary">
     <div class="card-header p-4" style="background-color: #2fbdd3;">
         <i class="fa fa-desktop" aria-hidden="true"></i> Category management
-        <span class="float-right"><a class="btn btn-sm btn-success" href="/admin/add" role="button">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-            Add Category
-        </a>
+        <span class="float-right"><a class="btn btn-sm btn-success" onclick="toggleModal()" href="#" role="button">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+                Add Category
+            </a>
         </span>
-        
+        <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add category</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                                <input type="text" name="CatName" class="form-control"
+                                    placeholder="Category name" aria-describedby="helpId">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success btn-sm" data-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <table class="table table-hover">
@@ -19,17 +40,41 @@
             </thead>
             <tbody>
                 {{#each this.cates}}
-                <tr>
+                <tr class="row-{{CatID}}">
                     <th scope="row">{{CatID}}</th>
-                    <td>{{CatName}}</td>
+                    <td id="CatName">{{CatName}}</td>
                     <td class="text-right">
-                        <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
-                                aria-hidden="true"></i>
-                            delete</a>
-                        <a class="btn btn-warning btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
-                                aria-hidden="true"></i>
+                        <a onclick="Edit({{CatID}})" class="edit btn btn-warning btn-sm shadow" href="#"
+                            role="button"><i class="fa fa-pencil" aria-hidden="true"></i>
                             Edit</a>
+                        <a onclick="Delete({{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
+                            role="button"><i class="fa fa-trash" aria-hidden="true"></i>
+                            delete</a>
                     </td>
+                </tr>
+                <tr class="row-{{CatID}}" style="display: none;">
+                    <form class="form-inline">
+                        <th scope="row">
+                            <div class="form-group">
+                                <input type="text" name="CatID" id="CatID" class="form-control" placeholder="{{CatID}}"
+                                    value="{{CatID}}" aria-describedby="helpId" disabled>
+                            </div>
+                        </th>
+                        <td class="CatName">
+                            <div class="form-group">
+                                <input type="text" name="CatName" class="form-control" value="{{CatName}}"
+                                    placeholder="{{CatName}}" aria-describedby="helpId">
+                            </div>
+                        <td class="text-right">
+                            <a onclick="Save({{CatID}})" class="save btn btn-success btn-sm shadow" href="#"
+                                role="button"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                Save</a>
+                            <a class="edit btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-times"
+                                    aria-hidden="true"></i>
+                                Cancel</a>
+                        </td>
+                        </td>
+                    </form>
                 </tr>
                 {{/each}}
             </tbody>

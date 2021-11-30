@@ -1,12 +1,12 @@
 $(document).ready(function() {
     $('#option2').click(function(e) {
-        $('.bid').toggle('500');
-        $('.buy').toggle('500');
+        $('.bid').hide('500');
+        $('.buy').show('500');
         console.log("test")
       });
       $('#option1').click(function(e) {
-        $('.bid').toggle('500');
-        $('.buy').toggle('500');
+        $('.bid').show('500');
+        $('.buy').hide('500');
       });
 });
 let countDown = function (id, endTime) {

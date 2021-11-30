@@ -1,7 +1,7 @@
 const list = [
-    { UserID: 1, UserName: 'Phong', UserEmail: 'hihi@gmail.com' },
-    { UserID: 2, UserName: 'Hieu', UserEmail: 'haha@gmail.com' },
-    { UserID: 3, UserName: 'Thu', UserEmail: 'hehe@gmail.com' },
+    { UserID: 1, UserName: 'Phong', UserEmail: 'hihi@gmail.com', role: true },
+    { UserID: 2, UserName: 'Hieu', UserEmail: 'haha@gmail.com', role: false },
+    { UserID: 3, UserName: 'Thu', UserEmail: 'hehe@gmail.com', role: true },
 ]
 
 export default {

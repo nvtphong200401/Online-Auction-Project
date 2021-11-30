@@ -3,9 +3,10 @@
         <i class="fa fa-user" aria-hidden="true"></i> User management
         <span class="float-right">
             <div class="dropdown">
-                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><i class="fa fa-filter" aria-hidden="true"></i> Filter
-                    </button>
-                <ul class="dropdown-menu">
+                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><i
+                        class="fa fa-filter" aria-hidden="true"></i> Filter
+                </button>
+                <ul class="dropdown-menu text-center">
                     <li><a href="#"><i class="fa fa-gavel" aria-hidden="true"></i> Bidder</a></li>
                     <li><a href="#"><i class="fa fa-user-secret" aria-hidden="true"></i> Seller</a></li>
                 </ul>
@@ -19,6 +20,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Full Name</th>
                     <th scope="col">Email</th>
+                    <th scope="col">Role</th>
                     <th class="text-right"></th>
                 </tr>
             </thead>
@@ -28,14 +30,31 @@
                     <th scope="row">{{UserID}}</th>
                     <td>{{UserName}}</td>
                     <td>{{UserEmail}}</td>
+                    {{#if role}}
+                    <td>Bidder</td>
                     <td class="text-right">
+                        <a class="btn btn-success btn-sm shadow" href="#" role="button"><i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            To seller</a>
+                        <a class="btn btn-info btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
+                                aria-hidden="true"></i>
+                            Edit</a>
                         <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
                                 aria-hidden="true"></i>
                             delete</a>
-                        <a class="btn btn-warning btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
+                    </td>
+                    {{else}}
+                    <td>Seller</td>
+                    <td class="text-right">
+                        <a class="btn btn-warning btn-sm shadow" href="#" role="button"><i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            To bidder</a>
+                        <a class="btn btn-info btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
                                 aria-hidden="true"></i>
                             Edit</a>
+                        <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
+                                aria-hidden="true"></i>
+                            delete</a>
                     </td>
+                    {{/if}}
                 </tr>
                 {{/each}}
             </tbody>

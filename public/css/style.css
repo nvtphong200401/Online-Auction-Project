@@ -165,3 +165,19 @@ a > img {
     height: 100px;
 }
 
+.vl {
+    border-left: 2px solid rgb(207, 188, 188);
+    height: 100%;
+}
+img {
+    padding: 20px;
+    transition: transform .2s; /* Animation */
+    margin: 0 auto;
+}
+  
+img:hover {
+transform: scale(1.5); /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+.pro-img-details {
+    padding: 50px;
+}
