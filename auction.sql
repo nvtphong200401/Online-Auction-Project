@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2021 at 05:00 PM
+-- Generation Time: Nov 30, 2021 at 04:48 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 8.0.12
 
@@ -56,7 +56,7 @@ CREATE TABLE `bid_history` (
 CREATE TABLE `category` (
   `CatID` int(11) NOT NULL,
   `CatName` varchar(50) NOT NULL,
-  `CatParent` int(11) NOT NULL
+  `CatParent` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -194,9 +194,21 @@ ALTER TABLE `watchlist`
 --
 
 --
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `CatID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
