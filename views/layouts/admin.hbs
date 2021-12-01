@@ -35,16 +35,24 @@
                 </li>
             </ul>
         </div>
-        <a class="btn btn-dark" href="#" role="button"><i class="fa fa-user" aria-hidden="true"></i> Logout</a>
+        <div class="dropdown open">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                        <i class="fa fa-cog" aria-hidden="true"></i>
+                    </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
+                <button class="dropdown-item disabled" href="#"><i class="fa fa-sign-out" aria-hidden="true"></i>Return to user role</button>
+            </div>
+        </div>
     </nav>
     <div class="container-fluid">
         <div class="row mt-4 mb-5">
             <div class="col-sm-2">
                 <ul class="list-group">
                     
-                    <li class="list-group-item list-group-item-action"><a href="./"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
-                    <li class="list-group-item list-group-item-action"><a href="./user"><i class="fa fa-user" aria-hidden="true"></i> User management</a></li>
-                    <li class="list-group-item list-group-item-action"><a href="./pending"><i class="fa fa-spinner" aria-hidden="true"></i>
+                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/category"><i class="fa fa-home" aria-hidden="true"></i> Home</a></li>
+                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/user"><i class="fa fa-user" aria-hidden="true"></i> User management</a></li>
+                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/pending"><i class="fa fa-spinner" aria-hidden="true"></i>
                         Waiting for approval</a></li>
                 </ul>
             </div>

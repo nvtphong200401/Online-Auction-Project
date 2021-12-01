@@ -6,25 +6,28 @@
                 Add Category
             </a>
         </span>
-        <div class="modal fade" id="myModal" role="dialog" style="display: none;">
+        <div class="modal fade" id="addCat" role="dialog" style="display: none;">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add category</h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                                <input type="text" name="CatName" class="form-control"
-                                    placeholder="Category name" aria-describedby="helpId">
+                <form method="post">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add category</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" name="CatName" class="form-control" placeholder="Category name"
+                                    aria-describedby="helpId">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success btn-sm" data-dismiss="modal"><i
+                                    class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success btn-sm" data-dismiss="modal"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
-                    </div>
-                </div>
+                </form>
 
             </div>
         </div>
@@ -42,7 +45,13 @@
                 {{#each this.cates}}
                 <tr class="row-{{CatID}}">
                     <th scope="row">{{CatID}}</th>
-                    <td id="CatName">{{CatName}}</td>
+                    <td id="CatName">
+                        {{#if CatParent}}
+                            {{CatName}}
+                        {{else}}
+                            <a href="./category/{{CatID}}">{{CatName}}</a>
+                        {{/if}}
+                    </td>
                     <td class="text-right">
                         <a onclick="Edit({{CatID}})" class="edit btn btn-warning btn-sm shadow" href="#"
                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i>

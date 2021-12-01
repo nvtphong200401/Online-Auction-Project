@@ -1,3 +1,5 @@
+import db from '../utils/db.js';
+
 const list = [
     { CatID: "1", CatName: "Sneakers"},
     { CatID: "2", CatName: "StreetWear"},
@@ -12,12 +14,18 @@ const list = [
 export default {
 
     findAllMain() {
-        return list;
+        return db('category').whereNull('CatParent');
     },
     findAllWithDetails() {
         for (let x in list){
             list[x].ProductCount = "20";
         }
         return list;
+    },
+    findSubCat(id) {
+        return db('category').where('CatParent','=', id);
+    },
+    deletable(id){
+        
     }
 }

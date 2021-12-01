@@ -10,5 +10,5 @@ function Save(CatID) {
     $(`.row-${CatID}`).toggle();
 }
 function toggleModal(){
-    $("#myModal").modal();
+    $("#addCat").modal();
 }
