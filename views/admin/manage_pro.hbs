@@ -14,30 +14,32 @@
                     <th scope="col">ID</th>
                     <th scope="col">Product Name</th>
                     <th scope="col">Seller</th>
-                    <th scope="col">Proegory</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Upload date</th>
                     <th scope="col">End date</th>
                     <th class="text-right"></th>
                 </tr>
             </thead>
             <tbody>
-                {{#each this.pros}}
-                <tr class="row-{{ProID}}">
-                    <th scope="row">{{ProID}}</th>
-                    <td id="ProName">
-                        {{ProName}}
-                    </td>
+                {{#each this.products}}
+                <tr class="row-{{ID}}">
+                    <th scope="row">{{ID}}</th>
+                    <td>{{Name}}</td>
+                    <td>{{SellerID}}</td>
+                    <td>{{CatID}}</td>
+                    <td>{{UploadDate}}</td>
+                    <td>{{EndDate}}</td>
                     <td class="text-right">
-                        <a onclick="Delete({{ProID}})" class="delete btn btn-danger btn-sm shadow" href="#"
-                            role="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                            delete</a>
+                        
+                        <button onclick="Delete(this, {{ID}})" class="delete btn btn-danger btn-sm shadow" type="submit"><i class="fa fa-trash" aria-hidden="true"></i>
+                            delete</button>
                     </td>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
     </div>
-    <div class="card-footer d-flex justify-content-center">
+    {{!-- <div class="card-footer d-flex justify-content-center">
         <nav aria-label="Page navigation">
             <ul class="pagination text-center">
                 <li class="page-item disabled">
@@ -56,5 +58,5 @@
                 </li>
             </ul>
         </nav>
-    </div>
+    </div> --}}
 </div>

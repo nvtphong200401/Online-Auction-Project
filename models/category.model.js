@@ -16,6 +16,12 @@ export default {
     findAllMain() {
         return db('category').whereNull('CatParent');
     },
+    countAllMain(){
+        return db('category').count('CatID');
+    },
+    findPage(limit, offset) {
+        return db('category').limit(limit).offset(offset);
+    },
     findAllWithDetails() {
         for (let x in list){
             list[x].ProductCount = "20";
@@ -25,7 +31,10 @@ export default {
     findSubCat(id) {
         return db('category').where('CatParent','=', id);
     },
+    findAllSubCat() {
+        return db('category').whereNotNull('CatParent'); //.whereNull('CatParent');
+    },
     deletable(id){
-        
+        return db('product').where('CatID','=',id);
     }
 }

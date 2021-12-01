@@ -49,6 +49,8 @@ const list = [
     { ProID: "30", ProName: "Classes JKL", Price: "600000", BidderID: "5", Bidder: "SunnyMoon", PriceBuyNow: "300000", UploadDate: "2021-11-21", EndDate: "2021-11-30", BidNumber: "1241"},
 ];
 
+import db from '../utils/db.js';
+
 export default {
     splitList(list, chunk) {
         let i,j, temporary;
@@ -61,12 +63,13 @@ export default {
     },
     findAll() {
         // check new items ( New items are uploaded 45 minutes ago )
-        for (let x in list)
-        {
-            let distance = untilNow(list[x].UploadDate);
-            list[x].New = distance > 0 && distance < 45 * OneMin;
-        }
-        return list;
+        // for (let x in list)
+        // {
+        //     let distance = untilNow(list[x].UploadDate);
+        //     list[x].New = distance > 0 && distance < 45 * OneMin;
+        // }
+        // return list;
+        return db('product')
     },
     findByCat(CatId) {
         // check new items ( New items are uploaded 45 minutes ago )

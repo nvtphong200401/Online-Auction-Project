@@ -1,3 +1,4 @@
+
 <div class="card border-primary">
     <div class="card-header p-4" style="background-color: #2fbdd3;">
         <i class="fa fa-desktop" aria-hidden="true"></i> Category management
@@ -33,7 +34,7 @@
         </div>
     </div>
     <div class="card-body">
-        <table class="table table-hover">
+        <table id="catTable" class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
@@ -56,9 +57,14 @@
                         <a onclick="Edit({{CatID}})" class="edit btn btn-warning btn-sm shadow" href="#"
                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i>
                             Edit</a>
-                        <a onclick="Delete({{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
+                        {{#if deletable}}
+                        
+                        {{else}}
+                        
+                        <button onclick="Delete(this, {{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
                             role="button"><i class="fa fa-trash" aria-hidden="true"></i>
                             delete</a>
+                        {{/if}}
                     </td>
                 </tr>
                 <tr class="row-{{CatID}}" style="display: none;">
@@ -78,7 +84,7 @@
                             <a onclick="Save({{CatID}})" class="save btn btn-success btn-sm shadow" href="#"
                                 role="button"><i class="fa fa-floppy-o" aria-hidden="true"></i>
                                 Save</a>
-                            <a class="edit btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-times"
+                            <a onclick="Cancel({{CatID}})" class="edit btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-times"
                                     aria-hidden="true"></i>
                                 Cancel</a>
                         </td>
@@ -89,8 +95,13 @@
             </tbody>
         </table>
     </div>
-    <div class="card-footer d-flex justify-content-center">
-        <nav aria-label="Page navigation">
+    <span class="card-footer">
+        {{#if this.has_pre}}
+            <button onclick="history.back()" class="btn btn-primary float-left" role="button">Go back</button>
+        {{/if}}
+
+
+        {{!-- <nav class="d-flex justify-content-center" aria-label="Page navigation">
             <ul class="pagination text-center">
                 <li class="page-item disabled">
                     <a class="page-link" href="#" aria-label="Previous">
@@ -107,6 +118,6 @@
                     </a>
                 </li>
             </ul>
-        </nav>
-    </div>
+        </nav> --}}
+    </span>
 </div>
