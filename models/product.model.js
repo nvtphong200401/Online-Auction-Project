@@ -68,8 +68,10 @@ export default {
 
     findTopBid() {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        return db.select('*').from('product')
+        return db.select('p.*').count('bd.BID as BidNumber').from('product as p')
+            .leftJoin('bid_history as bd', 'p.ProID', 'bd.ProID')
             .where('EndDate', '>', today)
+            .groupBy('p.ProID', 'p.ProName')
             .orderBy('BidNumber', 'desc').limit(5);
     },
 
