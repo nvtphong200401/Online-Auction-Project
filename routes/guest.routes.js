@@ -8,11 +8,15 @@ import userModel from "../models/users_model.js";
 const router = express.Router();
 
 
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
     const top_end = productModel.findTopEnd() || 0;
     const top_bid = productModel.findTopBid() || 0;
     const top_price = productModel.findTopPrice() || 0;
-    const category = categoryModel.findAllMain() || 0;
+    const category = await categoryModel.findAllMain() || 0;
+    for (let c of category) {
+        c.SubCat = await categoryModel.findSubCat(c.CatID);
+    }
+
     res.render('home', {
         layout: '../vwGuest/guest',
         category: category,
@@ -22,11 +26,14 @@ router.get('/', function (req, res) {
     });
 });
 
-router.get('/byCat/:id/:page', function (req, res) {
+router.get('/byCat/:id/:page', async function (req, res) {
     const CatId = req.params.id || 0;
     let PageNow = req.params.page || 1;
-    const CatList = categoryModel.findAllMain() || 0;
-    const ProductList = productModel.findByCat(CatId) || 0;
+    const CatList = await categoryModel.findAllMain() || 0;
+    for (let c of CatList) {
+        c.SubCat = await categoryModel.findSubCat(c.CatID);
+    }
+    const ProductList = await productModel.findByCat(CatId) || 0;
 
     const ListByPage= productModel.splitList(ProductList, 12); // 12 products per page
 
@@ -37,7 +44,7 @@ router.get('/byCat/:id/:page', function (req, res) {
         c.isActive = c.CatID === CatId;
     }
 
-    const chosenProduct = ListByPage[PageNow - 1] || null;
+    const chosenProduct = ListByPage[PageNow - 1] || [];
     const nPage = ListByPage.length || 1;
     let PageList = [];
 

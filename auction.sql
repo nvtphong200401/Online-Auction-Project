@@ -196,7 +196,7 @@ ALTER TABLE `comment`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`ID`);
+  ADD PRIMARY KEY (ProID);
 
 --
 -- Indexes for table `sub_img`
@@ -231,7 +231,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY ProID int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`

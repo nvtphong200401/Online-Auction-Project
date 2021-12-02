@@ -15,10 +15,9 @@
                             </a>
 
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">Please</a>
-                                <a class="dropdown-item" href="#">Help</a>
-                                <a class="dropdown-item" href="#">Me</a>
-                                <a class="dropdown-item" href="#">Sleepy...</a>
+                                {{#each SubCat}}
+                                    <a class="dropdown-item" href="/byCat/{{CatID}}/1">{{CatName}}</a>
+                                {{/each}}
                             </div>
 
                         </li>

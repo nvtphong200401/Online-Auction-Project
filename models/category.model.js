@@ -1,16 +1,6 @@
 import db from '../utils/db.js';
+import knex from "knex";
 
-const list = [
-    { CatID: "1", CatName: "Sneakers"},
-    { CatID: "2", CatName: "StreetWear"},
-    { CatID: "3", CatName: "Electronics"},
-    { CatID: "4", CatName: "Trading Cards"},
-    { CatID: "5", CatName: "Collectibles"},
-    { CatID: "6", CatName: "Handbags"},
-    { CatID: "7", CatName: "Watches"},
-    { CatID: "8", CatName: "Toys"},
-    { CatID: "9", CatName: "Devices"},
-];
 export default {
 
     findAllMain() {
@@ -22,11 +12,8 @@ export default {
     findPage(limit, offset) {
         return db('category').limit(limit).offset(offset);
     },
-    findAllWithDetails() {
-        for (let x in list){
-            list[x].ProductCount = "20";
-        }
-        return list;
+    async findAllWithDetails() {
+        return db('c').count('p.ProID as ProductCount').from('category as c').leftJoin('product as p', 'c.CatID', 'p.CatId').groupBy('c.CatId', 'c.CatName');
     },
     findSubCat(id) {
         return db('category').where('CatParent','=', id);

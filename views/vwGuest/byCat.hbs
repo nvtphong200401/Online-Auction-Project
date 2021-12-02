@@ -15,11 +15,11 @@
                             </a>
 
                             <div class="dropdown-menu">
-
-                                <a class="dropdown-item" href="#">Please</a>
-                                <a class="dropdown-item" href="#">Help</a>
-                                <a class="dropdown-item" href="#">Me</a>
-                                <a class="dropdown-item" href="#">Sleepy...</a>
+                                <div class="dropdown-menu">
+                                    {{#each SubCat}}
+                                        <a class="dropdown-item" href="/byCat/{{CatID}}/1">{{CatName}}</a>
+                                    {{/each}}
+                                </div>
                             </div>
                         </li>
                     {{/each}}
@@ -123,15 +123,15 @@
                                                 <h6 class="card-title text-success">
                                                     <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest
                                                     bid
-                                                    <h5 class="text-success">{{{format_number Price}}}</h5>
+                                                    <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                                 </h6>
 
 
-                                                {{#if PriceBuyNow}}
+                                                {{#if Buy_now}}
                                                     <h6 class="card-title text-info">
                                                         <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy
                                                         now
-                                                        <h5 class="text-info">{{{format_number PriceBuyNow}}}</h5>
+                                                        <h5 class="text-info">{{{format_number Buy_now}}}</h5>
                                                     </h6>
                                                 {{/if}}
 
