@@ -44,25 +44,16 @@
                                 <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
                             </a>
                             <div class="collapse ml-4 mt-3" id="collapse{{CatID}}">
-                                <div class="form-check">
-                                    <a href="../2/1" class="form-check-label">
-                                        Super Laptop
-                                    </a>
-                                    {{#if ProductCount}}
-                                        <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
-                                    {{/if}}
-                                </div>
-                                <div class="dropdown-divider"></div>
-                                <div class="form-check">
-                                    <a href="../3/1" class="form-check-label">
-                                        Car
-                                    </a>
-                                    {{#if ProductCount}}
-                                        <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
-                                    {{/if}}
 
+                                <div class="form-check">
+                                    {{#each SubCat}}
+                                        <a href="../{{CatID}}/1" class="form-check-label">
+                                            {{CatName}}
+                                        </a>
+                                            <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
+                                        <div class="dropdown-divider"></div>
+                                    {{/each}}
                                 </div>
-                                <div class="dropdown-divider"></div>
                             </div>
                         {{/each}}
                     </div>
@@ -95,16 +86,30 @@
                                                     <span class="tag-picture bg-info text-white">New</span>
                                                 {{/if}}
                                                 <div class="details">
-                                                    <a href="/user/{{BidderID}}" class="user">
-                                                        <div class="user-photo">
-                                                            <img alt="Thumb"
-                                                                 src="/public/imgs/avatar/0/avatar1.png">
-                                                        </div>
-                                                        <div class="name" data-toggle="tooltip" data-placement="top"
-                                                             title="{{Bidder}}">
-                                                            {{Bidder}}
-                                                        </div>
-                                                    </a>
+                                                    {{#if BidderID}}
+                                                        <a href="/user/{{BidderID}}" class="user">
+                                                            <div class="user-photo">
+                                                                <img alt="Thumb"
+                                                                     src="/public/imgs/avatar/0/avatar1.png">
+                                                            </div>
+                                                            <div class="name" data-toggle="tooltip" data-placement="top"
+                                                                 title="{{Bidder}}">
+                                                                {{Bidder}}
+                                                            </div>
+                                                        </a>
+                                                    {{else}}
+                                                        <a href="/" class="user">
+                                                            <div class="user-photo">
+                                                                <img alt="Thumb"
+                                                                     src="/public/imgs/avatar/0/avatar1.png">
+                                                            </div>
+                                                            <div class="name" data-toggle="tooltip" data-placement="top"
+                                                                 title="No bid">
+                                                                No bid
+                                                            </div>
+                                                        </a>
+                                                    {{/if}}
+
                                                     <div class="numbers">
                                                         <b class="views mr-1"><i class="fa fa-arrow-circle-up"
                                                                                  aria-hidden="true"></i> {{BidNumber}}
@@ -161,9 +166,9 @@
                                                     <i class="fa fa-heart ml-1 mr-1" aria-hidden="true"></i>Add to
                                                     Watchlist
                                                 </button>
-                                                <div class="card-footer text-right mt-4">
-                                                    <small class="text-muted">Upload date:<br> {{UploadDate}}</small>
-                                                </div>
+                                            </div>
+                                            <div class="card-footer text-right mt-4">
+                                                <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
                                             </div>
                                         </div>
                                     </div>

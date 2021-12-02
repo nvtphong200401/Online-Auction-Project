@@ -81,14 +81,14 @@
 
                                         <h6 class="card-title text-success">
                                             <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest bid
-                                            <h5 class="text-success">{{{format_number Price}}}</h5>
+                                            <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                         </h6>
 
 
-                                        {{#if PriceBuyNow}}
+                                        {{#if Buy_now}}
                                             <h6 class="card-title text-info">
                                                 <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy now
-                                                <h5 class="text-info">{{{format_number PriceBuyNow}}}</h5>
+                                                <h5 class="text-info">{{{format_number Buy_now}}}</h5>
                                             </h6>
                                         {{/if}}
 
@@ -118,7 +118,7 @@
                                         </button>
                                     </div>
                                     <div class="card-footer text-right mt-4">
-                                        <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
+                                        <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
                                     </div>
                                 </div>
                             {{/each}}
@@ -149,7 +149,7 @@
 
                     <div class="card-body">
                         <div class="card-group">
-                            {{#each this.top_end}}
+                            {{#each this.top_bid}}
                                 <div class="card card-small mr-2 rounded">
                                     <div class="thumbnail">
                                         <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
@@ -183,14 +183,14 @@
 
                                         <h6 class="card-title text-success">
                                             <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest bid
-                                            <h5 class="text-success">{{{format_number Price}}}</h5>
+                                            <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                         </h6>
 
 
-                                        {{#if PriceBuyNow}}
+                                        {{#if Buy_now}}
                                             <h6 class="card-title text-info">
                                                 <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy now
-                                                <h5 class="text-info">{{{format_number PriceBuyNow}}}</h5>
+                                                <h5 class="text-info">{{{format_number Buy_now}}}</h5>
                                             </h6>
                                         {{/if}}
 
@@ -220,7 +220,7 @@
                                         </button>
                                     </div>
                                     <div class="card-footer text-right mt-4">
-                                        <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
+                                        <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
                                     </div>
                                 </div>
                             {{/each}}
@@ -233,7 +233,7 @@
     </div>
     <!-- End of Top Bid -->
 
-    <!-- Top Price -->
+    <!-- Top Current_bid -->
     <div class="container-fluid py-3">
         <div class="row">
             <div class="col-lg-1"></div>
@@ -242,7 +242,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-flex justify-content-between">
-                            <h4 class="">Top price</h4>
+                            <h4 class="">Top Price</h4>
                             <a class="text-success font-weight-bold ml-auto mr-0" href="/byCat/1/1">See all
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                         </div>
@@ -251,7 +251,7 @@
 
                     <div class="card-body">
                         <div class="card-group">
-                            {{#each this.top_end}}
+                            {{#each this.top_price}}
                                 <div class="card card-small mr-2 rounded">
                                     <div class="thumbnail">
                                         <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
@@ -285,25 +285,25 @@
 
                                         <h6 class="card-title text-success">
                                             <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest bid
-                                            <h5 class="text-success">{{{format_number Price}}}</h5>
+                                            <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                         </h6>
 
 
-                                        {{#if PriceBuyNow}}
+                                        {{#if Buy_now}}
                                             <h6 class="card-title text-info">
                                                 <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy now
-                                                <h5 class="text-info">{{{format_number PriceBuyNow}}}</h5>
+                                                <h5 class="text-info">{{{format_number Buy_now}}}</h5>
                                             </h6>
                                         {{/if}}
 
                                         <p class="card-text">
                                         <h6 class="card-title">
                                             <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
-                                            <h5 id="time-left-price{{ProID}}"></h5>
+                                            <h5 id="time-left-Current_bid{{ProID}}"></h5>
                                         </h6>
 
                                         <script type="text/javascript">
-                                            f('time-left-price{{ProID}}', "{{EndDate}}");
+                                            f('time-left-Current_bid{{ProID}}', "{{EndDate}}");
                                         </script>
 
                                         </p>
@@ -321,7 +321,7 @@
                                         </button>
                                     </div>
                                     <div class="card-footer text-right mt-4">
-                                        <small class="text-muted">Upload date:<br>{{UploadDate}}</small>
+                                        <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
                                     </div>
                                 </div>
                             {{/each}}
@@ -332,7 +332,7 @@
             </div>
         </div>
     </div>
-    <!-- End of Top Price -->
+    <!-- End of Top Current_bid -->
 
     <!-- End of Main Content -->
 </div>

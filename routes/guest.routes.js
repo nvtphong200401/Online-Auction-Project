@@ -9,13 +9,17 @@ const router = express.Router();
 
 
 router.get('/', async function (req, res) {
-    const top_end = productModel.findTopEnd() || 0;
-    const top_bid = productModel.findTopBid() || 0;
-    const top_price = productModel.findTopPrice() || 0;
+    const top_end = await productModel.findTopEnd() || 0;
+    const top_bid = await productModel.findTopBid() || 0;
+    const top_price = await productModel.findTopPrice() || 0;
     const category = await categoryModel.findAllMain() || 0;
     for (let c of category) {
         c.SubCat = await categoryModel.findSubCat(c.CatID);
     }
+
+    productModel.checkNew(top_end);
+    productModel.checkNew(top_bid);
+    productModel.checkNew(top_price);
 
     res.render('home', {
         layout: '../vwGuest/guest',
@@ -33,19 +37,17 @@ router.get('/byCat/:id/:page', async function (req, res) {
     for (let c of CatList) {
         c.SubCat = await categoryModel.findSubCat(c.CatID);
     }
-    const ProductList = await productModel.findByCat(CatId) || 0;
+    const nProduct = 8;
+    const ProductList = await productModel.findPageByCat(CatId, PageNow, nProduct) || [];
 
-    const ListByPage= productModel.splitList(ProductList, 12); // 12 products per page
-
-    if (ListByPage.length === 0 || PageNow > ListByPage.length)
-        PageNow = 1;
+    productModel.checkNew(ProductList);
 
     for (const c of res.locals.lcCategories) {
         c.isActive = c.CatID === CatId;
     }
 
-    const chosenProduct = ListByPage[PageNow - 1] || [];
-    const nPage = ListByPage.length || 1;
+    const nPage = Math.ceil(await productModel.countProductByCat(CatId) / nProduct) || 1;
+
     let PageList = [];
 
     for (let i = 1; i <= nPage; ++i) {
@@ -55,9 +57,9 @@ router.get('/byCat/:id/:page', async function (req, res) {
     res.render('vwGuest/byCat', {
         layout: '../vwGuest/guest',
         category: CatList,
-        product: chosenProduct,
+        product: ProductList,
         page: PageList,
-        empty: chosenProduct.length === 0
+        empty: ProductList.length === 0
     });
 });
 
