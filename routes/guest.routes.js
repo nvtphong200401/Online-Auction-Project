@@ -17,10 +17,6 @@ router.get('/', async function (req, res) {
         c.SubCat = await categoryModel.findSubCat(c.CatID);
     }
 
-    productModel.checkNew(top_end);
-    productModel.checkNew(top_bid);
-    productModel.checkNew(top_price);
-
     res.render('home', {
         layout: '../vwGuest/guest',
         category: category,
@@ -39,8 +35,6 @@ router.get('/byCat/:id/:page', async function (req, res) {
     }
     const nProduct = 8;
     const ProductList = await productModel.findPageByCat(CatId, PageNow, nProduct) || [];
-
-    productModel.checkNew(ProductList);
 
     for (const c of res.locals.lcCategories) {
         c.isActive = c.CatID === CatId;
@@ -88,7 +82,7 @@ router.get('/search', (req, res) => {
     res.render('vwGuest/search', {
         layout: '../vwGuest/guest',
         category : categoryModel.findAllMain() || 0,
-        recent: productModel.findTopBid().slice(0, 4),
+        recent: productModel.findTopBid(),
         related: productModel.findTopPrice()
     })
 })

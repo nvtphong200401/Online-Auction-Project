@@ -56,15 +56,21 @@
                                             <span class="tag-picture bg-info text-white">New</span>
                                         {{/if}}
                                         <div class="details">
-                                            <a href="/user/{{BidderID}}" class="user">
-                                                <div class="user-photo">
-                                                    <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                            {{#if HighestBID}}
+                                                <a href="/user/{{HighestBID.ID}}" class="user">
+                                                    <div class="user-photo">
+                                                        <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                                    </div>
+                                                    <div class="name" data-toggle="tooltip" data-placement="top"
+                                                         title="{{HighestBID.Username}}">
+                                                        {{HighestBID.Username}}
+                                                    </div>
+                                                </a>
+                                            {{else}}
+                                                <div class="user">
+                                                    <div class="name">No bidder!</div>
                                                 </div>
-                                                <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bidder}}">
-                                                    {{Bidder}}
-                                                </div>
-                                            </a>
+                                            {{/if}}
                                             <div class="numbers">
                                                 <b class="views mr-1"><i class="fa fa-arrow-circle-up"
                                                                          aria-hidden="true"></i> {{BidNumber}}</b>
@@ -125,7 +131,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-1"></div>
             </div>
         </div>
     </div>
@@ -158,15 +163,21 @@
                                             <span class="tag-picture bg-info text-white">New</span>
                                         {{/if}}
                                         <div class="details">
-                                            <div class="user">
-                                                <div class="user-photo">
-                                                    <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                            {{#if HighestBID}}
+                                                <a href="/user/{{HighestBID.ID}}" class="user">
+                                                    <div class="user-photo">
+                                                        <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                                    </div>
+                                                    <div class="name" data-toggle="tooltip" data-placement="top"
+                                                         title="{{HighestBID.Username}}">
+                                                        {{HighestBID.Username}}
+                                                    </div>
+                                                </a>
+                                            {{else}}
+                                                <div class="user">
+                                                    <div class="name">No bidder!</div>
                                                 </div>
-                                                <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bidder}}">
-                                                    {{Bidder}}
-                                                </div>
-                                            </div>
+                                            {{/if}}
                                             <div class="numbers">
                                                 <b class="views mr-1"><i class="fa fa-arrow-circle-up"
                                                                          aria-hidden="true"></i> {{BidNumber}}</b>
@@ -227,7 +238,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-1"></div>
             </div>
         </div>
     </div>
@@ -260,15 +270,21 @@
                                             <span class="tag-picture bg-info text-white">New</span>
                                         {{/if}}
                                         <div class="details">
-                                            <div class="user">
-                                                <div class="user-photo">
-                                                    <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                            {{#if HighestBID}}
+                                                <a href="/user/{{HighestBID.ID}}" class="user">
+                                                    <div class="user-photo">
+                                                        <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
+                                                    </div>
+                                                    <div class="name" data-toggle="tooltip" data-placement="top"
+                                                         title="{{HighestBID.Username}}">
+                                                        {{HighestBID.Username}}
+                                                    </div>
+                                                </a>
+                                            {{else}}
+                                                <div class="user">
+                                                    <div class="name">No bidder!</div>
                                                 </div>
-                                                <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{Bidder}}">
-                                                    {{Bidder}}
-                                                </div>
-                                            </div>
+                                            {{/if}}
                                             <div class="numbers">
                                                 <b class="views mr-1"><i class="fa fa-arrow-circle-up"
                                                                          aria-hidden="true"></i> {{BidNumber}}</b>
@@ -328,7 +344,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-1"></div>
             </div>
         </div>
     </div>

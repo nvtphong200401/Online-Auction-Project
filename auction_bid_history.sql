@@ -1,0 +1,1 @@
+INSERT INTO auction.bid_history (BID, ProID, Time, Price, MaxPrice, BID_current) VALUES (2, 4, '2021-12-03 11:02:59', 42000000, 50000000, 2);
