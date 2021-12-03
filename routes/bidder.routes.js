@@ -20,5 +20,10 @@ router.get('/profile', function (req, res) {
     });
 });
 
+router.get('/watchlist', function (req, res) {
+    res.render('vwBidder/watchlist', {
+        layout: 'bidder' // temporary layout; change into seller's layout when available
+    });
+});
 
 export default router;

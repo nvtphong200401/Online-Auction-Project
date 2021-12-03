@@ -1,5 +1,4 @@
 import db from '../utils/db.js';
-import knex from "knex";
 
 export default {
 
