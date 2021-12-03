@@ -4,7 +4,7 @@ import productModel from "../models/product.model.js";
 const router = express.Router();
 
 router.get('/detail', (req, res) => {
-    res.render('vwGuest/detail', {layout: '../vwGuest/guest'})
+    res.render('vwGuest/detail', {layout: 'guest'})
 })
 
 router.get('/:id', (req, res) => {
@@ -12,7 +12,7 @@ router.get('/:id', (req, res) => {
     const obj = productModel.findTopBid();
     console.log(obj[1].ProID)
     res.render('vwGuest/detail', {
-        layout: '../vwGuest/guest',
+        layout: 'guest',
         product : obj[id-1]
     })
 })

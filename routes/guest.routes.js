@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
     }
 
     res.render('home', {
-        layout: '../vwGuest/guest',
+        layout: 'guest',
         category: category,
         top_end: top_end,
         top_bid: top_bid,
@@ -26,8 +26,14 @@ router.get('/', async function (req, res) {
     });
 });
 
+router.get('/byCat/:id', function (req, res) {
+    const CatId = req.params.id || 1;
+
+    res.redirect('/byCat/' + CatId + '/1');
+})
+
 router.get('/byCat/:id/:page', async function (req, res) {
-    const CatId = req.params.id || 0;
+    const CatId = req.params.id || 1;
     let PageNow = req.params.page || 1;
     const CatList = await categoryModel.findAllMain() || 0;
     for (let c of CatList) {
@@ -49,7 +55,7 @@ router.get('/byCat/:id/:page', async function (req, res) {
     }
 
     res.render('vwGuest/byCat', {
-        layout: '../vwGuest/guest',
+        layout: 'guest',
         category: CatList,
         product: ProductList,
         page: PageList,
@@ -66,7 +72,7 @@ router.get('/user/:id', function (req, res){
     //}
 
     res.render('vwBidder/info', {
-       layout: '../vwGuest/guest',
+       layout: 'guest',
        userInfo: userInfo
     });
 });
@@ -80,7 +86,7 @@ router.get('/search', (req, res) => {
     // product in N mins related to keywords
     // product related to keyword but not in N mins
     res.render('vwGuest/search', {
-        layout: '../vwGuest/guest',
+        layout: 'guest',
         category : categoryModel.findAllMain() || 0,
         recent: productModel.findTopBid(),
         related: productModel.findTopPrice()

@@ -4,8 +4,21 @@ const router = express.Router();
 
 router.get('/request', function (req, res) {
     res.render('vwBidder/request', {
-        layout: '../vwGuest/guest' // temporary layout; change into seller's layout when available
+        layout: 'guest' // temporary layout; change into seller's layout when available
     });
 });
+
+router.get('/', function (req, res) {
+    res.render('vwBidder/profile', {
+        layout: 'bidder' // temporary layout; change into seller's layout when available
+    });
+});
+
+router.get('/profile', function (req, res) {
+    res.render('vwBidder/profile', {
+        layout: 'bidder' // temporary layout; change into seller's layout when available
+    });
+});
+
 
 export default router;
