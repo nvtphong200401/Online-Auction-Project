@@ -1,1 +1,75 @@
-<h1>hello</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="card my-5">
+                <h3 class="card-header">Add a new product</h3>
+                <div class="card-body">
+                    <div class="border border-secondary rounded px-5 py-5">
+                        <h5 class="card-title">Product details</h5>
+                        <hr>
+                        <form>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-4">
+                                    <label for="inputProductName" class="form-label">Product name</label>
+                                    <input type="text" class="form-control" id="inputProductName"
+                                           placeholder="Product name" required>
+                                </div>
+                                <div class="col-md-8 mb-3 ml-auto">
+                                    <label for="selectCategory" class="form-label">Category</label>
+                                    <div>
+                                        <select class="form-select" id="selectCategory">
+                                            <option>Disabled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputStartPrice">Start price</label>
+                                    <input type="text" class="form-control" id="inputStartPrice" placeholder="VND"
+                                           required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputBuyNowPrice">Buy now price</label>
+                                    <input type="text" class="form-control" id="inputBuyNowPrice" placeholder="VND"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputStartDate">Start date</label>
+                                    <input type="text" class="form-control" id="inputStartDate" placeholder="dd/MM/yyyy"
+                                           required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputDueDate">Due date</label>
+                                    <input type="text" class="form-control" id="inputDueDate" placeholder="dd/MM/yyyy"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mb-3">
+                                    <label for="inputDescription">Description</label>
+                                    <textarea type="text" class="form-control" id="inputDescription" placeholder="Write something to describe your product"
+                                              required></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="chooseThumbnail">Main thumbnail</label>
+                                    <input type="file" class="form-control" id="chooseThumbnail" required>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="chooseProductImages">Product images</label>
+                                    <input type="file" class="form-control" id="chooseProductImages" required multiple>
+                                </div>
+                            </div>
+                            <button class="btn btn-success" type="submit">Confirm</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
