@@ -33,6 +33,13 @@ export default {
     findAll() {
         return db('product');
     },
+    findPage(limit, offset) {
+        return db('product').limit(limit).offset(offset);
+    },
+    async countAll() {
+        const total= await db('product').count({count: '*'});
+        return total[0].count;
+    },
     async countProductByCat(CatID) {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
         const list = await db.count('p.ProID as amount').from('product as p').rightJoin('category as c', 'p.CatID', 'c.CatID')

@@ -1,26 +1,82 @@
-<thead>
-<tr>
-    <th>Product ID</th>
-    <th>Product Name</th>
-    <th>Category</th>
-    <th>Due Date</th>
-    <th>Highest bid</th>
-    <th>Edit description</th>
-</tr>
-</thead>
-<tbody>
-{{#each this.products}}
-    <tr>
-        <td>{{ProID}}</td>
-        <td>{{ProName}}</td>
-        <td>{{CatID}}</td>
-        <td>{{EndDate}}</td>
-        <td>{{Current_bid}}</td>
-        <td>
-            <a class="btn btn-sm btn-success" href="/seller/product/{{ProID}}/edit" role="button">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-        </td>
-    </tr>
-{{/each}}
-</tbody>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="border">
+                <div class="d-flex flex-row">
+                    <div class="nav-item p-2">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/active">Active</a>
+                    </div>
+                    <div class="nav-item p-2">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
+                    </div>
+                    <div class="ml-auto p-2">
+                        <a href="/seller/product/add">
+                            <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Add a new product
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Due Date</th>
+                            <th>Highest bid</th>
+                            <th>Edit</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {{#each this.products}}
+                            <tr>
+                                <td>{{ProID}}</td>
+                                <td>{{ProName}}</td>
+                                <td>{{CatID}}</td>
+                                <td>{{EndDate}}</td>
+                                <td>{{Current_bid}}</td>
+                                <td>
+                                    <a class="btn btn-sm btn-success" href="/seller/product/{{ProID}}/edit" role="button">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link text-success" href="?page=">Previous</a>
+                </li>
+                {{#each this.pageNumbers}}
+                    {{#if isCurrent}}
+                        <li class="page-item">
+                            <a class="page-link bg-success text-white" href="javascript:;">{{value}}</a>
+                        </li>
+                    {{else}}
+                        <li class="page-item">
+                            <a class="page-link text-success" href="?page={{value}}">{{value}}</a>
+                        </li>
+                    {{/if}}
+                {{/each}}
+                <li class="page-item">
+                    <a class="page-link text-success" href="?page=">Next</a>
+                </li>
+            </ul>
+        </nav>
+</div>

@@ -6,22 +6,61 @@ import categoryModel from "../models/category.model.js";
 const router = express.Router();
 
 router.get('/', async function (req, res) {
-   const productList = await productModel.findAll();
-   console.log(productList);
-    res.render('vwSeller/active', {
-        layout: 'seller',
-        products: productList
-    });
+    res.redirect('/seller/product/list/active');
 })
 
 router.get('/product/list/active', async function(req, res) {
+    const limit = 5;
+    const page = req.query.page || 1;
+    const offset = (page - 1) * limit;
+
+    const total = await productModel.countAll();
+    let numPages = Math.floor(total/limit);
+    if (total % limit > 0) numPages++;
+
+    const pageNumbers = [];
+    for (let i = 1; i <= numPages; i++) {
+        pageNumbers.push({
+           value: i,
+            isCurrent: +page === i,
+        });
+    }
+
+    const productList = await productModel.findPage(limit, offset);
     res.render('vwSeller/active', {
-        layout: 'seller'
+        layout: 'seller',
+        products: productList,
+        pageNumbers
     });
 })
 
 router.get('/product/list/sold', async function (req, res) {
+    const limit = 5;
+    const page = req.query.page || 1;
+    const offset = (page - 1) * limit;
+
+    const total = await productModel.countAll();
+    let numPages = Math.floor(total/limit);
+    if (total % limit > 0) numPages++;
+
+    const pageNumbers = [];
+    for (let i = 1; i <= numPages; i++) {
+        pageNumbers.push({
+            value: i,
+            isCurrent: +page === i,
+        });
+    }
+
+    const productList = await productModel.findPage(limit, offset);
     res.render('vwSeller/sold', {
+        layout: 'seller',
+        products: productList,
+        pageNumbers
+    });
+})
+
+router.get('/product/add', function(req, res) {
+    res.render('vwSeller/add', {
         layout: 'seller'
     });
 })
