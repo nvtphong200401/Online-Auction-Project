@@ -1,0 +1,26 @@
+<thead>
+<tr>
+    <th>Product ID</th>
+    <th>Product Name</th>
+    <th>Category</th>
+    <th>Due Date</th>
+    <th>Highest bid</th>
+    <th>Edit description</th>
+</tr>
+</thead>
+<tbody>
+{{#each this.products}}
+    <tr>
+        <td>{{ProID}}</td>
+        <td>{{ProName}}</td>
+        <td>{{CatID}}</td>
+        <td>{{EndDate}}</td>
+        <td>{{Current_bid}}</td>
+        <td>
+            <a class="btn btn-sm btn-success" href="/seller/product/{{ProID}}/edit" role="button">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+        </td>
+    </tr>
+{{/each}}
+</tbody>

@@ -3,6 +3,7 @@ import authRoute from '../routes/auth_routes.js';
 import adminRoute from '../routes/admin_routes.js';
 import productRoute from '../routes/product.routes.js';
 import bidderRoute from '../routes/bidder.routes.js';
+import sellerRoute from '../routes/seller.routes.js'
 
 export default function (app) {
     //use your route here
@@ -16,7 +17,9 @@ export default function (app) {
     
     app.use('/auth', authRoute);
 
-    app.use('/admin', adminRoute);    
+    app.use('/admin', adminRoute);
+
+    app.use('/seller', sellerRoute);
     // 404 and 500 pages
     app.use(function (req, res, next) {
         res.render('404', { layout: false });
