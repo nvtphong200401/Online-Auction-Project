@@ -4,11 +4,12 @@ import routesMdware from './middleware/routes.mdware.js';
 import localMdware from "./middleware/locals.mdware.js";
 
 const app = express();
+app.use(express.urlencoded({
+    extended:true
+}));
+app.use(express.json());
 app.use('/public', express.static('public'));
 
-app.use(express.urlencoded({
-    extended: true
-}));
 
 localMdware(app);
 viewMdware(app);

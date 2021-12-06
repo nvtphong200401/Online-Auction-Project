@@ -46,7 +46,7 @@
                 {{#each this.cates}}
                 <tr class="row-{{CatID}}">
                     <th scope="row">{{CatID}}</th>
-                    <td id="CatName">
+                    <td class="CatName">
                         {{#if CatParent}}
                             {{CatName}}
                         {{else}}
@@ -77,14 +77,13 @@
                         </th>
                         <td class="CatName">
                             <div class="form-group">
-                                <input type="text" name="CatName" class="form-control" value="{{CatName}}"
+                                <input type="text" class="form-control" value="{{CatName}}" name="CatName"
                                     placeholder="{{CatName}}" aria-describedby="helpId">
                             </div>
                         <td class="text-right">
-                            <a onclick="Save({{CatID}})" class="save btn btn-success btn-sm shadow" href="#"
-                                role="button"><i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                Save</a>
-                            <a onclick="Cancel({{CatID}})" class="edit btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-times"
+                            <button onclick="Save({{CatID}})" class="save btn btn-success btn-sm shadow" role="button"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                Save</button>
+                            <a onclick="Cancel({{CatID}})" class="cancel btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-times"
                                     aria-hidden="true"></i>
                                 Cancel</a>
                         </td>

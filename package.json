@@ -24,6 +24,7 @@
     "express-handlebars": "^6.0.1",
     "knex": "^0.95.14",
     "moment": "^2.29.1",
+    "mongoose": "^6.0.14",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15"
   },

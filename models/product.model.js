@@ -1,3 +1,4 @@
+import knex from 'knex';
 import moment from 'moment';
 
 const interval = function (begin, end) {
@@ -143,5 +144,9 @@ export default {
         this.checkNew(list);
 
         return list;
+    },
+
+    findById(id){
+        return db('product').where('ProID', '=', id);
     }
 }

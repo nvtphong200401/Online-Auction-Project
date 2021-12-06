@@ -60,5 +60,8 @@ router.get('/product', async (req, res) => {
 router.post('/product/del/:id', (req, res) => {
     console.log(req.params.id);
 })
+router.put('/category/edit/:id', (req, res) => {
+    console.log(req.body);
+})
 
 export default router;

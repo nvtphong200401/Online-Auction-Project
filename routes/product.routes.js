@@ -7,13 +7,13 @@ router.get('/detail', (req, res) => {
     res.render('vwGuest/detail', {layout: 'guest'})
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    const obj = productModel.findTopBid();
-    console.log(obj[1].ProID)
+    const obj = await productModel.findById(id);
+    console.log(obj)
     res.render('vwGuest/detail', {
         layout: 'guest',
-        product : obj[id-1]
+        product : obj[0]
     })
 })
 
