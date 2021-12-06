@@ -11,7 +11,8 @@ export default function (app) {
     // guestRoot
     app.use('/', guestRoute);
 
-    app.use('/bidder', bidderRoute);
+
+    app.use('/bidder', bidderRoute);// cái này xóa sau
 
     app.use('/product', productRoute);
     

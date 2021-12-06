@@ -54,7 +54,7 @@ router.get('/byCat/:id/:page', async function (req, res) {
         PageList.push({ index: i.toString(), active: (i.toString() === PageNow)})
     }
 
-    res.render('vwGuest/byCat', {
+    res.render('vwProduct/byCat', {
         layout: 'guest',
         category: CatList,
         product: ProductList,
@@ -85,7 +85,7 @@ router.get('/search', (req, res) => {
     // all category match to the keywords
     // product in N mins related to keywords
     // product related to keyword but not in N mins
-    res.render('vwGuest/search', {
+    res.render('vwProduct/search', {
         layout: 'guest',
         category : categoryModel.findAllMain() || 0,
         recent: productModel.findTopBid(),

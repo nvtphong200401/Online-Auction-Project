@@ -22,14 +22,21 @@ const OneDay = 1000 * 60 * 60 * 24;
 import db from '../utils/db.js';
 
 export default {
-    // If there is no "special" condition, pls add checkNew
-    // and check the EndDate when you get list of products
     checkNew(ProList) {
         for (let x in ProList) {
             let distance = untilNow(ProList[x].UploadDate);
             ProList[x].New = distance > 0 && distance < 45 * OneMin;
         }
         return ProList;
+    },
+    // If there is no "special" condition, pls add this function before return the product(s)
+    async addDetail(ProList) {
+        for (let p of ProList) {
+            p.Current_bid = await this.getCurrentBid(p.ProID);
+            p.BidNumber = await this.countBidNumber(p.ProID);
+            p.HighestBID = await this.findHighestBID(p.ProID);
+        }
+        this.checkNew(ProList);
     },
     findAll() {
         return db('product');
@@ -59,12 +66,7 @@ export default {
                     .orWhere('c.CatParent', '=', CatID);
             }).limit(limit).offset(off);
 
-        for (let p of list) {
-            p.BidNumber = await this.countBidNumber(p.ProID);
-            p.HighestBID = await this.findHighestBID(p.ProID);
-        }
-
-        this.checkNew(list);
+        await this.addDetail(list);
 
         return list;
     },
@@ -91,6 +93,17 @@ export default {
             .orderBy('Price', "desc");
     },
 
+    async getCurrentBid(ProID) {
+        const price_user = await db.max("Price as Price").from("bid_history")
+            .where('ProID', '=', ProID);
+        let current_bid = price_user[0].Price;
+
+        if (current_bid === null) {
+            const initial_price = await db.select('Start_price as Price').from('product').where('ProID', '=', ProID);
+            current_bid = initial_price[0].Price;
+        }
+        return current_bid;
+    },
     async findHighestBID(ProID) {
         const list = await this.findBidHistory(ProID);
         return list[0] || null;
@@ -102,13 +115,7 @@ export default {
             .where('EndDate', '>', today)
             .orderBy('EndDate').limit(5);
 
-        for (let p of list) {
-            p.BidNumber = await this.countBidNumber(p.ProID);
-            p.HighestBID = await this.findHighestBID(p.ProID);
-        }
-
-        this.checkNew(list);
-
+        await this.addDetail(list);
         return list;
     },
 
@@ -120,29 +127,18 @@ export default {
             .groupBy('p.ProID', 'p.ProName')
             .orderBy('BidNumber', 'desc').limit(5);
 
-        for (let p of list) {
-            p.BidNumber = await this.countBidNumber(p.ProID);
-            p.HighestBID = await this.findHighestBID(p.ProID);
-        }
-
-        this.checkNew(list);
-
+        await this.addDetail(list);
         return list;
     },
 
     async findTopPrice() {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        const list = await db.select('*').from('product')
-            .where('EndDate', '>', today)
-            .orderBy('Current_bid', 'desc').limit(5);
+        let list = await db.select('*').from('product as p');
+        await this.addDetail(list);
 
-        for (let p of list) {
-            p.BidNumber = await this.countBidNumber(p.ProID);
-            p.HighestBID = await this.findHighestBID(p.ProID);
+        if (list != null) {
+            list = list.sort((a,b) => { return b.Current_bid - a.Current_bid }).slice(0, 5); // get top 5 current bid products
         }
-
-        this.checkNew(list);
-
         return list;
     },
 
