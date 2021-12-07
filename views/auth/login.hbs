@@ -1,14 +1,23 @@
 <script src="https://www.google.com/recaptcha/api.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
-<form class="show1">
+<form class="show1" method="post">
+  <input type="hidden" name="action" value="Login">
+  {{#if err_message}}
+  <div class="alert alert-warning" role="alert">
+    {{err_message}}
+  </div>
+  
+  {{/if}}
   {{!-- Username --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
     </div>
-    <input type="text" class="form-control" placeholder="Username">
+    <input type="text" class="form-control" placeholder="Username" name="username">
   </div>
 
   {{!-- Password --}}
@@ -16,7 +25,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
     </div>
-    <input type="password" class="form-control" placeholder="Password">
+    <input type="password" class="form-control" placeholder="Password" name="password">
   </div>
 
   <div class="form-group form-check">
@@ -53,7 +62,7 @@
 </form>
 
 <form class="show2" style="display: none;">
-  
+
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>

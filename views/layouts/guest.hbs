@@ -1,259 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>E-commerce Web App</title>
     <!-- CSS only -->
     <link rel="shortcut icon" href="/public/img/aution_logo.png" type="image/x-icon">
     <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" rel="stylesheet">
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/public/css/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script crossorigin="anonymous" src="/public/js/time.js"></script>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-0 sticky-top">
-    <a class="navbar-brand ml-3 mr-5" href="/">
-        <h3 class="font-weight-bolder">AuctionX</h3>
-    </a>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-0 sticky-top">
+        <a class="navbar-brand ml-3 mr-5" href="/">
+            <h3 class="font-weight-bolder">AuctionX</h3>
+        </a>
 
-    <form class="form-inline my-3 ml-auto mr-0" action="http://localhost:3000/search">
-        <input id="search-bar" aria-label="Search" class="form-control mr-sm-1 "
-               placeholder="Search for brand, color, .etc..." type="search" name="q">
-        <button class="btn btn-success my-2 my-sm-0 text-white" type="submit">
-            <i class="fa fa-search" aria-hidden="true"></i>
-            Search
-        </button>
-    </form>
+        <form class="form-inline my-3 ml-auto mr-0" action="http://localhost:3000/search">
+            <input id="search-bar" aria-label="Search" class="form-control mr-sm-1 "
+                placeholder="Search for brand, color, .etc..." type="search" name="q">
+            <button class="btn btn-success my-2 my-sm-0 text-white" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                Search
+            </button>
+        </form>
 
 
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
             class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-0  mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Help</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/auth/">Login</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Sign Up</a>
-            </li>
-            <li class="ml-sm-2 nav-item">
-                <a href="/bidder/request">
-                    <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
-                </a>
-            </li>
-        </ul>
-    </div>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-0  mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Help</a>
+                </li>
+                {{#if auth}}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-expanded="false">
+                        Hi, <b>{{authUser.FullName}}!</b>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/account/profile">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Profile
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <form id="frmLogout" action="/account/logout" method="post"></form>
+                        <a class="dropdown-item" href="javascript:;">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            Sign Out
+                        </a>
+                    </div>
+                </li>
+                {{else}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/auth/">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Sign Up</a>
+                </li>
+                <li class="ml-sm-2 nav-item">
+                    <a href="/bidder/request">
+                        <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
+                    </a>
+                </li>
+                {{/if}}
+            </ul>
+        </div>
 
 
-</nav>
+    </nav>
 
-{{{body}}}
+    {{{body}}}
 
-<!-- Footer -->
-<footer class="page-footer font-small elegant-color bg-dark">
+    <!-- Footer -->
+    <footer class="page-footer font-small elegant-color bg-dark">
 
 
-    <!-- Footer Links -->
-    <div class="container text-center text-md-left pt-4 pt-md-5 text-white">
+        <!-- Footer Links -->
+        <div class="container text-center text-md-left pt-4 pt-md-5 text-white">
 
-        <!-- Grid row -->
-        <div class="row mt-1 mt-md-0 mb-4 mb-md-0">
+            <!-- Grid row -->
+            <div class="row mt-1 mt-md-0 mb-4 mb-md-0">
 
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+                <!-- Grid column -->
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
 
-                <!-- Links -->
-                <h5>Company</h5>
+                    <!-- Links -->
+                    <h5>Company</h5>
 
-                <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
+                    <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
 
-                <ul class="list-unstyled  foot-desc font-weight-light">
-                    <li class="mb-2">
-                        <a href="#!">Customer service</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Terms of use</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Privacy</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">About</a>
-                    </li>
-                </ul>
+                    <ul class="list-unstyled  foot-desc font-weight-light">
+                        <li class="mb-2">
+                            <a href="#!">Customer service</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Terms of use</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Privacy</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">About</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <!-- Links -->
+                    <h5>Biding</h5>
+                    <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
+
+                    <ul class="list-unstyled  foot-desc font-weight-light">
+                        <li class="mb-2">
+                            <a href="#!">Biding now</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Sign in</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Get help</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Send feedback</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <!-- Links -->
+                    <h5>Selling</h5>
+                    <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
+
+                    <ul class="list-unstyled foot-desc font-weight-light">
+                        <li class="mb-2">
+                            <a href="#!">Become a seller </a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Sign in</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Seller Reviews</a>
+                        </li>
+                        <li class="mb-2">
+                            <a href="#!">Why sell</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
+
+                <hr class="clearfix w-100 d-md-none">
+
+                <!-- Grid column -->
+                <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
+
+                    <!-- Links -->
+                    <h5>Contacts</h5>
+                    <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
+
+                    <ul class="fa-ul foot-desc ml-4 font-weight-light">
+                        <li class="mb-2"><span class="fa-li"><i class="fa fa-map-o"
+                                    aria-hidden="true"></i></span>District 1
+                            - HCM City - VN
+                        </li>
+                        <li class="mb-2"><span class="fa-li"><i class="fa fa-phone" aria-hidden="true"></i></span>011
+                            100
+                            153 354
+                        </li>
+                        <li class="mb-2"><span class="fa-li"><i class="fa fa-envelope-o"
+                                    aria-hidden="true"></i></span>auctionX@gmail.com
+                        </li>
+                        <li><span class="fa-li"><i class="fa fa-clock-o" aria-hidden="true"></i></span>Monday - Friday
+                            (8h-20h)
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Grid column -->
 
             </div>
-            <!-- Grid column -->
-
-            <hr class="clearfix w-100 d-md-none">
-
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
-
-                <!-- Links -->
-                <h5>Biding</h5>
-                <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
-
-                <ul class="list-unstyled  foot-desc font-weight-light">
-                    <li class="mb-2">
-                        <a href="#!">Biding now</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Sign in</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Get help</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Send feedback</a>
-                    </li>
-                </ul>
-
-            </div>
-            <!-- Grid column -->
-
-            <hr class="clearfix w-100 d-md-none">
-
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
-
-                <!-- Links -->
-                <h5>Selling</h5>
-                <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
-
-                <ul class="list-unstyled foot-desc font-weight-light">
-                    <li class="mb-2">
-                        <a href="#!">Become a seller </a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Sign in</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Seller Reviews</a>
-                    </li>
-                    <li class="mb-2">
-                        <a href="#!">Why sell</a>
-                    </li>
-                </ul>
-
-            </div>
-            <!-- Grid column -->
-
-            <hr class="clearfix w-100 d-md-none">
-
-            <!-- Grid column -->
-            <div class="col-md-3 mx-auto mt-3 mt-md-0 mb-0 mb-md-4">
-
-                <!-- Links -->
-                <h5>Contacts</h5>
-                <hr class="clearfix text-success bg-success mb-4 mt-0 mx-auto d-none d-md-block">
-
-                <ul class="fa-ul foot-desc ml-4 font-weight-light">
-                    <li class="mb-2"><span class="fa-li"><i class="fa fa-map-o" aria-hidden="true"></i></span>District 1
-                        - HCM City - VN
-                    </li>
-                    <li class="mb-2"><span class="fa-li"><i class="fa fa-phone" aria-hidden="true"></i></span>011 100
-                        153 354
-                    </li>
-                    <li class="mb-2"><span class="fa-li"><i class="fa fa-envelope-o" aria-hidden="true"></i></span>auctionX@gmail.com
-                    </li>
-                    <li><span class="fa-li"><i class="fa fa-clock-o" aria-hidden="true"></i></span>Monday - Friday
-                        (8h-20h)
-                    </li>
-                </ul>
-
-            </div>
-            <!-- Grid column -->
+            <!-- Grid row -->
 
         </div>
-        <!-- Grid row -->
-
-    </div>
-    <!-- Footer Links -->
+        <!-- Footer Links -->
 
 
-    <div class="row ">
-        <div class="col-md-4 col-1"></div>
-        <div class="col-md-4 col-10">
-            <hr class="clearfix d-md-none text-white mx-auto">
-            <hr class="clearfix text-success bg-success my-0 mx-auto w-60 d-none d-md-block d-lg-block">
+        <div class="row ">
+            <div class="col-md-4 col-1"></div>
+            <div class="col-md-4 col-10">
+                <hr class="clearfix d-md-none text-white mx-auto">
+                <hr class="clearfix text-success bg-success my-0 mx-auto w-60 d-none d-md-block d-lg-block">
+            </div>
         </div>
-    </div>
 
-    <!-- Footer Links -->
-    <div class="container">
+        <!-- Footer Links -->
+        <div class="container">
 
-        <div class="row">
+            <div class="row">
 
-            <!--Grid column-->
-            <div class="col my-5 text-center">
-                <h4 class="text-white">Follow us</h4>
-                <!-- Social buttons -->
-                <ul class="list-unstyled list-inline text-center mb-0 mt-4">
-                    <li class="list-inline-item">
-                        <a class="btn btn-lg btn-primary mr-2" style="background-color: #3b5998; border: none" href="#!"
-                           role="button">
-                            <i class="fa fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-lg btn-primary mr-2" style="background-color: #55acee; border: none" href="#!"
-                           role="button">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-lg btn-primary mr-2" style="background-color: #ac2bac; border: none" href="#!"
-                           role="button">
-                            <i class="fa fa-instagram"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a class="btn btn-lg btn-primary mr-2" style="background-color: #0082ca; border: none" href="#!"
-                           role="button">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
-                    </li>
-                </ul>
-                <!-- Social buttons -->
+                <!--Grid column-->
+                <div class="col my-5 text-center">
+                    <h4 class="text-white">Follow us</h4>
+                    <!-- Social buttons -->
+                    <ul class="list-unstyled list-inline text-center mb-0 mt-4">
+                        <li class="list-inline-item">
+                            <a class="btn btn-lg btn-primary mr-2" style="background-color: #3b5998; border: none"
+                                href="#!" role="button">
+                                <i class="fa fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-lg btn-primary mr-2" style="background-color: #55acee; border: none"
+                                href="#!" role="button">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-lg btn-primary mr-2" style="background-color: #ac2bac; border: none"
+                                href="#!" role="button">
+                                <i class="fa fa-instagram"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-lg btn-primary mr-2" style="background-color: #0082ca; border: none"
+                                href="#!" role="button">
+                                <i class="fa fa-linkedin"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Social buttons -->
+
+                </div>
+                <!--Grid column-->
 
             </div>
-            <!--Grid column-->
+            <!--Grid row-->
 
         </div>
-        <!--Grid row-->
+        <!-- Footer Links -->
 
-    </div>
-    <!-- Footer Links -->
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3 bg-success font-weight-light text-white ">© 2020 Copyright:
+            <a class="text-white" href="https://mdbootstrap.com/"> MDBootstrap.com</a>
+        </div>
+        <!-- Copyright -->
 
-    <!-- Copyright -->
-    <div class="footer-copyright text-center py-3 bg-success font-weight-light text-white ">© 2020 Copyright:
-        <a class="text-white" href="https://mdbootstrap.com/"> MDBootstrap.com</a>
-    </div>
-    <!-- Copyright -->
-
-</footer>
-<!-- Footer -->
-<script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script crossorigin="anonymous" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    </footer>
+    <!-- Footer -->
+    <script crossorigin="anonymous" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script crossorigin="anonymous" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-<script crossorigin="anonymous" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+    <script crossorigin="anonymous" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
