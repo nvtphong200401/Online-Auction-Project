@@ -17,12 +17,17 @@ router.get('/', async function (req, res) {
         c.SubCat = await categoryModel.findSubCat(c.CatID);
     }
 
+    const title = ["End soon", "Most bid", "Highest price"];
+    const data = [
+        {title: title[0], list: top_end},
+        {title: title[1], list: top_bid},
+        {title: title[2], list: top_price}
+    ];
     res.render('home', {
         layout: 'main',
         category: category,
-        top_end: top_end,
-        top_bid: top_bid,
-        top_price: top_price
+        title: title,
+        data: data
     });
 });
 
@@ -50,30 +55,30 @@ router.get('/byCat/:id/:page', async function (req, res) {
 
     let PageList = [];
 
+    const prev = ({index: (+PageNow-1).toString(), disable: +PageNow === 1});
     for (let i = 1; i <= nPage; ++i) {
-        PageList.push({ index: i.toString(), active: (i.toString() === PageNow)})
+        PageList.push({index: i.toString(), active: (i.toString() === PageNow)})
     }
+    const next = ({index: (+PageNow+1).toString(), disable: +PageNow === nPage});
 
     res.render('vwProduct/byCat', {
         layout: 'main',
         category: CatList,
         product: ProductList,
         page: PageList,
+        prev: prev,
+        next: next,
         empty: ProductList.length === 0
     });
 });
 
-router.get('/user/:id', function (req, res){
+router.get('/user/:id', function (req, res) {
     const userId = req.params.id || 0;
     const userInfo = userModel.findById(userId);
 
-    //if (userInfo === null) {
-    //   res.redirect('/');
-    //}
-
     res.render('vwBidder/info', {
-       layout: 'main',
-       userInfo: userInfo
+        layout: 'main',
+        userInfo: userInfo
     });
 });
 
@@ -87,7 +92,7 @@ router.get('/search', (req, res) => {
     // product related to keyword but not in N mins
     res.render('vwProduct/search', {
         layout: 'main',
-        category : categoryModel.findAllMain() || 0,
+        category: categoryModel.findAllMain() || 0,
         recent: productModel.findTopBid(),
         related: productModel.findTopPrice()
     })

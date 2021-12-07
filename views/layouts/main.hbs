@@ -9,21 +9,22 @@
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="/public/css/style.css" rel="stylesheet" type="text/css">
-
     {{{_sections.css}}}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-0 sticky-top">
-    <a class="navbar-brand ml-3 mr-5" href="/">
-        <h3 class="font-weight-bolder">AuctionX</h3>
-    </a>
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-0 sticky-top d-flex justify-content-between">
+    <div>
+        <a class="navbar-brand ml-md-3 mr-md-5" href="/">
+            <h3 class="font-weight-bolder">AuctionX</h3>
+        </a>
+    </div>
 
-    <form class="form-inline my-3 ml-auto mr-0" action="http://localhost:3000/search">
-        <input id="search-bar" aria-label="Search" class="form-control mr-sm-1 "
+    <form class="form-inline my-3 ml-sm-auto mr-sm-0 ml-0 mr-auto " action="/search">
+        <input id="search-bar" aria-label="Search" class="form-control mr-1"
                placeholder="Search for brand, color, .etc..." type="search" name="q">
         <button class="btn btn-success my-2 my-sm-0 text-white" type="submit">
             <i class="fa fa-search" aria-hidden="true"></i>
-            Search
+            <p class="d-none d-lg-inline">Search</p>
         </button>
     </form>
 
@@ -48,7 +49,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-expanded="false">
-                        Hi, <b>{{authUser.name}}</b>
+                        Hi, <b>{{authUser.Username}}</b>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="/bidder/profile">
@@ -65,7 +66,8 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a class="dropdown-item" href="javascript:;">
+                        <form id="frmLogout" action="/auth/logout" method="post"></form>
+                        <a class="dropdown-item" href="javascript: $('#frmLogout').submit();">
                             <i class="fa fa-sign-out mr-1" aria-hidden="true"></i>
                             Sign Out
                         </a>
@@ -79,7 +81,7 @@
                     <a class="nav-link" href="/auth/">Sign Up</a>
                 </li>
             {{/if}}
-            <li class="ml-sm-2 nav-item">
+            <li class="ml-sm-2 nav-item mt-sm-0 mt-3">
                 <a href="/bidder/request">
                     <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
                 </a>
@@ -282,5 +284,9 @@
         src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
 <script crossorigin="anonymous" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{{{_sections.js}}}
 </body>
 </html>

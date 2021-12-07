@@ -12,7 +12,7 @@ export default function (app) {
                 return numeral(val).format('0,0') + ' VND';
             },
             format_date(val) {
-                return moment(val).format('lll');
+                return moment(val).format('ll');
             },
             section: hbs_sections()
         }

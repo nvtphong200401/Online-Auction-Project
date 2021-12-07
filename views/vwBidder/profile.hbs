@@ -1,0 +1,171 @@
+{{#section 'css'}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css" integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+{{/section}}
+
+{{#with authUser}}
+    <div class="content mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-4">
+                    <!-- Personal-Information -->
+                    <div class="card-box text-center">
+                        <img src="/public/imgs/avatar/0/avatar1.png" class="rounded-circle avatar-xl img-thumbnail" alt="profile-image">
+
+                        <div>
+                            <h4 class="mb-0">{{FullName}}</h4>
+
+                        </div>
+                        <p class="text-muted">@{{Username}}</p>
+
+                        <button type="button" class="btn btn-outline-danger btn-xs waves-effect mb-2 waves-light">
+                            <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Watchlist
+                        </button>
+                        <hr>
+                        <div class="text-left mt-3">
+                            <div>
+                                <h6 class="font-20 text-uppercase d-inline mr-1">Your information
+                                    <a href="#" class="badge badge-primary mb-2">Edit</a>
+                                </h6>
+
+                            </div>
+
+                            <p class="text-muted mb-2 font-13"><strong>Username :</strong> <span class="ml-2">{{Username}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ml-2">{{FullName}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>DOB :</strong> <span class="ml-2">{{format_date DOB}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ml-2 ">{{Email}}</span></p>
+
+                            <p class="text-muted mb-1 font-13"><strong>Permission :</strong>
+                                <span class="ml-2">{{#if Role}}
+                                    Bidder/Seller
+                                {{else}}
+                                    Bidder
+                                {{/if}}</span></p>
+                        </div>
+
+                    </div> <!-- end card-box -->
+
+
+                </div>
+                <div class="col-xl-8">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-layers float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Orders</h6>
+                                <h2 class="" data-plugin="counterup">1,587</h2><span
+                                        class="badge badge-custom">+11% </span><span class="text-muted">From previous period</span>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-paypal float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Revenue</h6>
+                                <h2 class="">$<span data-plugin="counterup">46,782</span></h2><span
+                                        class="badge badge-danger">-29% </span><span class="text-muted">From previous period</span>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-rocket float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Product Sold</h6>
+                                <h2 class="" data-plugin="counterup">1,890</h2><span
+                                        class="badge badge-custom">+89% </span><span class="text-muted">Last year</span>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    </div>
+                    <!-- end row -->
+                    <div class="card-box">
+                        <h4 class="header-title mt-0 mb-3">Experience</h4>
+                        <div class="">
+                            <div class="">
+                                <h5 class="text-custom">Lead designer / Developer</h5>
+                                <p class="mb-0">websitename.com</p>
+                                <p><b>2010-2015</b></p>
+                                <p class="text-muted font-13 mb-0">Lorem Ipsum is simply dummy text of the printing and
+                                    typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                    since the 1500s, when an unknown printer took a galley of type and scrambled it to
+                                    make a type specimen book.</p>
+                            </div>
+                            <hr>
+                            <div class="">
+                                <h5 class="text-custom">Senior Graphic Designer</h5>
+                                <p class="mb-0">coderthemes.com</p>
+                                <p><b>2007-2009</b></p>
+                                <p class="text-muted font-13 mb-0">Lorem Ipsum is simply dummy text of the printing and
+                                    typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever
+                                    since the 1500s, when an unknown printer took a galley of type and scrambled it to
+                                    make a type specimen book.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-box">
+                        <h4 class="header-title mb-3">My Projects</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Project Name</th>
+                                    <th>Start Date</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Assign</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Adminox Admin</td>
+                                    <td>01/01/2015</td>
+                                    <td>07/05/2015</td>
+                                    <td><span class="label label-info">Work in Progress</span></td>
+                                    <td>Coderthemes</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Adminox Frontend</td>
+                                    <td>01/01/2015</td>
+                                    <td>07/05/2015</td>
+                                    <td><span class="label label-success">Pending</span></td>
+                                    <td>Coderthemes</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Adminox Admin</td>
+                                    <td>01/01/2015</td>
+                                    <td>07/05/2015</td>
+                                    <td><span class="label label-pink">Done</span></td>
+                                    <td>Coderthemes</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Adminox Frontend</td>
+                                    <td>01/01/2015</td>
+                                    <td>07/05/2015</td>
+                                    <td><span class="label label-purple">Work in Progress</span></td>
+                                    <td>Coderthemes</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Adminox Admin</td>
+                                    <td>01/01/2015</td>
+                                    <td>07/05/2015</td>
+                                    <td><span class="label label-warning">Coming soon</span></td>
+                                    <td>Coderthemes</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container -->
+    </div>
+{{/with}}

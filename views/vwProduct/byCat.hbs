@@ -1,3 +1,14 @@
+{{#section 'js'}}
+    <script crossorigin="anonymous" src="/public/js/time.js"></script>
+
+    {{#each product}}
+        <script type="text/javascript">
+            f('time-left-{{ProID}}', "{{EndDate}}");
+        </script>
+    {{/each}}
+
+{{/section}}
+
 <div id="main-content">
     <!--Main Content-->
     <!-- Category -->
@@ -32,25 +43,25 @@
     <!-- Item List -->
     <div class="container-fluid py-3">
         <div class="row">
-            <div class="col-sm-2">
+            <div class="col-lg-2 col-12">
                 <div class="card">
                     <div class="card-body">
                         <h3 class="card-title">Category</h3>
                     </div>
                     <div class="list-group list-group-flush">
                         {{#each lcCategories}}
-                            <a data-toggle="collapse" href="#collapse{{CatID}}" class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
+                            <a data-toggle="collapse" href="#collapse{{CatID}}"
+                               class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
                                 <h7 class="font-weight-bold">{{CatName}}</h7>
                                 <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
                             </a>
                             <div class="collapse ml-4 mt-3" id="collapse{{CatID}}">
-
                                 <div class="form-check">
                                     {{#each SubCat}}
                                         <a href="../{{CatID}}" class="form-check-label">
                                             {{CatName}}
                                         </a>
-                                            <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
+                                        <span class="badge badge-pill badge-danger">{{ProductCount}}</span>
                                         <div class="dropdown-divider"></div>
                                     {{/each}}
                                 </div>
@@ -60,7 +71,7 @@
                 </div>
 
             </div>
-            <div class="col-sm-9">
+            <div class="col-lg-9 col-12">
                 <div class="card">
                     <h4 class="card-header d-flex justify-content-between">
                         Products
@@ -69,7 +80,7 @@
 
                         {{#if this.empty}}
                             <h5 class="card-title">No product found</h5>
-                            <p class="card-text">There is no product in this category yet! <br>Please come back later
+                            <p class="card-text">There is no product in this category yet. <br>Please come back later
                                 :(
                             </p>
                         {{else}}
@@ -89,7 +100,8 @@
                                                     {{#if HighestBID}}
                                                         <a href="/user/{{HighestBID.ID}}" class="user">
                                                             <div class="user-photo">
-                                                                <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
+                                                                <img alt="Thumb"
+                                                                     src="/public/imgs/avatar/0/avatar1.png">
                                                             </div>
                                                             <div class="name" data-toggle="tooltip" data-placement="top"
                                                                  title="{{HighestBID.Username}}">
@@ -132,18 +144,12 @@
                                                     </h6>
                                                 {{/if}}
 
-                                                <p class="card-text">
-                                                <h6 class="card-title">
-                                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
-                                                    <h5 id="time-left-end{{ProID}}"></h5>
-                                                </h6>
-
-                                                <script type="text/javascript">
-                                                    f('time-left-end{{ProID}}', "{{EndDate}}");
-                                                    console.log('time-left-end{{ProID}} -  {{EndDate}}');
-                                                </script>
-
-                                                </p>
+                                                <div class="card-text">
+                                                    <h6 class="card-title">
+                                                        <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
+                                                        <h5 class="time-left-{{ProID}}"></h5>
+                                                    </h6>
+                                                </div>
 
 
                                             </div>
@@ -168,6 +174,32 @@
                             </div>
                         {{/if}}
 
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                {{#with prev}}
+                                    <li class="page-item {{#if disable}} disabled {{/if}}">
+                                        <a class="page-link" href="./{{index}}">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {{/with}}
+                                {{#each this.page}}
+                                    <li class="page-item {{#if active}} active {{/if}}"><a class="page-link"
+                                                                                           href="./{{index}}">{{index}}</a>
+                                    </li>
+                                {{/each}}
+                                {{#with next}}
+                                    <li class="page-item {{#if disable}} disabled {{/if}}">
+                                        <a class="page-link" href="./{{index}}">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {{/with}}
+                                </li>
+                            </ul>
+                        </nav>
+                        <!-- End of Pagination -->
                     </div>
                 </div>
             </div>
@@ -176,25 +208,6 @@
 </div>
 <!-- End of Item List -->
 
-<!-- Pagination -->
-<nav aria-label="Page navigation example">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            <a class="page-link" href="./1" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        {{#each this.page}}
-            <li class="page-item {{#if active}} active {{/if}}"><a class="page-link"
-                                     href="./{{index}}">{{index}}</a></li>
-        {{/each}}
-            <a class="page-link" href="./2" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-    </ul>
-</nav>
-<!-- End of Pagination -->
 
 <!-- End of Main Content -->
 </div>

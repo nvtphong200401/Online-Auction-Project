@@ -9,9 +9,9 @@ $(document).ready(function() {
         $('.buy').hide('500');
       });
 });
-let countDown = function (id, endTime) {
+let countDown = function (className, endTime) {
 
-    let myfunc = function (id, time) {
+    let myfunc = function (className, time) {
 
         let countDownDate = new Date(time).getTime();
         // Get today's date and time
@@ -38,24 +38,28 @@ let countDown = function (id, endTime) {
         if (days > 0 || hours > 0 || minutes > 0 || seconds > 0) {
             str += seconds + "s";
         }
-        // Output the result in an element with id="demo"
-        if (days == 0) {
-            document.getElementById(id).classList.add("text-danger");
+        // Output the result in all elements with className="demo"
+        if (days === 0) {
+            for (let textDangerElement of document.getElementsByClassName(className) ) {
+                textDangerElement += 'text-danger';
+            }
         }
-        document.getElementById(id).innerHTML = str;
+        for (let element of document.getElementsByClassName(className)) {
+            element.innerHTML = str;
+        }
 
         // If the count down is over, write some text
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById(id).innerHTML = "Ended";
+            document.getElementById(className).innerHTML = "Ended";
         }
         console.log("Running")
     }
 
     // Update the count down every 1 second
-    let x = setInterval(myfunc, 1000, id, endTime);
+    let x = setInterval(myfunc, 1000, className, endTime);
 }
 
-const f = function (id, endDate) {
-    countDown(id, endDate);
+const f = function (className, endDate) {
+    countDown(className, endDate);
 }

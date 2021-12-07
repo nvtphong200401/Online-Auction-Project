@@ -62,4 +62,15 @@ router.get('/is-available', async function (req, res) {
   res.json(false);
 });
 
+
+router.post('/logout', async function (req, res) {
+    req.session.auth = false;
+    req.session.authUser = null;
+    req.session.cart = [];
+
+    const url = req.headers.referer || '/';
+    res.redirect(url);
+});
+
+
 export default router;
