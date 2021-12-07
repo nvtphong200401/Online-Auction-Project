@@ -1,14 +1,14 @@
-import fn from 'knex';
+import kn from 'knex';
 
 export const connectionInfo = {
-  host: '127.0.0.1',
+  host: 'localhost',
   port: 3306,
   user: 'root',
   password: '',
   database: 'auction'
 };
 
-const knex = fn({
+const knex = kn({
   client: 'mysql2',
   connection: connectionInfo,
   pool: { min: 0, max: 10 }

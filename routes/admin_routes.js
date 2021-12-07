@@ -2,7 +2,6 @@ import express from 'express';
 import CatModel from '../models/category.model.js';
 import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
-
 const router = express.Router();
 
 router.get('/category', async (req, res) => {

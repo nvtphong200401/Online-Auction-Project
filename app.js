@@ -2,7 +2,8 @@ import express from 'express';
 import viewMdware from './middleware/view.mdware.js';
 import routesMdware from './middleware/routes.mdware.js';
 import localMdware from "./middleware/locals.mdware.js";
-import sessionMdware from "./middleware/session.mdw.js";
+import sessionMdware from "./middleware/session.mdware.js";
+import authMdware from "./middleware/auth.mdware.js";
 
 const app = express();
 app.use(express.urlencoded({

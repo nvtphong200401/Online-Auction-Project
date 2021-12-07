@@ -28,7 +28,29 @@ router.post('/', async (req, res) => {
         }
         await userModel.add(user);
     }
-    res.redirect('/');
+    //Login
+    else if (form.action === 'Login'){
+      const user = await userModel.findByUsername(req.body.username);
+      if (user===null){
+        return res.render('auth/login', {
+          layout: 'auth',
+          err_message: 'Invalid username or password.'
+        });
+      }
+      const ret = bcrypt.compareSync(req.body.password, user.Password);
+      if(ret === false){
+        return res.render('auth/login', {
+          err_message: 'Invalid username or password.',
+          layout: 'auth'
+        })
+      }
+      delete user.Password;
+
+      req.session.auth = true;
+      req.session.authUser = user;
+      const url = req.session.retUrl || '/';
+      res.redirect(url);
+    }
 })
 router.get('/is-available', async function (req, res) {
   const username = req.query.user;
