@@ -1,12 +1,6 @@
 import knex from 'knex';
 import moment from 'moment';
 
-const interval = function (begin, end) {
-    let beginTime = new Date(begin).getTime();
-    let endTime = new Date(end).getTime();
-    return endTime - beginTime;
-}
-
 function untilNow(begin) {
     let now = new Date().getTime();
     let beginTime = new Date(begin).getTime();

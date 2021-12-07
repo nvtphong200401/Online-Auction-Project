@@ -4,7 +4,7 @@ import productModel from "../models/product.model.js";
 const router = express.Router();
 
 router.get('/detail', (req, res) => {
-    res.render('vwProduct/detail', {layout: 'guest'})
+    res.render('vwProduct/detail', {layout: 'main'})
 })
 
 router.get('/:id', async (req, res) => {
@@ -12,7 +12,7 @@ router.get('/:id', async (req, res) => {
     const obj = await productModel.findById(id);
     console.log(obj)
     res.render('vwProduct/detail', {
-        layout: 'guest',
+        layout: 'main',
         product : obj[0]
     })
 })

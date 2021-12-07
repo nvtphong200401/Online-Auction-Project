@@ -1,12 +1,4 @@
-const list = [
-    { UserID: 1, UserName: 'Phong', UserEmail: 'hihi@gmail.com', role: true },
-    { UserID: 2, UserName: 'Hieu', UserEmail: 'haha@gmail.com', role: false },
-    { UserID: 3, UserName: 'Thu', UserEmail: 'hehe@gmail.com', role: true },
-]
-
-
 import db from '../utils/db.js';
-
 
 export default {
     findAll() {

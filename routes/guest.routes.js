@@ -18,7 +18,7 @@ router.get('/', async function (req, res) {
     }
 
     res.render('home', {
-        layout: 'guest',
+        layout: 'main',
         category: category,
         top_end: top_end,
         top_bid: top_bid,
@@ -55,7 +55,7 @@ router.get('/byCat/:id/:page', async function (req, res) {
     }
 
     res.render('vwProduct/byCat', {
-        layout: 'guest',
+        layout: 'main',
         category: CatList,
         product: ProductList,
         page: PageList,
@@ -72,7 +72,7 @@ router.get('/user/:id', function (req, res){
     //}
 
     res.render('vwBidder/info', {
-       layout: 'guest',
+       layout: 'main',
        userInfo: userInfo
     });
 });
@@ -86,7 +86,7 @@ router.get('/search', (req, res) => {
     // product in N mins related to keywords
     // product related to keyword but not in N mins
     res.render('vwProduct/search', {
-        layout: 'guest',
+        layout: 'main',
         category : categoryModel.findAllMain() || 0,
         recent: productModel.findTopBid(),
         related: productModel.findTopPrice()
