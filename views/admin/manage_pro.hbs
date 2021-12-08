@@ -13,7 +13,6 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Product Name</th>
-                    <th scope="col">Seller</th>
                     <th scope="col">Category</th>
                     <th scope="col">Upload date</th>
                     <th scope="col">End date</th>
@@ -22,16 +21,15 @@
             </thead>
             <tbody>
                 {{#each this.products}}
-                <tr class="row-{{ID}}">
+                <tr class="row-{{ProID}}">
                     <th scope="row">{{ProID}}</th>
                     <td>{{ProName}}</td>
-                    <td>{{SellerID}}</td>
                     <td>{{CatID}}</td>
                     <td>{{UploadDate}}</td>
                     <td>{{EndDate}}</td>
                     <td class="text-right">
                         
-                        <button onclick="Delete(this, {{ID}})" class="delete btn btn-danger btn-sm shadow" type="submit"><i class="fa fa-trash" aria-hidden="true"></i>
+                        <button onclick="Delete(this, {{ProID}})" class="delete btn btn-danger btn-sm shadow" type="submit"><i class="fa fa-trash" aria-hidden="true"></i>
                             delete</button>
                     </td>
                 </tr>
@@ -39,24 +37,4 @@
             </tbody>
         </table>
     </div>
-    {{!-- <div class="card-footer d-flex justify-content-center">
-        <nav aria-label="Page navigation">
-            <ul class="pagination text-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div> --}}
 </div>

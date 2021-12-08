@@ -138,5 +138,8 @@ export default {
 
     findById(id){
         return db('product').where('ProID', '=', id);
+    },
+    del(id) {
+        return db('product').where('ProID', '=', id).del();
     }
 }

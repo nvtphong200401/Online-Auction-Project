@@ -19,5 +19,14 @@ export default {
     },
     deletable(id){
         return db('product').where('CatID','=',id);
+    },
+    del(id){
+        return db('category').where('CatID','=',id ).del();
+    },
+    edit(id, new_name){
+        return db('category').where('CatID','=',id).update('CatName', new_name);
+    },
+    add(CatName){
+        return db('category').insert({CatName});
     }
 }

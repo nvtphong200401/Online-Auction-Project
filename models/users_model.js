@@ -39,4 +39,25 @@ export default {
         .where('ID', ID)
         .update(entity);
     },
+    pending(){
+      return db('user').where('Pending', 1);
+    },
+    reject(id) {
+      return db('user').where('ID', id).update('Pending', 0)
+    },
+    approve(id){
+      return db('user').where('ID', id).update({'Pending' : 0, 'Role' : 1})
+    },
+    toBidder(id) {
+      return db('user').where('ID', id).update('Role', 0);
+    },
+    toSeller(id) {
+      return db('user').where('ID', id).update('Role', 1);
+    },
+    getRole(id){
+      return db.select('Role').from('user').where('ID', id);
+    },
+    edit(id, username, email) {
+      return db('user').where('ID', id).update({'Username':username, 'Email':email});
+    }
   }

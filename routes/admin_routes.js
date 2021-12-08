@@ -2,8 +2,11 @@ import express from 'express';
 import CatModel from '../models/category.model.js';
 import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
+import categoryModel from '../models/category.model.js';
 const router = express.Router();
-
+router.get('/', (req,res) => {
+    res.redirect('/admin/category')
+})
 router.get('/category', async (req, res) => {
     const list = await CatModel.findAllMain();
     for (const i in list) {
@@ -30,8 +33,8 @@ router.get('/category/:id', async (req, res) => {
     })
 })
 
-router.post('/category/del/:id', (req, res) => {
-    console.log(req.params.id);
+router.post('/category/del/:id', async (req, res) => {
+    await CatModel.del(req.params.id);
 })
 
 router.get('/user', async (req, res) => {
@@ -41,10 +44,25 @@ router.get('/user', async (req, res) => {
         layout: 'admin'
     });
 })
+router.post('/user/toBidder/:id', async (req, res) => {
+    await UserModel.toBidder(req.params.id);
 
-router.get('/pending', (req, res) => {
+})
+router.post('/user/toSeller/:id', async (req, res) => {
+    await UserModel.toSeller(req.params.id);
+})
+router.put('/user/edit/:id', async (req, res) => {
+    await UserModel.edit(req.params.id, req.body.Username, req.body.Email);
+})
+router.post('/user/del/:id', async (req, res) => {
+    await UserModel.del(req.params.id);
+})
+
+router.get('/pending', async (req, res) => {
+    const users = await UserModel.pending();
+    
     res.render('admin/pending', {
-        users: UserModel.pending(),
+        users,
         layout: 'admin'
     })
 })
@@ -56,11 +74,22 @@ router.get('/product', async (req, res) => {
         layout: 'admin'
     })
 })
-router.post('/product/del/:id', (req, res) => {
+router.post('/product/del/:id', async (req, res) => {
     console.log(req.params.id);
+    await ProductModel.del(req.params.id);
 })
-router.put('/category/edit/:id', (req, res) => {
-    console.log(req.body);
+router.put('/category/edit/:id', async (req, res) => {
+    await categoryModel.edit(req.params.id, req.body.CatName);
+})
+router.post('/category/add', async (req,res) => {
+    await categoryModel.add(req.body.CatName);
+    return res.redirect('/admin/category');
+})
+router.post('/pending/del/:id', async (req, res) => {
+    await UserModel.reject(req.params.id);
+})
+router.post('/pending/approve/:id', async (req, res) => {
+    await UserModel.approve(req.params.id)
 })
 
 export default router;

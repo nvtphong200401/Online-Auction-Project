@@ -18,7 +18,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
+                    <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Role</th>
                     <th class="text-right"></th>
@@ -26,58 +26,67 @@
             </thead>
             <tbody>
                 {{#each this.users}}
-                <tr>
+                <tr class="row-{{ID}}">
                     <th scope="row">{{ID}}</th>
-                    <td>{{Username}}</td>
-                    <td>{{Email}}</td>
-                    {{#if role}}
-                    <td>Bidder</td>
-                    <td class="text-right">
-                        <a class="btn btn-success btn-sm shadow" href="#" role="button"><i class="fa fa-arrow-up" aria-hidden="true"></i>
-                            To seller</a>
-                        <a class="btn btn-info btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
-                                aria-hidden="true"></i>
-                            Edit</a>
-                        <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
-                                aria-hidden="true"></i>
-                            delete</a>
-                    </td>
-                    {{else}}
+                    <td class="Username">{{Username}}</td>
+                    <td class="Email">{{Email}}</td>
+                    {{#if Role}}
                     <td>Seller</td>
                     <td class="text-right">
-                        <a class="btn btn-warning btn-sm shadow" href="#" role="button"><i class="fa fa-arrow-down" aria-hidden="true"></i>
-                            To bidder</a>
-                        <a class="btn btn-info btn-sm shadow" href="#" role="button"><i class="fa fa-pencil"
-                                aria-hidden="true"></i>
-                            Edit</a>
-                        <a class="btn btn-danger btn-sm shadow" href="#" role="button"><i class="fa fa-trash"
-                                aria-hidden="true"></i>
-                            delete</a>
-                    </td>
+                        <button onclick="toBidder(this, {{ID}})" class="btn btn-secondary btn-sm shadow"><i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            To Bidder</button>
+                    {{else}}
+                    <td>Bidder</td>
+                    <td class="text-right">
+                        <button onclick="toSeller(this, {{ID}})" class="btn btn-info btn-sm shadow"><i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            To Seller</button>
                     {{/if}}
+                        <button onclick="Edit({{ID}})" class="btn btn-warning btn-sm shadow"><i class="fa fa-pencil"
+                                aria-hidden="true"></i>
+                            Edit</button>
+                        <button onclick="Delete(this, {{ID}})" class="btn btn-danger btn-sm shadow"><i class="fa fa-trash"
+                                aria-hidden="true"></i>
+                            delete</button>
+                    </td>
+                </tr>
+                <tr class="row-{{ID}}" style="display: none;">
+                    <form class="form-inline">
+                        <th scope="row">
+                            <div class="form-group">
+                                <input type="text" name="ID" id="ID" class="form-control" placeholder="{{ID}}"
+                                    value="{{ID}}" aria-describedby="helpId" disabled>
+                            </div>
+                        </th>
+                        <td class="Username">
+                            <div class="form-group">
+                                <input type="text" class="form-control" value="{{Username}}" name="Username"
+                                    placeholder="{{Username}}" aria-describedby="helpId">
+                            </div>
+                        </td>
+                        <td class="Email">
+                            <div class="form-group">
+                                <input type="text" class="form-control" value="{{Email}}" name="Email"
+                                    placeholder="{{Email}}" aria-describedby="helpId">
+                            </div>
+                        </td>
+                        <th class="Role">
+                            <div class="form-group">
+                                <input type="text" name="Role" id="Role" class="form-control" placeholder="{{Role}}"
+                                    value="Seller" aria-describedby="helpId" disabled>
+                            </div>
+                        </th>
+                        <td class="text-right">
+                            <button onclick="SaveUser({{ID}})" class="save btn btn-success btn-sm shadow"
+                                role="button"><i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                Save</button>
+                            <a onclick="Cancel({{ID}})" class="cancel btn btn-danger btn-sm shadow" href="#"
+                                role="button"><i class="fa fa-times" aria-hidden="true"></i>
+                                Cancel</a>
+                        </td>
+                    </form>
                 </tr>
                 {{/each}}
             </tbody>
         </table>
-    </div>
-    <div class="card-footer d-flex justify-content-center">
-        <nav aria-label="Page navigation">
-            <ul class="pagination text-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
     </div>
 </div>
