@@ -5,46 +5,6 @@
 {{#section 'js'}}
 
     <script>
-        $(document).ready(function () {
-
-            $("#next").click(function () {
-                $("#first").hide();
-                $("#third").hide();
-                $("#second").show();
-            });
-        });
-
-        var i = 0;
-
-        function move() {
-            if (i == 0) {
-                i = 1;
-                var elem = document.getElementById("myBar");
-                var time_comp = document.getElementById("x");
-                var width = 1;
-                var y = 0;
-                var z = 3;
-                var id = setInterval(frame, 50);
-
-                function frame() {
-                    if (width >= 100) {
-                        clearInterval(id);
-                        i = 0;
-                    } else {
-                        width++;
-                        elem.style.width = width + "%";
-                        if (width % 25 > 23) {
-                            y = width % 100;
-                            time_comp.innerHTML = z;
-                            z--;
-
-                        }
-
-                    }
-                }
-            }
-        }
-
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function () {
             'use strict';
@@ -140,7 +100,7 @@
                     </div>
                 </div>
             </nav>
-            <div class="row d-flex justify-content-center align-items-center">
+            <div class="row d-flex justify-content-center align-items-center mx-0">
                 <div class="col-md-9">
                     <div class="contact-us text-center">
                         <h3>Welcome to AuctionX <i class="fa fa-shopping-cart" aria-hidden="true"></i></h3>
@@ -170,12 +130,19 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="text-center px-1">
-                                    <div class="forms p-4 py-5 bg-white">
+                                    <div class="forms p-4 py-5 bg-white mb-5 mx-2">
                                         <h5>Seller Request Form</h5>
+                                        <div class="text-muted">Are you ready to become a seller?</div>
+
                                         <div class="mt-4 inputs">
-                                            <input type="text" class="form-control" placeholder="Name" required>
-                                            <input type="text" class="form-control" placeholder="Email" required>
-                                            <textarea class="form-control" placeholder="Message"></textarea>
+                                            <div class="form-group text-left">
+                                                <label class="text-left">Name</label>
+                                                <input type="text" class="form-control" placeholder="Your name" value="{{authUser.FullName}}" required>
+                                            </div>
+                                            <div class="form-group text-left">
+                                                <label class="text-left">Email</label>
+                                                <input type="text" class="form-control mb-5" placeholder="Your email address" value="{{authUser.Email}}" required>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <div class="form-check text-left">
@@ -189,8 +156,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="button mt-4 text-left">
-                                            <button class="btn btn-dark">Submit</button>
+                                        <div class="button text-left">
+                                            <button class="btn btn-secondary btn-lg btn-block">Submit</button>
                                         </div>
 
                                     </div>

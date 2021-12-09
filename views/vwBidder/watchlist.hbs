@@ -1,0 +1,114 @@
+<div class="container mt-5">
+    <div class="row flex-lg-nowrap">
+        <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
+            <div class="card p-3">
+                <div class="e-navlist e-navlist--active-bg">
+                    <ul class="nav">
+                        <li class="nav-item"><a class="nav-link px-2  text-secondary active" href="/bidder/profile"><i
+                                class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span></a></li>
+                        <li class="nav-item"><a class="nav-link px-2  text-secondary" href="javascript:"><i
+                                class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><span>Watchlist</span></a></li>
+                        <li class="nav-item"><a class="nav-link px-2  text-secondary" href="/bidder/profile/edit"><i
+                                class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="row">
+                <div class="col mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="e-profile">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto mb-3">
+                                        <div class="mx-auto" style="width: 140px;">
+                                            <div class="d-flex justify-content-center align-items-center rounded"
+                                                 style="height: 140px; background-color: rgb(233, 236, 239);">
+                                                <img src="/public/imgs/avatar/0/avatar1.png" class="img-thumbnail"
+                                                     alt="profile-image">
+
+                                                <!--<span style="color: rgb(166, 168, 170); font: bold 8pt Arial;">140x140</span>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <a class="text-dark" href="/bidder/profile"><h4
+                                                    class="pt-sm-2 pb-1 mb-0 text-nowrap">{{authUser.FullName}}</h4></a>
+                                            <p class="mb-0">@{{authUser.Username}}</p>
+                                            <div class="text-muted"><small>{{authUser.Email}}</small></div>
+                                            <div class="text-muted"><small>{{format_date authUser.DOB}}</small></div>
+
+                                        </div>
+                                        <div class="text-center text-sm-right">
+                                            {{#if authUser.Role}}
+                                                <span class="badge badge-secondary">
+                                                    bidder/seller
+                                                </span>
+                                                <div class="text-muted"><small>Ready to sell!</small></div>
+                                            {{else}}
+                                                <span class="badge badge-secondary">
+                                                    bidder
+                                                </span>
+                                                <div class="text-muted"><small>You are currently a bidder!</small></div>
+                                            {{/if}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <div class="card">
+
+                                            <div class="card-body cart">
+                                                <div class="col-sm-12 empty-cart-cls text-center"><img
+                                                        src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
+                                                        class="img-fluid mb-4 mr-3">
+                                                    <h3><strong>Your Cart is Empty</strong></h3>
+                                                    <h4>Add something to make me happy :)</h4>
+                                                    <a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">
+                                                        Continue shopping</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-3 mb-3">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="px-xl-3">
+                                <button class="btn btn-block btn-secondary">
+                                    <form id="frmLogout" action="/auth/logout" method="post"></form>
+
+                                    <span><i class="fa fa-sign-out"></i>
+                                    <a class="text-white" href="javascript: $('#frmLogout').submit();">Sign Out</a>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    {{#if authUser.Role}}
+                    {{else}}
+                        <div class="card">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold">Ready to be a seller?</h6>
+                                <p class="card-text">Get fast, free help from our friendly assistants.</p>
+                                <a href="../request">
+                                    <button type="button" class="btn btn-primary">Sell now!</button>
+                                </a>
+                            </div>
+                        </div>
+                    {{/if}}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

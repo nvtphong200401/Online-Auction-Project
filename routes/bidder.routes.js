@@ -3,39 +3,81 @@ import express from "express";
 const router = express.Router();
 
 router.get('/request', function (req, res) {
-    res.render('vwBidder/request', {
-        layout: 'default'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/request', {
+            layout: 'default'
+        });
+    }
 });
 
 router.get('/', function (req, res) {
-    res.render('vwBidder/profile', {
-        layout: 'main'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/request', {
+            layout: 'default'
+        });
+    }
 });
 
 router.get('/profile', function (req, res) {
-    res.render('vwBidder/profile', {
-        layout: 'main'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/profile', {
+            layout: 'main'
+        });
+    }
 });
 
 router.get('/profile/edit', function (req, res) {
-    res.render('vwBidder/edit', {
-        layout: 'main'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/edit', {
+            layout: 'main'
+        });
+    }
 });
 
 router.get('/profile/reset-password', function (req, res) {
-    res.render('vwBidder/changepassword', {
-        layout: 'main'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/changepassword', {
+            layout: 'main'
+        });
+    }
 });
 
 router.get('/watchlist', function (req, res) {
-    res.render('vwBidder/watchlist', {
-        layout: 'main'
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        res.render('vwBidder/watchlist', {
+            layout: 'main'
+        });
+    }
 });
 
 export default router;

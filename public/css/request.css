@@ -1,15 +1,15 @@
 
 .wrapper {
-    height: 100vh;
+    height: 100%;
     background: #000;
     background: url("https://i.imgur.com/g63vXfd.jpg");
     background-size: cover;
-    width: 100%
+    width: 100%;
 }
 
 .overlay {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     background: rgba(0, 0, 0, 0.8)
 }
 
