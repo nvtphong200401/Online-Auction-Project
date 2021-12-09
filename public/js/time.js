@@ -1,13 +1,13 @@
-$(document).ready(function() {
-    $('#option2').click(function(e) {
+$(document).ready(function () {
+    $('#option2').click(function (e) {
         $('.bid').hide('500');
         $('.buy').show('500');
         console.log("test")
-      });
-      $('#option1').click(function(e) {
+    });
+    $('#option1').click(function (e) {
         $('.bid').show('500');
         $('.buy').hide('500');
-      });
+    });
 });
 let countDown = function (className, endTime) {
 
@@ -40,7 +40,7 @@ let countDown = function (className, endTime) {
         }
         // Output the result in all elements with className="demo"
         if (days === 0) {
-            for (let textDangerElement of document.getElementsByClassName(className) ) {
+            for (let textDangerElement of document.getElementsByClassName(className)) {
                 textDangerElement += 'text-danger';
             }
         }

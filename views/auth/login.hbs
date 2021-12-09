@@ -9,8 +9,16 @@
   {{#if err_message}}
   <div class="alert alert-warning" role="alert">
     {{err_message}}
+    {{#if re_verify}}
+    <a href="#" id="verifyEmail"> Click here</a> to verify
+    {{/if}}
   </div>
-  
+
+  {{/if}}
+  {{#if success}}
+  <div class="alert alert-success" role="alert">
+    {{success}}
+  </div>
   {{/if}}
   {{!-- Username --}}
   <div class="form-group input-group">
@@ -58,6 +66,23 @@
     <div class="d-flex justify-content-center">
       Don't have an account? <a href="#" class="ml-2" id="register">Sign Up</a>
     </div>
+  </div>
+</form>
+
+{{!-- Verify Email --}}
+<form class="show4" action="/auth/sendverify" method="post" style="display: none;">
+  <input type="hidden" name="action" value="Reverify">
+  <div class="form-group input-group">
+    <div class="input-group-prepend">
+      <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
+    </div>
+    <input type="email" class="form-control" placeholder="Email" name="Email">
+  </div>
+  <center>
+    <button type="submit" class="btn btn-primary">Verify Email</button>
+  </center>
+  <div class="d-flex justify-content-center mt-4" id="goback4">
+    <a href="#" class="ml-2">Go back</a>
   </div>
 </form>
 
@@ -137,3 +162,4 @@
       Have an account ? <a href="#" class="ml-2" id="gobackLog">Login</a>
     </div>
 </form>
+

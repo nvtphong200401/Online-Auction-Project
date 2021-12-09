@@ -15,6 +15,7 @@ export default function (app) {
 
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
+    app.locals.success = req.flash('success');
     next();
   });
   app.use(async function (req, res, next) {

@@ -59,5 +59,14 @@ export default {
     },
     edit(id, username, email) {
       return db('user').where('ID', id).update({'Username':username, 'Email':email});
+    },
+    getSellerByPro(id){
+      return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role' : 1, 'ProID' : id});
+    },
+    checkVerified(username){
+      return db.select('Verified').from('user').where('Username', username);
+    },
+    setVerified(email){
+      return db('user').where('Email', email).update('Verified', 1);
     }
   }

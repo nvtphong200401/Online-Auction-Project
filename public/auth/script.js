@@ -19,6 +19,17 @@ $(document).ready(function () {
     $('.show3').toggle('500');
     $('.show1').toggle('500');
   });
+  $('#verifyEmail').click(function (e) {
+    e.preventDefault();
+    $('.show4').toggle('500');
+    console.log("here")
+    $('.show1').toggle('500');
+  });
+  $('#goback4').click(function (e) {
+    e.preventDefault();
+    $('.show1').toggle('500');
+    $('.show4').toggle('500');
+  });
   function onSubmit(token) {
     document.getElementById("demo-form").submit();
   };
