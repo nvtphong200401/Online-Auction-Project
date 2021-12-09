@@ -12,7 +12,7 @@
     {{{_sections.css}}}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-0 sticky-top d-flex justify-content-between">
+<nav class="navbar navbar-expand-lg navbar-light mb-0 d-flex justify-content-between">
     <div>
         <a class="navbar-brand ml-md-3 mr-md-5" href="/">
             <h3 class="font-weight-bolder">AuctionX</h3>
@@ -73,6 +73,11 @@
                         </a>
                     </div>
                 </li>
+                <li class="ml-sm-2 nav-item mt-sm-0 mt-3">
+                    <a href="/bidder/request">
+                        <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
+                    </a>
+                </li>
             {{else}}
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/">Login</a>
@@ -80,12 +85,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/auth/">Sign Up</a>
                 </li>
+                <li class="ml-sm-2 nav-item mt-sm-0 mt-3">
+                    <a href="/auth">
+                        <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
+                    </a>
+                </li>
             {{/if}}
-            <li class="ml-sm-2 nav-item mt-sm-0 mt-3">
-                <a href="/bidder/request">
-                    <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
-                </a>
-            </li>
+
         </ul>
     </div>
 

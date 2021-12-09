@@ -1,130 +1,206 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <div class="card my-5">
-                <h3 class="card-header">Welcome to AuctionX <i class="fa fa-cart-plus" aria-hidden="true"></i></h3>
-                <div class="card-body">
-                    <div class="border border-secondary rounded px-5 py-5">
-                        <h5 class="card-title">Seller Request Form </h5>
-                        <h6 class="card-subtitle mb-2 text-muted mb-5">Ready to become a new seller?</h6>
-                        <hr>
-                        <form class="needs-validation" novalidate>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="validationCustom01">First name</label>
-                                    <input type="text" class="form-control" id="validationCustom01"
-                                           placeholder="First name" required>
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="validationCustom02">Last name</label>
-                                    <input type="text" class="form-control" id="validationCustom02"
-                                           placeholder="Last name" required>
-                                    <div class="valid-feedback">
-                                        Looks good!
-                                    </div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="validationCustomShopname">Shop name</label>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                        </div>
-                                        <input type="text" class="form-control" id="validationCustomShopname"
-                                               placeholder="Shop name" aria-describedby="inputGroupPrepend"
-                                               required>
-                                        <div class="invalid-feedback">
-                                            Please choose a shop name.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp" placeholder="Enter email" required>
-                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with
-                                    anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="exampleInputPhoneNumber">Phone number</label>
-                                <input type="phoneNumer" class="form-control" id="exampleInputPhoneNumber"
-                                       aria-describedby="phoneNumberHelp" placeholder="Enter phone number" required>
-                                <small id="phoneNumberHelp" class="form-text text-muted">We'll never share your phone
-                                    number with anyone else.</small>
-                            </div>
-                            <div class="form-group">
-                                <label for="inputAddress">Address</label>
-                                <input type="text" class="form-control" id="inputAddress"
-                                       placeholder="Enter shop address" required>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="validationCustom03">City</label>
-                                    <input type="text" class="form-control" id="validationCustom03" placeholder="City"
-                                           required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid city.
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="validationCustom04">State</label>
-                                    <input type="text" class="form-control" id="validationCustom04" placeholder="State"
-                                           required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="validationCustom05">ZIP code</label>
-                                    <input type="text" class="form-control" id="validationCustom05" placeholder="ZIP code"
-                                           required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid ZIP code.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group mt-2 mr-1">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
-                                    <label class="form-check-label" for="invalidCheck">
-                                        Agree to <a class="text-success" href="#">terms and conditions</a>
-                                    </label>
-                                    <div class="invalid-feedback">
-                                        You must agree before submitting.
-                                    </div>
-                                </div>
-                            </div>
-                            <button class="btn btn-success" type="submit">Submit</button>
-                        </form>
+{{#section 'css'}}
+    <link href="/public/css/request.css" rel="stylesheet" type="text/css">
+{{/section}}
 
-                        <script>
-                            // Example starter JavaScript for disabling form submissions if there are invalid fields
-                            (function () {
-                                'use strict';
-                                window.addEventListener('load', function () {
-                                    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                                    var forms = document.getElementsByClassName('needs-validation');
-                                    // Loop over them and prevent submission
-                                    var validation = Array.prototype.filter.call(forms, function (form) {
-                                        form.addEventListener('submit', function (event) {
-                                            if (form.checkValidity() === false) {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-                                            }
-                                            form.classList.add('was-validated');
-                                        }, false);
-                                    });
-                                }, false);
-                            })();
-                        </script>
+{{#section 'js'}}
+
+    <script>
+        $(document).ready(function () {
+
+            $("#next").click(function () {
+                $("#first").hide();
+                $("#third").hide();
+                $("#second").show();
+            });
+        });
+
+        var i = 0;
+
+        function move() {
+            if (i == 0) {
+                i = 1;
+                var elem = document.getElementById("myBar");
+                var time_comp = document.getElementById("x");
+                var width = 1;
+                var y = 0;
+                var z = 3;
+                var id = setInterval(frame, 50);
+
+                function frame() {
+                    if (width >= 100) {
+                        clearInterval(id);
+                        i = 0;
+                    } else {
+                        width++;
+                        elem.style.width = width + "%";
+                        if (width % 25 > 23) {
+                            y = width % 100;
+                            time_comp.innerHTML = z;
+                            z--;
+
+                        }
+
+                    }
+                }
+            }
+        }
+
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                let forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                let validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+{{/section}}
+
+
+<form class="needs-validation text-center border border-light" novalidate>
+    <div class="wrapper">
+        <div class="overlay">
+            <nav class="navbar navbar-expand-lg text-white navbar-light mb-0 d-flex justify-content-between">
+                <div>
+                    <a class="navbar-brand ml-md-3 mr-md-5" href="/">
+                        <h3 class="font-weight-bolder text-white">AuctionX</h3>
+                    </a>
+                </div>
+
+
+                <div>
+                    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                            class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse"
+                            type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-0 mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">Help</a>
+                            </li>
+                            {{#if auth}}
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link text-white dropdown-toggle active" href="#" id="navbarDropdown"
+                                       role="button"
+                                       data-toggle="dropdown" aria-expanded="false">
+                                        Hi, <b>{{authUser.Username}}</b>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="/bidder/profile">
+                                            <i class="fa fa-user mr-1" aria-hidden="true"></i>
+                                            Profile
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        <a class="dropdown-item" href="/bidder/watchlist">
+                                            <i class="fa fa-shopping-cart mr-1" aria-hidden="true"></i>
+                                            My watchlist
+                                        </a>
+
+                                        <div class="dropdown-divider"></div>
+
+                                        <form id="frmLogout" action="/auth/logout" method="post"></form>
+                                        <a class="dropdown-item" href="javascript: $('#frmLogout').submit();">
+                                            <i class="fa fa-sign-out mr-1" aria-hidden="true"></i>
+                                            Sign Out
+                                        </a>
+                                    </div>
+                                </li>
+
+                            {{else}}
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="/auth/">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="/auth/">Sign Up</a>
+                                </li>
+
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-md-9">
+                    <div class="contact-us text-center">
+                        <h3>Welcome to AuctionX <i class="fa fa-shopping-cart" aria-hidden="true"></i></h3>
+                        <p class="mb-5">Feel free to contact us if you have any question!</p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mt-5 text-center px-3">
+                                    <div class="d-flex flex-row align-items-center"><span class="icons"><i
+                                            class="fa fa-map-marker"></i></span>
+                                        <div class="address text-left"><span>Address</span>
+                                            <p>District 1 - HCM City - VN</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mt-3"><span class="icons"><i
+                                            class="fa fa-phone"></i></span>
+                                        <div class="address text-left"><span>Phone</span>
+                                            <p>011 100 153 354</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center mt-3"><span class="icons"><i
+                                            class="fa fa-envelope-o"></i></span>
+                                        <div class="address text-left"><span>Address</span>
+                                            <p>auctionX@gmail.com</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="text-center px-1">
+                                    <div class="forms p-4 py-5 bg-white">
+                                        <h5>Seller Request Form</h5>
+                                        <div class="mt-4 inputs">
+                                            <input type="text" class="form-control" placeholder="Name" required>
+                                            <input type="text" class="form-control" placeholder="Email" required>
+                                            <textarea class="form-control" placeholder="Message"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="form-check text-left">
+                                                <input class="form-check-input" type="checkbox" value=""
+                                                       id="invalidCheck" required>
+                                                <label class="form-check-label" for="invalidCheck">
+                                                    Agree to <a href="javascript:">terms and conditions</a>
+                                                </label>
+                                                <div class="invalid-feedback">
+                                                    You must agree before submitting.
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="button mt-4 text-left">
+                                            <button class="btn btn-dark">Submit</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
 
