@@ -68,5 +68,14 @@ export default {
     },
     setVerified(email){
       return db('user').where('Email', email).update('Verified', 1);
+    },
+    hasEmail(email){
+      return db('user').where('Email', email);
+    },
+    setNewPassword(email, newPassword){
+      return db('user').where('Email', email).update('Password', newPassword);
+    },
+    getAllScore(id){
+      return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
     }
   }
