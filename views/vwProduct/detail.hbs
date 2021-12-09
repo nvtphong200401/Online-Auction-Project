@@ -126,8 +126,8 @@
                             <div class="vl"></div>
                         </div>
                         <div class="col-sm-7">
-                            <h6>Số sao đánh giá</h6>
-                            <h6>Số lượng sản phẩm đã bán</h6>
+                            <h6>Điểm đánh giá: <h4>{{this.seller.score}}</h4></h6>
+                            <h6>Số sản phẩm đã bán: {{this.seller.numPro}}</h6>
                         </div>
                     </div>
                 </div>
@@ -144,18 +144,14 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                {{#each this.bid_his}}
                                 <tr>
-                                    <td scope="row">1/11/2019 10:43</td>
-                                    <td>{{this.product.Bidder}}</td>
-                                    <td>6,000,000</td>
-                                    <td>5</td>
+                                    <td scope="row">{{Time}}</td>
+                                    <td>{{FullName}}</td>
+                                    <td>{{Price}}</td>
+                                    <td>{{Score}}</td>
                                 </tr>
-                                <tr>
-                                    <td scope="row">1/11/2019 10:43</td>
-                                    <td> ****Khoa</td>
-                                    <td>6,000,000</td>
-                                    <td>5</td>
-                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>

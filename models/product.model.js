@@ -141,5 +141,8 @@ export default {
     },
     del(id) {
         return db('product').where('ProID', '=', id).del();
+    },
+    countAllByUser(id){
+        return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     }
 }

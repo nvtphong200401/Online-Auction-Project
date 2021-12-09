@@ -8,7 +8,7 @@ import nodemailer from 'nodemailer';
 
 const router = express.Router();
 
-function sendEmail(email, token) {
+function sendEmail(email, token, verify) {
   var email = email;
   var token = token;
   var mail = nodemailer.createTransport({
@@ -18,11 +18,21 @@ function sendEmail(email, token) {
       pass: 'matkhauvip'
     }
   });
+  var link;
+  var purpose;
+  if(verify){
+    link = "verify-email";
+    purpose = "verify your email address";
+  }
+  else {
+    link = "getNewPassword";
+    purpose = "get new password"
+  }
   var mailOptions = {
     from: 'dragonslayers248@gmail.com',
     to: email,
     subject: 'Email verification - onlineauction.com',
-    html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/verify-email?token=' + token + '">link</a> to verify your email address</p>'
+    html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> '+ purpose +'</p>'
 
   };
   mail.sendMail(mailOptions, function (error, info) {
@@ -35,28 +45,83 @@ function sendEmail(email, token) {
 }
 
 router.post('/sendverify', async (req, res) => {
-  const token = await verifyModel.getVerification(req.body.Email);
-  if(token.length > 0) {
-    sendEmail(req.body.Email, token[0].token);
+  const registered = await userModel.hasEmail(req.body.Email);
+  if (registered.length > 0) {
+    const token = await verifyModel.getVerification(req.body.Email);
+    if (token.length > 0) {
+      sendEmail(req.body.Email, token[0].token);
+    } else {
+      //Token has expired, generate new token for verification
+      const newToken = randToken.generate(20);
+      const verification = {
+        email: req.body.Email,
+        token: newToken,
+      }
+      await verifyModel.add(verification);
+      sendEmail(req.body.Email, newToken);
+    }
   }
   req.flash("success", "Please check verification in your email");
   res.redirect('/auth');
 })
 
+router.post('/requestNewPassword', async (req, res) => {
+  const registered = await userModel.hasEmail(req.body.Email);
+  if (registered.length > 0) {
+    const token = await verifyModel.getVerification(req.body.Email);
+    if (token.length > 0) {
+      sendEmail(req.body.Email, token[0].token);
+    } else {
+      //Token has expired, generate new token for new password
+      const newToken = randToken.generate(20);
+      const verification = {
+        email: req.body.Email,
+        token: newToken,
+      }
+      await verifyModel.add(verification);
+      sendEmail(req.body.Email, newToken);
+    }
+  }
+  req.flash("success", "Please check new password in your email");
+  res.redirect('/auth');
+})
+router.get('/getNewPassword', async (req, res) => {
+  const token = req.query.token;
+  if(token === undefined) res.redirect('/auth');
+
+  const result = await verifyModel.verify_email(req.query.token);
+  if(result.length > 0){
+    await verifyModel.removeToken(result[0].email)
+    return res.render('auth/forgot', {
+      email: result[0].email,
+      layout: 'auth'
+    });
+  }
+  res.redirect('/auth') 
+})
+router.post('/getNewPassword', async (req, res) => {
+  const email = req.body.Email;
+  const rawPassword = req.body.Password;
+  const salt = bcrypt.genSaltSync(10);
+  const newPassword = bcrypt.hashSync(rawPassword, salt);
+  await userModel.setNewPassword(email, newPassword);
+  req.flash("success", "Please use new password to continue");
+  res.redirect('/auth')
+})
 router.get('/verify-email', async (req, res) => {
   var type = 'success';
   var msg = 'Your email has been verify';
   const result = await verifyModel.verify_email(req.query.token);
 
-    if(result.length > 0){
-      await userModel.setVerified(result[0].email);
-      await verifyModel.removeToken(result[0].email);
-    } else {
-      type = 'success';
-      msg = 'The email has already been verified';
-    }
+  if (result.length > 0) {
+    await userModel.setVerified(result[0].email);
+    await verifyModel.removeToken(result[0].email);
+  } else {
+    type = 'success';
+    msg = 'The email has already been verified';
+  }
   req.flash(type, msg);
-  res.redirect('/auth/');
+  res.redirect('/auth');
 })
 
 router.get('/', (req, res) => {
@@ -85,17 +150,16 @@ router.post('/', async (req, res) => {
     const verification = {
       email: Email,
       token: token,
-      verify: 0
     }
     await userModel.add(user);
-    const t = await verifyModel.add(verification);
+    await verifyModel.add(verification);
     const sent = sendEmail(Email, token);
     var type = 'success';
     var msg = 'Email already verified';
-    if (sent == 0){
+    if (sent == 0) {
       type = 'success';
       msg = 'The verification link has been sent to your email address';
-    }else {
+    } else {
       type = 'error';
       msg = 'Something goes wrong';
     }
@@ -113,7 +177,7 @@ router.post('/', async (req, res) => {
     }
     //Check verified account
     const verify = await userModel.checkVerified(req.body.username);
-    if(verify[0].Verified == 0){
+    if (verify[0].Verified == 0) {
       return res.render('auth/login', {
         err_message: 'Your email has not been verified.',
         re_verify: true,
