@@ -36,12 +36,31 @@ $(document).ready(function () {
 
   $('.show3').on('submit', function (e) {
     e.preventDefault();
+    
 
     const username = $('#txtUsername').val();
+    const password = $('#txtPassword').val();
+    const rePassword = $('#txtRePassword').val();
+    var eighteenYearsAgo = moment().subtract(18, "years");
+    const dob = $('#txtDOB').val();
+    if(!eighteenYearsAgo.isAfter(dob)){
+      alert("Sorry you cannot join with us");
+      return;
+    }
     if (username.length === 0) {
       alert('Invalid data!');
       return;
     }
+    if(password.length < 7){
+      alert("Password must be greater than 6 characters");
+      return;
+    }
+    if(password != rePassword){
+      alert("Password and Re-Password do not match !");
+      return;
+    }
+    console.log($('#txtDOB').val());
+    console.log(typeof($('#txtDOB').val()));
 
     $.getJSON(`/auth/is-available?user=${username}`, function (data) {
       if (data === false) {
@@ -58,5 +77,13 @@ $(document).ready(function () {
     mask: true
   });
   $('#txtUsername').select();
+  
 });
-
+function registerSubmit(event) {
+  if(grecaptcha && grecaptcha.getResponse().length > 0){
+    
+  } else {
+    alert("Please tick into captcha");
+    return;
+  }
+}

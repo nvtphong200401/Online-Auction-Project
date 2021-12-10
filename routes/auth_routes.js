@@ -1,10 +1,11 @@
-import express from 'express';
+import express, { request } from 'express';
 import bcrypt from 'bcryptjs';
 import moment from 'moment';
 import userModel from '../models/users_model.js';
 import verifyModel from '../models/verif.model.js';
 import randToken from 'rand-token';
 import nodemailer from 'nodemailer';
+import fetch from 'node-fetch';
 
 const router = express.Router();
 
@@ -49,7 +50,7 @@ router.post('/sendverify', async (req, res) => {
   if (registered.length > 0) {
     const token = await verifyModel.getVerification(req.body.Email);
     if (token.length > 0) {
-      sendEmail(req.body.Email, token[0].token);
+      sendEmail(req.body.Email, token[0].token, true);
     } else {
       //Token has expired, generate new token for verification
       const newToken = randToken.generate(20);
@@ -58,7 +59,7 @@ router.post('/sendverify', async (req, res) => {
         token: newToken,
       }
       await verifyModel.add(verification);
-      sendEmail(req.body.Email, newToken);
+      sendEmail(req.body.Email, newToken, true);
     }
   }
   req.flash("success", "Please check verification in your email");
@@ -70,7 +71,7 @@ router.post('/requestNewPassword', async (req, res) => {
   if (registered.length > 0) {
     const token = await verifyModel.getVerification(req.body.Email);
     if (token.length > 0) {
-      sendEmail(req.body.Email, token[0].token);
+      sendEmail(req.body.Email, token[0].token, false);
     } else {
       //Token has expired, generate new token for new password
       const newToken = randToken.generate(20);
@@ -79,7 +80,7 @@ router.post('/requestNewPassword', async (req, res) => {
         token: newToken,
       }
       await verifyModel.add(verification);
-      sendEmail(req.body.Email, newToken);
+      sendEmail(req.body.Email, newToken, false);
     }
   }
   req.flash("success", "Please check new password in your email");
@@ -132,6 +133,15 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   const form = req.body;
   if (form.action === 'Register') {
+    if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null){
+      return res.json({"success": false, 'msg' : "Please select captcha"});
+    }
+    const secretKey = '6LeQeVkdAAAAAII17USsJckBlpj_4KW6ZntKEo_q';
+    const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}`;
+    const captchaVerified = await fetch(verifyUrl, {
+      method: 'POST'
+    })
+    if(captchaVerified === false) return res.json({"success": false, 'msg': "Failed to verified"});
     const rawPassword = form.password;
     const salt = bcrypt.genSaltSync(10);
     const Password = bcrypt.hashSync(rawPassword, salt);
@@ -153,7 +163,7 @@ router.post('/', async (req, res) => {
     }
     await userModel.add(user);
     await verifyModel.add(verification);
-    const sent = sendEmail(Email, token);
+    const sent = sendEmail(Email, token, true);
     var type = 'success';
     var msg = 'Email already verified';
     if (sent == 0) {
@@ -214,7 +224,8 @@ router.post('/logout', (req, res) => {
   req.session.authUser = null;
   const url = req.headers.referer || '/';
   res.redirect(url);
-})
+});
+
 
 
 router.post('/logout', async function (req, res) {

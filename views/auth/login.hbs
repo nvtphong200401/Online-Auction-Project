@@ -4,6 +4,7 @@
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 
+
 <form class="show1" method="post">
   <input type="hidden" name="action" value="Login">
   {{#if err_message}}
@@ -103,35 +104,35 @@
 </form>
 
 {{!-- Register --}}
-<form class="show3" method="post" style="display: none;">
+<form onsubmit="return registerSubmit(event);" class="show3 needs-validation" method="post" style="display: none;">
   <input type="hidden" name="action" value="Register">
   {{!-- Username --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
     </div>
-    <input type="text" class="form-control" placeholder="Username" name="username" id="txtUsername">
+    <input type="text" class="form-control" placeholder="Username" name="username" id="txtUsername" required>
   </div>
   {{!-- Full name --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-user" aria-hidden="true"></i></span>
     </div>
-    <input type="text" class="form-control" placeholder="Full name" name="fullname">
+    <input type="text" class="form-control" placeholder="Full name" name="fullname" id="txtFullname" required>
   </div>
   {{!-- Email --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
     </div>
-    <input type="email" class="form-control" placeholder="Email" name="email">
+    <input type="email" class="form-control" placeholder="Email" name="email" id="txtEmail" required>
   </div>
   {{!-- Password --}}
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
     </div>
-    <input type="password" class="form-control" placeholder="Password" name="password">
+    <input type="password" class="form-control" placeholder="Password" name="password" id="txtPassword" required>
   </div>
 
   {{!-- Re-enter password --}}
@@ -139,7 +140,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>
     </div>
-    <input type="password" class="form-control" placeholder="Re-enter Password">
+    <input type="password" class="form-control" placeholder="Re-enter Password" id="txtRePassword" required>
   </div>
 
   {{!-- DOB --}}
@@ -147,7 +148,7 @@
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-calendar" aria-hidden="true"></i></span>
     </div>
-    <input type="text" class="form-control" id="txtDOB" name="dob">
+    <input type="text" class="form-control" id="txtDOB" name="dob" id="txtDOB" required>
   </div>
   {{!-- captcha --}}
   <div class="form-group">
@@ -162,4 +163,3 @@
       Have an account ? <a href="#" class="ml-2" id="gobackLog">Login</a>
     </div>
 </form>
-
