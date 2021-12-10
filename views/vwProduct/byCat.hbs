@@ -7,6 +7,13 @@
         </script>
     {{/each}}
 
+    <script>
+        $('.addItem').on('click', function (e) {
+            const id = $(this).data('id');
+            $('#txtProID').val(id);
+            $('#frmAddItem').submit();
+        });
+    </script>
 {{/section}}
 
 <div id="main-content">
@@ -52,7 +59,7 @@
                         {{#each lcCategories}}
                             <a data-toggle="collapse" href="#collapse{{CatID}}"
                                class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
-                                <h7 class="font-weight-bold">{{CatName}}</h7>
+                                <h6 class="font-weight-bold">{{CatName}}</h6>
                                 <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
                             </a>
                             <div class="collapse ml-4 mt-3" id="collapse{{CatID}}">
@@ -84,6 +91,10 @@
                                 :(
                             </p>
                         {{else}}
+                            <form action="/watchlist/add" method="post" id="frmAddItem">
+                                <input type="hidden" id="txtProID" name="id">
+                                <input type="hidden" name="quantity" value="1">
+                            </form>
                             <div class="row">
                                 {{#each this.product}}
                                     <div class="col-lg-3 col-md-4 col-12 mb-5">
@@ -130,7 +141,7 @@
                                                 </h4>
 
                                                 <h6 class="card-title text-success">
-                                                    <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest
+                                                    <i class="fa fa-money mr-2" aria-hidden="true"></i>Highest
                                                     bid
                                                     <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                                 </h6>
@@ -157,13 +168,17 @@
                                                 <a href="/product/{{ProID}}">
                                                     <button type="button"
                                                             class="btn btn-outline-primary my-2 ">
-                                                        <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                                        <i class="fa fa-list mr-2" aria-hidden="true"></i>View Detail
                                                     </button>
                                                 </a>
-                                                <button type="button" class="btn btn-outline-danger">
-                                                    <i class="fa fa-heart ml-1 mr-1" aria-hidden="true"></i>Add to
-                                                    Watchlist
-                                                </button>
+                                                {{#if ../auth}}
+                                                    <a data-id="{{ProID}}" class="addItem my-2" href="javascript:">
+                                                        <button type="button" class="btn btn-outline-danger my-2">
+                                                            <i class="fa fa-heart mr-1" aria-hidden="true"></i>
+                                                            Add to Watchlist
+                                                        </button>
+                                                    </a>
+                                                {{/if}}
                                             </div>
                                             <div class="card-footer text-right mt-4">
                                                 <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
@@ -196,7 +211,6 @@
                                         </a>
                                     </li>
                                 {{/with}}
-                                </li>
                             </ul>
                         </nav>
                         <!-- End of Pagination -->
@@ -205,10 +219,7 @@
             </div>
         </div>
     </div>
+    <!-- End of Item List -->
 </div>
-<!-- End of Item List -->
-
-
 <!-- End of Main Content -->
-</div>
 

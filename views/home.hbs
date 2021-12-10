@@ -8,7 +8,6 @@
             </script>
         {{/each}}
     {{/each}}
-
 {{/section}}
 
 <div id="main-content">
@@ -99,7 +98,7 @@
                                             </h4>
 
                                             <h6 class="card-title text-success">
-                                                <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest bid
+                                                <i class="fa fa-money mr-2" aria-hidden="true"></i>Highest bid
                                                 <h5 class="text-success">{{{format_number Current_bid}}}</h5>
                                             </h6>
 
@@ -120,21 +119,19 @@
 
 
                                         </div>
-                                        <div class="card-text mr-auto ml-3 mb-0">
+                                        <div class="card-text mr-auto ml-3 mb-0 ">
                                             <a href="./product/{{ProID}}">
-                                                <button type="button" class="btn btn-sm btn-outline-primary my-2">
-                                                    <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
+                                                <button type="button" class="btn btn-outline-primary my-2">
+                                                    <i class="fa fa-list mr-2" aria-hidden="true"></i>View Detail
                                                 </button>
                                             </a>
-                                            <button type="button" class="btn btn-sm btn-outline-danger my-2">
-                                                <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
-                                            </button>
                                         </div>
                                         <div class="card-footer text-right mt-4">
                                             <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
                                         </div>
                                     </div>
                                 {{/each}}
+
                             </div>
                         </div>
                     </div>

@@ -1,13 +1,17 @@
+body {
+    background-color: #f3f6f8;
+}
+
 nav .form-inline {
     width: 55%;
     margin: 0 auto;
 }
 
-#search-bar {
+nav #search-bar {
     width: 80%;
 }
 
-#search-bar, nav .form-inline button {
+nav #search-bar, nav .form-inline button {
     height: 50px;
 }
 
@@ -197,10 +201,7 @@ footer hr {
 
 
 /*BIDDER*/
-body {
-    background-color: #f3f6f8;
-    margin-top: 20px;
-}
+
 
 .thumb-lg {
     height: 88px;

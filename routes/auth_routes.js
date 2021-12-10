@@ -219,14 +219,6 @@ router.get('/is-available', async function (req, res) {
 
   res.json(false);
 });
-router.post('/logout', (req, res) => {
-  req.session.auth = false;
-  req.session.authUser = null;
-  const url = req.headers.referer || '/';
-  res.redirect(url);
-});
-
-
 
 router.post('/logout', async function (req, res) {
   req.session.auth = false;

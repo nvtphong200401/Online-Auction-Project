@@ -1,12 +1,5 @@
 export default {
   add(cart, item) {
-    for (const ci of cart) {
-      if (ci.id === item.id) {
-        ci.quantity += item.quantity;
-        return;
-      }
-    }
-
     cart.push(item);
   },
 
@@ -20,11 +13,6 @@ export default {
   },
 
   getNumberOfItems(cart) {
-    let n = 0;
-    for (const ci of cart) {
-      n += ci.quantity;
-    }
-
-    return n;
+    return cart.length;
   }
 }

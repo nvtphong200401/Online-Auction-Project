@@ -136,8 +136,10 @@ export default {
         return list;
     },
 
-    findById(id){
-        return db('product').where('ProID', '=', id);
+    async findById(id){
+        const list = await db('product').where('ProID', '=', id);
+        await this.addDetail(list);
+        return list
     },
     del(id) {
         return db('product').where('ProID', '=', id).del();

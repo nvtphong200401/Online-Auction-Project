@@ -14,6 +14,12 @@ export default function (app) {
             format_date(val) {
                 return moment(val).format('ll');
             },
+            format_date_until_now(val) {
+                return moment(val).fromNow();
+            },
+            format_date_calendar(val) {
+                return moment(val).calendar();
+            },
             section: hbs_sections()
         }
     }));

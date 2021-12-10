@@ -1,5 +1,4 @@
 import db from '../utils/db.js';
-import moment from "moment";
 
 export default {
     findComment(userID, beingJudged = true, page, limit) {

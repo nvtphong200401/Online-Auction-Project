@@ -1,17 +1,29 @@
+{{#section 'css'}}
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./public/css/watchlist.css">
+{{/section}}
+
+{{#section 'js'}}
+    <script>
+        $('.delItem').on('click', function (e) {
+            const id = $(this).data('id');
+            $('#txtDelProID').val(id);
+            $('#frmDelItem').submit();
+        });
+    </script>
+{{/section}}
+
 <div class="container mt-5">
     <div class="row flex-lg-nowrap">
         <div class="col-12 col-lg-auto mb-3" style="width: 200px;">
-            <div class="card p-3">
-                <div class="e-navlist e-navlist--active-bg">
-                    <ul class="nav">
-                        <li class="nav-item"><a class="nav-link px-2  text-secondary active" href="/bidder/profile"><i
-                                class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span></a></li>
-                        <li class="nav-item"><a class="nav-link px-2  text-secondary" href="javascript:"><i
-                                class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><span>Watchlist</span></a></li>
-                        <li class="nav-item"><a class="nav-link px-2  text-secondary" href="/bidder/profile/edit"><i
-                                class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a></li>
-                    </ul>
-                </div>
+            <div class="list-group">
+                <a href="/bidder/profile" class="list-group-item list-group-item-action">
+                    <i class="fa fa-fw fa-bar-chart mr-1"></i><span>Overview</span>
+                </a>
+                <a href="javascript:" class="list-group-item list-group-item-action active">
+                    <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><span>Watchlist</span></a>
+                <a href="/bidder/profile/edit" class="list-group-item list-group-item-action">
+                    <i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a>
             </div>
         </div>
 
@@ -61,17 +73,99 @@
                                 <div class="row mt-4">
                                     <div class="col-md-12">
                                         <div class="card">
-
-                                            <div class="card-body cart">
-                                                <div class="col-sm-12 empty-cart-cls text-center"><img
-                                                        src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
-                                                        class="img-fluid mb-4 mr-3">
-                                                    <h3><strong>Your Cart is Empty</strong></h3>
-                                                    <h4>Add something to make me happy :)</h4>
-                                                    <a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">
-                                                        Continue shopping</a>
+                                            {{#if empty}}
+                                                <div class="card-body cart">
+                                                    <div class="col-sm-12 empty-cart-cls text-center"><img
+                                                            src="https://i.imgur.com/dCdflKN.png" width="130"
+                                                            height="130"
+                                                            class="img-fluid mb-4 mr-3">
+                                                        <h3><strong>Your Cart is Empty</strong></h3>
+                                                        <h4>Add something to make me happy :)</h4>
+                                                        <a href="/" class="btn btn-primary cart-btn-transform m-3"
+                                                           data-abc="true">
+                                                            Continue shopping</a>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            {{else}}
+                                                <form action="/watchlist/del" method="post" id="frmDelItem">
+                                                    <input type="hidden" id="txtDelProID" name="id">
+                                                </form>
+                                                <div class="container padding-bottom-3x mb-1">
+                                                    <!-- Shopping Cart-->
+                                                    <div class="table-responsive shopping-cart">
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Product Name</th>
+                                                                <th class="text-center">Highest bid</th>
+                                                                <th class="text-center">Buy now</th>
+                                                                <th class="text-center"><a
+                                                                        class="btn btn-sm btn-outline-danger" href="#">Clear
+                                                                    Cart</a></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {{#each this.items}}
+                                                                <tr>
+                                                                    <td>
+                                                                        <div class="product-item">
+                                                                            <a class="product-thumb" href="#"><img
+                                                                                    src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                                                                                    alt="Product"></a>
+                                                                            <div class="product-info">
+                                                                                <h4 class="product-title"><a href="#">
+                                                                                    {{ProName}}
+                                                                                </a></h4>
+                                                                                <span>{{TinyDesc}}</span>
+                                                                                <span>End date: <em>{{format_date_calendar
+                                                                                        EndDate}}</em></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td class="text-center text-medium">{{format_number
+                                                                            Current_bid}}
+                                                                    </td>
+                                                                    {{#if Buy_now}}
+                                                                        <td class="text-center text-lg text-medium">
+                                                                            {{format_number Buy_now}}
+                                                                        </td>
+                                                                    {{else}}
+                                                                        <td class="text-center">—</td>
+                                                                    {{/if}}
+
+                                                                    <td class="text-center">
+                                                                        <a data-id="{{ProID}}"
+                                                                           class="remove-from-cart delItem"
+                                                                           href="javascript:"
+                                                                           data-toggle="tooltip"
+                                                                           title=""
+                                                                           data-original-title="Remove item"><i
+                                                                                class="fa fa-trash"></i></a></td>
+                                                                </tr>
+                                                            {{/each}}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="shopping-cart-footer">
+                                                        <div class="column text-lg">Subtotal: <span class="text-medium">$289.68</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="shopping-cart-footer">
+                                                        <div class="column"><a class="btn btn-outline-secondary"
+                                                                               href="#"><i class="icon-arrow-left"></i>&nbsp;Back
+                                                            to Shopping</a></div>
+                                                        <div class="column"><a class="btn btn-primary" href="#"
+                                                                               data-toast="" data-toast-type="success"
+                                                                               data-toast-position="topRight"
+                                                                               data-toast-icon="icon-circle-check"
+                                                                               data-toast-title="Your cart"
+                                                                               data-toast-message="is updated successfully!">Update
+                                                            Cart</a><a class="btn btn-success" href="#">Checkout</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {{/if}}
+
                                         </div>
                                     </div>
                                 </div>
@@ -80,33 +174,6 @@
                     </div>
                 </div>
 
-                <div class="col-12 col-md-3 mb-3">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="px-xl-3">
-                                <button class="btn btn-block btn-secondary">
-                                    <form id="frmLogout" action="/auth/logout" method="post"></form>
-
-                                    <span><i class="fa fa-sign-out"></i>
-                                    <a class="text-white" href="javascript: $('#frmLogout').submit();">Sign Out</a>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    {{#if authUser.Role}}
-                    {{else}}
-                        <div class="card">
-                            <div class="card-body">
-                                <h6 class="card-title font-weight-bold">Ready to be a seller?</h6>
-                                <p class="card-text">Get fast, free help from our friendly assistants.</p>
-                                <a href="../request">
-                                    <button type="button" class="btn btn-primary">Sell now!</button>
-                                </a>
-                            </div>
-                        </div>
-                    {{/if}}
-                </div>
             </div>
 
         </div>

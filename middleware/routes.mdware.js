@@ -4,6 +4,7 @@ import adminRoute from '../routes/admin_routes.js';
 import productRoute from '../routes/product.routes.js';
 import bidderRoute from '../routes/bidder.routes.js';
 import sellerRoute from '../routes/seller.routes.js';
+import cartRoute from '../routes/cart.route.js'
 import auth from './auth.mdware.js';
 
 export default function (app) {
@@ -13,6 +14,8 @@ export default function (app) {
     app.use('/', guestRoute);
 
     app.use('/bidder', bidderRoute);
+
+    app.use('/watchlist', cartRoute);
 
     app.use('/product', productRoute);
     
