@@ -8,22 +8,18 @@
                     <div class="border border-secondary rounded px-5 py-5">
                         <h5 class="card-title">Product details</h5>
                         <hr>
-                        <form>
+                        <form class="needs-validation" novalidate>
                             <div class="form-row">
-                                <div class="col-md-4 mb-4">
-                                    <label for="inputProductName" class="form-label">Product name</label>
+                                <div class="col-md-4 mb-3">
+                                    <label for="inputProductName">Product name</label>
                                     <input type="text" class="form-control" id="inputProductName"
                                            placeholder="Product name" required>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
-                                <div class="col-md-8 mb-3 ml-auto">
+                                <div class="col-md-4 mb-3">
                                     <div class="form-group">
-                                        <label for="exampleFormControlSelect1">Example select</label>
-                                        <select class="form-control" id="exampleFormControlSelect1">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <label for="selectCat">Category</label>
+                                        <select class="form-control" id="selectCat">
                                         </select>
                                     </div>
                                 </div>
@@ -31,25 +27,27 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inputStartPrice">Start price</label>
-                                    <input type="text" class="form-control" id="inputStartPrice" placeholder="VND"
+                                    <input type="text" class="form-control" id="inputStartPrice"
                                            required>
+                                    <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="inputBuyNowPrice">Buy now price</label>
-                                    <input type="text" class="form-control" id="inputBuyNowPrice" placeholder="VND"
+                                    <input type="text" class="form-control" id="inputBuyNowPrice"
                                            required>
+                                    <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inputStartDate">Start date</label>
-                                    <input type="text" class="form-control" id="inputStartDate" placeholder="dd/MM/yyyy"
-                                           required>
+                                    <input type="date" class="form-control" id="inputStartDate" required>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="inputDueDate">Due date</label>
-                                    <input type="text" class="form-control" id="inputDueDate" placeholder="dd/MM/yyyy"
-                                           required>
+                                    <input type="date" class="form-control" id="inputDueDate" required>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -58,6 +56,7 @@
                                     <textarea type="text" class="form-control" id="inputDescription"
                                               placeholder="Write something to describe your product"
                                               required></textarea>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -72,6 +71,24 @@
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>
                         </form>
+                        <script>
+                            (function() {
+                                'use strict';
+                                window.addEventListener('load', function() {
+                                    var forms = document.getElementsByClassName('needs-validation');
+                                    // Loop over them and prevent submission
+                                    var validation = Array.prototype.filter.call(forms, function(form) {
+                                        form.addEventListener('submit', function(event) {
+                                            if (form.checkValidity() === false) {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                            }
+                                            form.classList.add('was-validated');
+                                        }, false);
+                                    });
+                                }, false);
+                            })();
+                        </script>
                     </div>
                 </div>
             </div>
