@@ -42,11 +42,11 @@
                         {{#each this.products}}
                             <tr>
                                 <td>{{ProID}}</td>
-                                <td>{{ProName}}</td>
+                                <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</td>
                                 <td>{{CatName}}</td>
                                 <td>{{UploadDate}}</td>
                                 <td>{{EndDate}}</td>
-                                <td>{{Current_bid}}</td>
+                                <td>{{HighestBid}}</td>
                                 <td>
                                     <a class="btn btn-sm btn-success" href="/seller/product/{{ProID}}/edit" role="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>

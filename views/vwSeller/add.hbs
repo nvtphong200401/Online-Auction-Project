@@ -8,18 +8,18 @@
                     <div class="border border-secondary rounded px-5 py-5">
                         <h5 class="card-title">Product details</h5>
                         <hr>
-                        <form class="needs-validation" novalidate method="post">
+                        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="inputProductName">Product name</label>
-                                    <input type="text" class="form-control" id="inputProductName" name="productName"
+                                    <label for="productName">Product name</label>
+                                    <input type="text" class="form-control" id="productName" name="productName"
                                            placeholder="Product name" required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-group">
-                                        <label for="selectCat">Category</label>
-                                        <select class="form-control" id="selectCat" name="catName" required>
+                                        <label for="catName">Category</label>
+                                        <select class="form-control" id="catName" name="catName" required>
                                             {{#each this.catList}}
                                                 <option>{{CatName}}</option>
                                             {{/each}}
@@ -29,48 +29,48 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="inputStartPrice">Start price</label>
-                                    <input type="number" min="0" class="form-control" id="inputStartPrice" name="startPrice" placeholder="VND"
+                                    <label for="startPrice">Start price</label>
+                                    <input type="number" min="0" class="form-control" id="startPrice" name="startPrice" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="inputBuyNowPrice">Buy now price</label>
-                                    <input type="number" min="0" class="form-control" id="inputBuyNowPrice" name="buyNowPrice" placeholder="VND"
+                                    <label for="buyNowPrice">Buy now price</label>
+                                    <input type="number" min="0" class="form-control" id="buyNowPrice" name="buyNowPrice" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="inputStartDate">Start date</label>
-                                    <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                    <label for="startDate">Start date</label>
+                                    <input type="date" class="form-control" id="startDate" name="startDate"
                                            required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="inputDueDate">Due date</label>
-                                    <input type="date" class="form-control" id="inputDueDate" name="dueDate"
+                                    <label for="dueDate">Due date</label>
+                                    <input type="date" class="form-control" id="dueDate" name="dueDate"
                                            required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
-                                    <label for="inputDescription">Description</label>
-                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="inputDescription" name="description"
+                                    <label for="description">Description</label>
+                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="description" name="description"
                                               placeholder="Write something to describe your product" required></textarea>
                                     <div class="invalid-feedback">Product description must have at least 200 characters</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="chooseThumbnail">Main thumbnail</label>
-                                    <input type="file" class="form-control" id="chooseThumbnail" required>
+                                    <label for="thumbnail">Main thumbnail</label>
+                                    <input type="file" class="form-control" id="thumbnail" name="thumbnail" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="chooseProductImages">Product images</label>
-                                    <input type="file" class="form-control" id="chooseProductImages" required multiple>
+                                    <label for="subImages">Product images</label>
+                                    <input type="file" class="form-control" id="subImages" name="subImages" required multiple>
                                 </div>
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>

@@ -17,7 +17,7 @@ export default {
     findAllSubCat() {
         return db('category').whereNotNull('CatParent'); //.whereNull('CatParent');
     },
-    findByPro(id){
+    async findByPro(id){
         return db.select('CatName').from('category').join('product', 'category.CatID', 'product.CatID').where('ProID', id);
     },
     deletable(id){

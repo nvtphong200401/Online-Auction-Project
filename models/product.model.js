@@ -32,14 +32,23 @@ export default {
         }
         this.checkNew(ProList);
     },
-    findAll() {
+    async findAll() {
         return db('product');
     },
-    findPage(limit, offset) {
+    async findActivePage(limit, offset) {
+        const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+        return db('product').where('EndDate', '>', now).limit(limit).offset(offset);
+    },
+    async findPage(limit, offset) {
         return db('product').limit(limit).offset(offset);
     },
     async countAll() {
         const total= await db('product').count({count: '*'});
+        return total[0].count;
+    },
+    async countAllActive() {
+        const now = moment.now();
+        const total = await db('product').where('EndDate', '>', now).count({count: '*'});
         return total[0].count;
     },
     async countProductByCat(CatID) {
@@ -80,7 +89,7 @@ export default {
         return res[0].BidNumber || 0;
     },
 
-    findBidHistory(ProID) {
+    async findBidHistory(ProID) {
         return db.select('*').from('bid_history')
             .join('user', 'BID', 'ID')
             .where('ProID', '=', ProID)
