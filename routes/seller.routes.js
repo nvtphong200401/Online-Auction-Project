@@ -1,4 +1,5 @@
 import express from "express";
+import moment from "moment";
 
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
@@ -27,6 +28,11 @@ router.get('/product/list/active', async function(req, res) {
     }
 
     const productList = await productModel.findPage(limit, offset);
+    productList.forEach(async (product) => {
+        //const cat = await categoryModel.findByPro(product.ProID);
+        product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
+        product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+    })
     res.render('vwSeller/active', {
         layout: 'seller',
         products: productList,
@@ -52,6 +58,11 @@ router.get('/product/list/sold', async function (req, res) {
     }
 
     const productList = await productModel.findPage(limit, offset);
+    productList.forEach(async (product) => {
+        //const cat = await categoryModel.findByPro(product.ProID);
+        product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
+        product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+    })
     res.render('vwSeller/sold', {
         layout: 'seller',
         products: productList,
