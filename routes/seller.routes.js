@@ -7,7 +7,7 @@ import categoryModel from "../models/category.model.js";
 
 const router = express.Router();
 
-router.get('/', async function (req, res) {
+router.get('/', function (req, res) {
     res.redirect('/seller/product/list/active');
 })
 
@@ -31,6 +31,7 @@ router.get('/product/list/active', async function(req, res) {
     const productList = await productModel.findActivePage(limit, offset);
     productList.forEach(async (product) => {
         const cat = await categoryModel.findByPro(product.ProID);
+        product.CatName = cat[0].CatName;
         const highestBid = await productModel.findHighestBID(product.ProID);
         if (highestBid === null) {
             product.HighestBid = "None";
@@ -38,7 +39,6 @@ router.get('/product/list/active', async function(req, res) {
         else {
             product.HighestBid = highestBid.Price;
         }
-        product.CatName = cat[0].CatName;
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
     })
@@ -69,7 +69,6 @@ router.get('/product/list/sold', async function (req, res) {
     const productList = await productModel.findPage(limit, offset);
     productList.forEach(async (product) => {
         const cat = await categoryModel.findByPro(product.ProID);
-
         product.CatName = cat[0].CatName;
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
@@ -86,6 +85,16 @@ const cpUpload = upload.fields([{name: 'thumbnail', maxCount: 1}, {name: 'subIma
 router.post('/product/add', cpUpload,function(req, res) {
     console.log(req.files);
     console.log(req.body);
+    // const storage = multer.diskStorage({
+    //     destination: function (req, file, cb) {
+    //         cb(null, './public/imgs/sp')
+    //     },
+    //     filename: function (req, file, cb) {
+    //         cb(null, file.)
+    //     }
+    // })
+
+    const upload = multer({ storage: storage })
     res.redirect('/seller/product/list/active');
 })
 

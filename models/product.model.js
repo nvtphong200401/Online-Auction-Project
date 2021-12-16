@@ -32,14 +32,14 @@ export default {
         }
         this.checkNew(ProList);
     },
-    async findAll() {
+    findAll() {
         return db('product');
     },
-    async findActivePage(limit, offset) {
+    findActivePage(limit, offset) {
         const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
         return db('product').where('EndDate', '>', now).limit(limit).offset(offset);
     },
-    async findPage(limit, offset) {
+    findPage(limit, offset) {
         return db('product').limit(limit).offset(offset);
     },
     async countAll() {
@@ -73,23 +73,13 @@ export default {
 
         return list;
     },
-
-    findByCat(CatID) {
-        const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        return db('product').from('product as p').rightJoin('category as c', 'p.CatID', 'c.CatID')
-            .where('EndDate', '>', today).andWhere(function () {
-                this.where('p.CatID', '=', CatID)
-                    .orWhere('c.CatParent', '=', CatID);
-            });
-    },
-
     async countBidNumber(ProID) {
         const res = await db.count('BID as BidNumber').from('bid_history')
             .where('ProID', '=', ProID);
         return res[0].BidNumber || 0;
     },
 
-    async findBidHistory(ProID) {
+    findBidHistory(ProID) {
         return db.select('*').from('bid_history')
             .join('user', 'BID', 'ID')
             .where('ProID', '=', ProID)
