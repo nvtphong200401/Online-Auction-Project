@@ -8,18 +8,21 @@
                     <div class="border border-secondary rounded px-5 py-5">
                         <h5 class="card-title">Product details</h5>
                         <hr>
-                        <form class="needs-validation" novalidate>
+                        <form class="needs-validation" novalidate method="post">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inputProductName">Product name</label>
-                                    <input type="text" class="form-control" id="inputProductName"
+                                    <input type="text" class="form-control" id="inputProductName" name="productName"
                                            placeholder="Product name" required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="selectCat">Category</label>
-                                        <select class="form-control" id="selectCat">
+                                        <select class="form-control" id="selectCat" name="catName" required>
+                                            {{#each this.catList}}
+                                                <option>{{CatName}}</option>
+                                            {{/each}}
                                         </select>
                                     </div>
                                 </div>
@@ -27,13 +30,13 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inputStartPrice">Start price</label>
-                                    <input type="text" class="form-control" id="inputStartPrice"
+                                    <input type="number" min="0" class="form-control" id="inputStartPrice" name="startPrice" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="inputBuyNowPrice">Buy now price</label>
-                                    <input type="text" class="form-control" id="inputBuyNowPrice"
+                                    <input type="number" min="0" class="form-control" id="inputBuyNowPrice" name="buyNowPrice" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
@@ -41,22 +44,23 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inputStartDate">Start date</label>
-                                    <input type="date" class="form-control" id="inputStartDate" required>
+                                    <input type="date" class="form-control" id="inputStartDate" name="startDate"
+                                           required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="inputDueDate">Due date</label>
-                                    <input type="date" class="form-control" id="inputDueDate" required>
+                                    <input type="date" class="form-control" id="inputDueDate" name="dueDate"
+                                           required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="inputDescription">Description</label>
-                                    <textarea type="text" class="form-control" id="inputDescription"
-                                              placeholder="Write something to describe your product"
-                                              required></textarea>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
+                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="inputDescription" name="description"
+                                              placeholder="Write something to describe your product" required></textarea>
+                                    <div class="invalid-feedback">Product description must have at least 200 characters</div>
                                 </div>
                             </div>
                             <div class="form-row">

@@ -59,9 +59,16 @@ router.get('/product/list/sold', async function (req, res) {
     });
 })
 
-router.get('/product/add', function(req, res) {
+router.post('/product/add', function(req, res) {
+    console.log(req.body);
+    res.redirect('/seller/product/list/active');
+})
+
+router.get('/product/add', async function(req, res) {
+    const catList = await categoryModel.findAllSubCat();
     res.render('vwSeller/add', {
-        layout: 'seller'
+        layout: 'seller',
+        catList: catList
     });
 })
 
