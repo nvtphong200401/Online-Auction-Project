@@ -24,6 +24,7 @@ export default function (app) {
       cat.SubCat = await categoryModel.findSubCat(cat.CatID);
       for (let sub of cat.SubCat) {
         sub.ProductCount = await productModel.countProductByCat(sub.CatID);
+        sub.q = req.query.q;
       }
     }
     next();

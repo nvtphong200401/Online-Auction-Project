@@ -9,6 +9,61 @@ $(document).ready(function () {
         $('.buy').hide('500');
     });
 });
+function timeDifference(current, previous) {
+
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+
+    var elapsed = current - previous;
+
+    if (elapsed < msPerMinute) {
+         return Math.round(elapsed/1000) + ' seconds';   
+    }
+
+    else if (elapsed < msPerHour) {
+         return Math.round(elapsed/msPerMinute) + ' minutes';   
+    }
+
+    else if (elapsed < msPerDay ) {
+         return Math.round(elapsed/msPerHour ) + ' hours';   
+    }
+
+    else if (elapsed < msPerMonth) {
+        return 'approximately ' + Math.round(elapsed/msPerDay) + ' days';   
+    }
+
+    else if (elapsed < msPerYear) {
+        return 'approximately ' + Math.round(elapsed/msPerMonth) + ' months';   
+    }
+
+    else {
+        return 'approximately ' + Math.round(elapsed/msPerYear ) + ' years';   
+    }
+};
+const uploadDate =  function PostDate(className, postDate) {
+    const now = new Date().getTime();
+    const previous = new Date(postDate).getTime();
+    $('.' + className).html('Uploaded ' + timeDifference(now, previous) +' ago');
+}
+const remainingDate = function (className, endTime) {
+    const now = new Date().getTime();
+    const future = new Date(endTime).getTime();
+    const elapsed = future - now;
+    var msPerMinute = 60 * 1000;
+    var msPerHour = msPerMinute * 60;
+    var msPerDay = msPerHour * 24;
+    var msPerMonth = msPerDay * 30;
+    var msPerYear = msPerDay * 365;
+    if(elapsed < 50*msPerDay){
+        $('.' + className).html(Math.floor(elapsed/msPerDay) + ' day(s)');
+    }
+    else {
+        f(className, endTime);
+    }
+}
 let countDown = function (className, endTime) {
 
     let myfunc = function (className, time) {

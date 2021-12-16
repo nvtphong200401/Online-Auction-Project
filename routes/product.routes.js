@@ -25,12 +25,16 @@ router.get('/:id', async (req, res) => {
         const s = await userModel.getAllScore(his.ID);
         his.Score = s[0].score || 0;
     });
+    const sameCat = await productModel.proSameCat(pro[0].CatID, id);
+    const highestPrice = await productModel.getCurrentBid(id);
     res.render('vwProduct/detail', {
         layout: 'main',
         product : pro[0],
         category: categories[0],
         seller: sellers[0] || 0,
-        bid_his
+        highestPrice,
+        bid_his,
+        sameCat
     })
 })
 

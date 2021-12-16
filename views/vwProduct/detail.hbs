@@ -1,11 +1,18 @@
 {{#section 'js'}}
-    <script crossorigin="anonymous" src="/public/js/time.js"></script>
+<script crossorigin="anonymous" src="/public/js/time.js"></script>
+<script type="text/javascript">
+    remainingDate('time-left', "{{this.product.EndDate}}");
+    uploadDate('start-day', '{{this.product.UploadDate}}');
+</script>
+
+    {{#each sameCat}}
     <script type="text/javascript">
-                f('time-left-{{this.product.ProID}}', "{{this.product.EndDate}}");
+            f('time-left-{{ProID}}', "{{EndDate}}");
     </script>
+    {{/each}}
 {{/section}}
 {{#section 'css'}}
-    <link rel="stylesheet" href="/public/css/style.css">
+<link rel="stylesheet" href="/public/css/style.css">
 {{/section}}
 
 <div class="container mt-5">
@@ -37,21 +44,21 @@
                             aria-hidden="true"></i> Add to watchlist</a>
 
                     <div>
-                        <small class="text-muted">
-                            Start date: {{this.product.UploadDate}}
+                        <small class="text-muted start-day">
+                            {{!-- Start date: {{this.product.UploadDate}} --}}
                         </small>
                     </div>
 
 
                     <h6 class="mt-3">
                         <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
-                        <h5 class="time-left-{{this.product.ProID}}" style="color: red; font-size:30px"></h5>
+                        <h5 class="time-left" style="color: red; font-size:30px"></h5>
                     </h6>
-                   
+
 
 
                     <p class="mt-3">
-                        {{this.product.FullDesc}}
+                        {{{this.product.FullDesc}}}
                     </p>
                     <div class="product_meta">
                         <span class="posted_in"> <strong>Categories:</strong> <a rel="tag"
@@ -71,7 +78,7 @@
                             <div class="form-group">
                                 <div class="price mb-4">
                                     <h6 style="display: inline;">Highest bid: </h6>
-                                    <h5 style="display: inline; color:red">$6000 </h5>
+                                    <h5 style="display: inline; color:red"> {{{format_number this.highestPrice}}} </h5>
                                 </div>
                                 <input type="text" name="" id="" class="form-control" placeholder=""
                                     aria-describedby="helpId">
@@ -84,12 +91,19 @@
                     <div class="buy mt-3" style="display: none;">
                         <div class="price mt-3">
                             <h6 style="display: inline;">Price: </h6>
-                            <h5 style="display: inline; color:red">$6000 </h5>
-                        </div>
+                            <h5 style="display: inline; color:red"> 
+                                {{#if this.product.Buy_now}}
+                                {{{format_number this.product.Buy_now}}} 
                         <form>
                             <button class="btn btn-round btn-success" type="button"><i class="fa fa-cart-plus"
                                     aria-hidden="true"></i> Buy now</button>
                         </form>
+                                {{else}}
+                                Not available
+                                {{/if}}
+                                
+                                </h5>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,15 +114,15 @@
             <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description"
-                        role="tab" aria-controls="description" aria-selected="true">Mô tả sản phẩm</a>
+                        role="tab" aria-controls="description" aria-selected="true" style="color: rgb(116, 184, 15);">Mô tả sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
-                        aria-selected="false">Thông tin người bán</a>
+                        aria-selected="false" style="color: rgb(116, 184, 15);">Thông tin người bán</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab"
-                        aria-controls="reviews" aria-selected="false">Danh sách bidder</a>
+                        aria-controls="reviews" aria-selected="false" style="color: rgb(116, 184, 15);">Danh sách bidder</a>
                 </li>
             </ul>
             <div class="tab-content ml-3" id="nav-tabContent">
@@ -126,7 +140,8 @@
                             <div class="vl"></div>
                         </div>
                         <div class="col-sm-7">
-                            <h6>Điểm đánh giá: <h4>{{this.seller.score}}</h4></h6>
+                            <h6>Điểm đánh giá: <h4>{{this.seller.score}}</h4>
+                            </h6>
                             <h6>Số sản phẩm đã bán: {{this.seller.numPro}}</h6>
                         </div>
                     </div>
@@ -159,81 +174,85 @@
             </div>
         </div>
     </div>
-
     <div class="card">
+        <div class="card-header" style="font-size: 1.5rem; font-weight: bold; color: rgb(116, 184, 15);">
+            Sản phẩm cùng danh mục
+        </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-6 col-lg-3 mb-5">
-                    <div class="card card-small">
-                        <div class="thumbnail">
-                            <div class="zoom">
-                                <img class="card-img-top" src="/public/imgs/sp/{{this.product.ProID}}/main_thumbs.jpg"
-                                    alt="{{ProName}}" title="{{this.product.ProName}}">
-                            </div>
-                            {{#if New}}
-                            <span class="tag-picture bg-info text-white">New</span>
-                            {{/if}}
-                            <div class="details">
-                                <div class="user">
-                                    <div class="user-photo">
-                                        <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
-                                    </div>
-                                    <div class="name" data-toggle="tooltip" data-placement="top"
-                                        title="{{this.product.Bidder}}">
-                                        {{this.product.Bidder}}
-                                    </div>
+            <div class="card-deck">
+
+                {{#each sameCat}}
+                <div class="card card-small mr-2 rounded">
+                    <div class="thumbnail">
+                        <img class="card-img-top" src="http://localhost:3000/public/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}"
+                            title="{{ProName}}">
+                        {{#if New}}
+                        <span class="tag-picture bg-info text-white">New</span>
+                        {{/if}}
+                        <div class="details">
+                            {{#if HighestBID}}
+                            <a href="/user/{{HighestBID.ID}}" class="user">
+                                <div class="user-photo">
+                                    <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
                                 </div>
-                                <div class="numbers">
-                                    <b class="views mr-1"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                        {{this.product.BidNumber}}</b>
+                                <div class="name" data-toggle="tooltip" data-placement="top"
+                                    title="{{HighestBID.Username}}">
+                                    {{HighestBID.Username}}
                                 </div>
-                                <div class="clearfix"></div>
+                            </a>
+                            {{else}}
+                            <div class="user">
+                                <div class="name">No bidder!</div>
                             </div>
-                        </div>
-
-                        <div class="card-body mb-0">
-
-                            <h4 class="card-title">
-                                <a class="text-dark" href="/product/{{this.product.ProID}}">{{this.product.ProName}}</a>
-                            </h4>
-
-                            <h6 class="card-title text-success">
-                                <i class="fa fa-money mr-2" aria-hidden="true"></i></i>Highest bid
-                                <h5 class="text-success">{{{format_number this.product.Price}}}</h5>
-                            </h6>
-
-
-                            {{#if PriceBuyNow}}
-                            <h6 class="card-title text-info">
-                                <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy now
-                                <h5 class="text-info">{{{format_number this.product.PriceBuyNow}}}</h5>
-                            </h6>
                             {{/if}}
-
-                            <p class="card-text">
-                            <h6 class="card-title">
-                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
-                                <h5 class="time-left-{{this.product.ProID}}"></h5>
-                            </h6>
-                            
-
-                            </p>
-
-
-                        </div>
-                        <div class="card-text mr-auto ml-3 mb-0">
-                            <button type="button" class="btn btn-sm btn-outline-primary my-2">
-                                <i class="fa fa-list mr-1" aria-hidden="true"></i>View Detail
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-danger my-2">
-                                <i class="fa fa-heart mr-1" aria-hidden="true"></i>Add to Watchlist
-                            </button>
-                        </div>
-                        <div class="card-footer text-right mt-4">
-                            <small class="text-muted">Upload date: {{this.product.UploadDate}}</small>
+                            <div class="numbers">
+                                <b class="views mr-1"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+                                    {{BidNumber}}</b>
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
                     </div>
+
+                    <div class="card-body mb-0">
+
+                        <h4 class="card-title">
+                            <a class="text-dark" href="./{{ProID}}">{{ProName}}</a>
+                        </h4>
+
+                        <h6 class="card-title text-success">
+                            <i class="fa fa-money mr-2" aria-hidden="true"></i>Highest bid
+                            <h5 class="text-success">{{{format_number Current_bid}}}</h5>
+                        </h6>
+
+
+                        {{#if Buy_now}}
+                        <h6 class="card-title text-info">
+                            <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy now
+                            <h5 class="text-info">{{{format_number Buy_now}}}</h5>
+                        </h6>
+                        {{/if}}
+
+                        <div class="card-text">
+                            <h6 class="card-title">
+                                <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
+                                <h5 class="time-left-{{ProID}}"></h5>
+                            </h6>
+                        </div>
+
+
+                    </div>
+                    <div class="card-text mr-auto ml-3 mb-0 ">
+                        <a href="./{{ProID}}">
+                            <button type="button" class="btn btn-outline-primary my-2">
+                                <i class="fa fa-list mr-2" aria-hidden="true"></i>View Detail
+                            </button>
+                        </a>
+                    </div>
+                    <div class="card-footer text-right mt-4">
+                        <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
+                    </div>
                 </div>
+                {{/each}}
             </div>
         </div>
     </div>

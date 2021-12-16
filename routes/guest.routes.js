@@ -1,4 +1,4 @@
-import express from "express";
+import express, { query } from "express";
 
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
@@ -82,19 +82,58 @@ router.get('/user/:id', function (req, res) {
     });
 });
 
-router.get('/search', (req, res) => {
+router.get('/search', async (req, res) => {
     const q = req.query.q;
-    //perform sql search here
+    const filter = req.query.filter | "";
+    const CatName = req.query.CatName | "";
 
-    // assume that we receive
-    // all category match to the keywords
-    // product in N mins related to keywords
-    // product related to keyword but not in N mins
+    var prod;
+    console.log(filter)
+    console.log(q)
+    if (CatName.length > 0) {
+        if(filter.length > 0){
+            prod = await productModel.searchAndFilter(q, CatName, filter);
+        }
+        else {
+            prod = await productModel.searchAnd(q, CatName);
+        }
+    }
+    else if (filter.length > 0){
+        prod = await productModel.searchOrFilter(q, filter);
+        console.log(prod);
+    }
+    else {
+        prod = await productModel.searchOr(q);
+    }
+    
+    const CatId = req.query.CatID || 1;
+    const nPage = Math.ceil(prod.length / 8) || 1;
+    let PageNow = req.query.page || 1;
+    let PageList = [];
+
+    const prev = ({index: (+PageNow-1).toString(), disable: +PageNow === 1});
+    for (let i = 1; i <= nPage; ++i) {
+        PageList.push({index: i.toString(), active: (i.toString() === PageNow)})
+    }
+    const CatList = await categoryModel.findAllMain() || 0;
+    for (let c of CatList) {
+        c.SubCat = await categoryModel.findSubCat(c.CatID);
+    }
+    const next = ({index: (+PageNow+1).toString(), disable: +PageNow === nPage});
+    for (const c of res.locals.lcCategories) {
+        c.isActive = c.CatID === CatId;
+    }
     res.render('vwProduct/search', {
         layout: 'main',
-        category: categoryModel.findAllMain() || 0,
-        recent: productModel.findTopBid(),
-        related: productModel.findTopPrice()
+        category: CatList,
+        related: prod,
+        nPro: prod.length,
+        page: PageList,
+        prev: prev,
+        next: next,
+        q,
+        filter,
+        CatName
     })
 })
 
