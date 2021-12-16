@@ -29,7 +29,8 @@ router.get('/product/list/active', async function(req, res) {
 
     const productList = await productModel.findPage(limit, offset);
     productList.forEach(async (product) => {
-        //const cat = await categoryModel.findByPro(product.ProID);
+        const cat = await categoryModel.findByPro(product.ProID);
+        product.CatName = cat[0].CatName;
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
     })
@@ -59,7 +60,8 @@ router.get('/product/list/sold', async function (req, res) {
 
     const productList = await productModel.findPage(limit, offset);
     productList.forEach(async (product) => {
-        //const cat = await categoryModel.findByPro(product.ProID);
+        const cat = await categoryModel.findByPro(product.ProID);
+        product.CatName = cat[0].CatName;
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
     })
