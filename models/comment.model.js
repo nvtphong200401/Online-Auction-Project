@@ -12,7 +12,7 @@ export default {
             .rightJoin('user as u', 'c.' + id_judging, 'u.ID')
             .where(id_judged, '=', userID).offset(off).limit(limit);
     },
-    async countComment(userID, beingJudged = true, positive = true) {
+    async countComment(userID, beingJudged = true) {
         let id_judged = 'ID2';
         let id_judging = 'ID1';
         if (!beingJudged) {
@@ -21,9 +21,9 @@ export default {
         const list = await db.count('* as nComment').from('comment')
             .rightJoin('user as u', 'c.' + id_judging, 'u.ID')
             .where(id_judged,  '=', userID)
-            .andWhere('Score', '=', positive)
+            .groupBy('Score');
 
-        return list[0].nComment;
+        return list;
     },
 }
 
