@@ -8,18 +8,18 @@
                     <div class="border border-secondary rounded px-5 py-5">
                         <h5 class="card-title">Product details</h5>
                         <hr>
-                        <form class="needs-validation" novalidate method="post" enctype="multipart/form-data">
+                        <form id="addForm" name="addForm" class="needs-validation" novalidate method="post" enctype="multipart/form-data">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="productName">Product name</label>
-                                    <input type="text" class="form-control" id="productName" name="productName"
+                                    <label for="ProName">Product name</label>
+                                    <input type="text" class="form-control" id="ProName" name="ProName"
                                            placeholder="Product name" required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <div class="form-group">
                                         <label for="catName">Category</label>
-                                        <select class="form-control" id="catName" name="catName" required>
+                                        <select class="form-control" id="CatName" name="CatName" required>
                                             {{#each this.catList}}
                                                 <option>{{CatName}}</option>
                                             {{/each}}
@@ -29,36 +29,69 @@
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="startPrice">Start price</label>
-                                    <input type="number" min="0" class="form-control" id="startPrice" name="startPrice" placeholder="VND"
+                                    <label for="Start_price">Start price</label>
+                                    <input type="number" min="0" class="form-control" id="Start_price" name="Start_price" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="buyNowPrice">Buy now price</label>
-                                    <input type="number" min="0" class="form-control" id="buyNowPrice" name="buyNowPrice" placeholder="VND"
+                                    <label for="Buy_now">Buy now price</label>
+                                    <input type="number" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="startDate">Start date</label>
-                                    <input type="date" class="form-control" id="startDate" name="startDate"
+                                    <label for="UploadDate">Start date</label>
+                                    <input type="datetime-local" class="form-control" id="UploadDate" name="UploadDate"
                                            required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="dueDate">Due date</label>
-                                    <input type="date" class="form-control" id="dueDate" name="dueDate"
+                                    <label for="EndDate">End date</label>
+                                    <input type="datetime-local" class="form-control" id="EndDate" name="EndDate"
                                            required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
+                                <script>
+                                    $(function() {
+                                        var $form = $('#addForm'),
+                                            $start_date = $('#UploadDate', $form),
+                                            $end_date = $('#EndDate', $form),
+                                            $button = $('.submit', $form);
+                                        $button.prop('disabled', 'disabled');
+
+                                        $start_date.on('change', function () {
+                                            var startDate = new Date($(this).val());
+                                            var endDate = new Date($end_date.val());
+                                            if (startDate > endDate) {
+                                                alert(`Start date must be before End date`);
+                                                $(this).val('');
+                                                $button.prop('disabled', 'disabled');
+                                            } else {
+                                                $button.prop('disabled', false);
+                                            }
+                                        });
+
+                                        $end_date.on('change', function () {
+                                            var startDate = new Date($start_date.val());
+                                            var endDate = new Date($(this).val());
+                                            if (endDate <= startDate) {
+                                                alert(`End date must be after Start date`);
+                                                $(this).val('');
+                                                $button.prop('disabled', 'disabled');
+                                            } else {
+                                                $button.prop('disabled', false);
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
-                                    <label for="description">Description</label>
-                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="description" name="description"
+                                    <label for="FullDesc">Description</label>
+                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="FullDesc" name="FullDesc"
                                               placeholder="Write something to describe your product" required></textarea>
                                     <div class="invalid-feedback">Product description must have at least 200 characters</div>
                                 </div>
@@ -72,6 +105,26 @@
                                     <label for="subImages">Product images</label>
                                     <input type="file" class="form-control" id="subImages" name="subImages" required multiple>
                                 </div>
+                                <script>
+                                    $(function() {
+                                        var max_file_number = 5,
+                                            $form = $('#addForm'),
+                                            $file_upload = $('#subImages', $form),
+                                            $button = $('.submit', $form);
+                                        $button.prop('disabled', 'disabled');
+
+                                        $file_upload.on('change', function () {
+                                            var number_of_images = $(this)[0].files.length;
+                                            if (number_of_images > max_file_number) {
+                                                alert(`You can upload maximum ${max_file_number} product images files.`);
+                                                $(this).val('');
+                                                $button.prop('disabled', 'disabled');
+                                            } else {
+                                                $button.prop('disabled', false);
+                                            }
+                                        });
+                                    });
+                                </script>
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>
                         </form>

@@ -8,6 +8,10 @@ export default {
     countAllMain(){
         return db('category').count('CatID');
     },
+    async findByCatName(CatName) {
+        const catID = await db.select('CatID').from('category').where('CatName', '=', CatName);
+        return catID[0].CatID;
+    },
     findPage(limit, offset) {
         return db('category').limit(limit).offset(offset);
     },
@@ -17,7 +21,7 @@ export default {
     findAllSubCat() {
         return db('category').whereNotNull('CatParent'); //.whereNull('CatParent');
     },
-    async findByPro(id){
+    findByPro(id){
         return db.select('CatName').from('category').join('product', 'category.CatID', 'product.CatID').where('ProID', id);
     },
     deletable(id){

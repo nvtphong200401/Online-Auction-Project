@@ -16,6 +16,13 @@ const OneDay = 1000 * 60 * 60 * 24;
 import db from '../utils/db.js';
 
 export default {
+    addProduct(product) {
+        return db('product').insert(product);
+    },
+    async findLastProID() {
+        const maxProID = await db('product').max('ProID as id').first();
+        return maxProID.id;
+    },
     checkNew(ProList) {
         for (let x in ProList) {
             let distance = untilNow(ProList[x].UploadDate);
@@ -78,14 +85,12 @@ export default {
             .where('ProID', '=', ProID);
         return res[0].BidNumber || 0;
     },
-
     findBidHistory(ProID) {
         return db.select('*').from('bid_history')
             .join('user', 'BID', 'ID')
             .where('ProID', '=', ProID)
             .orderBy('Price', "desc");
     },
-
     async getCurrentBid(ProID) {
         const price_user = await db.max("Price as Price").from("bid_history")
             .where('ProID', '=', ProID);
