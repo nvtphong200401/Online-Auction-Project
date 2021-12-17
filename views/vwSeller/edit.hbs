@@ -1,163 +1,70 @@
+{{#section 'js'}}
+    <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#NewDesc',
+            plugins: 'paste image link autolink lists table media',
+            menubar: false,
+            toolbar: ['undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link media'],
+        });
+    </script>
+{{/section}}
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
             <div class="card my-5">
                 <h3 class="card-header">Edit description</h3>
-                <div class="card-body">
-                    <div class="border border-secondary rounded px-5 py-5">
-                        <h5 class="card-title">Append new description below</h5>
-                        <hr>
-                        <form id="editForm" name="editForm" class="needs-validation" novalidate method="post">
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="ProName">Product name</label>
-                                    <input type="text" class="form-control" id="ProName" name="ProName"
-                                           placeholder="Product name" required>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="form-group">
-                                        <label for="CatName">Category</label>
-                                        <select class="form-control" id="CatName" name="CatName" required>
-                                            {{#each this.catList}}
-                                                <option>{{CatName}}</option>
-                                            {{/each}}
-                                        </select>
+                {{#if this.empty}}
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">No information about this product</h5>
+                        <p class="card-text">Please select an existing product to edit description.</p>
+                    </div>
+                {{else}}
+                    <div class="card-body">
+                        <div class="border border-secondary rounded px-5 py-5">
+                            <h5 class="card-title">Current description</h5>
+                            <hr>
+                            <div class="col mb-3">
+                                <p class="mt-3">
+                                    {{{this.product.FullDesc}}}
+                                </p>
+                            </div>
+                            <h5 class="card-title">New description</h5>
+                            <hr>
+                            <form id="editForm" name="editForm" class="needs-validation" novalidate method="post">
+                                <div class="form-row">
+                                    <div class="col mb-3">
+                                        <label for="NewDesc">Description</label>
+                                        <textarea rows="10" type="text" class="form-control" id="NewDesc" name="FullDesc"
+                                                  placeholder="Write something to describe your product" required></textarea>
+                                        <div class="invalid-feedback">You must not leave this field blank</div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="Start_price">Start price</label>
-                                    <input type="number" min="0" class="form-control" id="Start_price" name="Start_price" placeholder="VND"
-                                           required>
-                                    <div class="invalid-feedback">Price should be a positive number</div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="Buy_now">Buy now price</label>
-                                    <input type="number" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND"
-                                           required>
-                                    <div class="invalid-feedback">Price should be a positive number</div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="UploadDate">Start date</label>
-                                    <input type="datetime-local" class="form-control" id="UploadDate" name="UploadDate"
-                                           required>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="EndDate">End date</label>
-                                    <input type="datetime-local" class="form-control" id="EndDate" name="EndDate"
-                                           required>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
-                                </div>
-                                <script>
-                                    $(function() {
-                                        var $form = $('#addForm'),
-                                            $start_date = $('#UploadDate', $form),
-                                            $end_date = $('#EndDate', $form),
-                                            $button = $('.submit', $form);
-                                        $button.prop('disabled', 'disabled');
-
-                                        $start_date.on('change', function () {
-                                            var startDate = new Date($(this).val());
-                                            var endDate = new Date($end_date.val());
-                                            if (startDate > endDate) {
-                                                alert(`Start date must be before End date`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
+                                <button class="btn btn-success" type="submit">Confirm</button>
+                            </form>
+                            <script>
+                                (function() {
+                                    'use strict';
+                                    window.addEventListener('load', function() {
+                                        var forms = document.getElementsByClassName('needs-validation');
+                                        // Loop over them and prevent submission
+                                        var validation = Array.prototype.filter.call(forms, function(form) {
+                                            form.addEventListener('submit', function(event) {
+                                                if (form.checkValidity() === false) {
+                                                    event.preventDefault();
+                                                    event.stopPropagation();
+                                                }
+                                                form.classList.add('was-validated');
+                                            }, false);
                                         });
-
-                                        $end_date.on('change', function () {
-                                            var startDate = new Date($start_date.val());
-                                            var endDate = new Date($(this).val());
-                                            if (endDate <= startDate) {
-                                                alert(`End date must be after Start date`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
-                                        });
-                                    });
-                                </script>
-                            </div>
-                            <div class="form-row">
-                                <div class="col mb-3">
-                                    <label for="FullDesc">Description</label>
-                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="FullDesc" name="FullDesc"
-                                              placeholder="Write something to describe your product" required></textarea>
-                                    <div class="invalid-feedback">Product description must have at least 200 characters</div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="thumbnail">Main thumbnail</label>
-                                    <input type="file" id="thumbnail" name="thumbnail" required>
-                                </div>
-                                <script>
-                                    $(document).ready(function() {
-                                        $("#thumbnail").fileinput({showCaption: false, dropZoneEnabled: false});
-                                    });
-                                </script>
-                                <div class="col-md-4 mb-3">
-                                    <label for="subImages">Product images</label>
-                                    <input type="file" id="subImages" name="subImages" required multiple>
-                                </div>
-                                <script>
-                                    $(document).ready(function() {
-                                        $("#subImages").fileinput({showCaption: false, dropZoneEnabled: false});
-                                    });
-                                </script>
-                                <script>
-                                    $(function() {
-                                        var max_file_number = 5,
-                                            $form = $('#addForm'),
-                                            $file_upload = $('#subImages', $form),
-                                            $button = $('.submit', $form);
-                                        $button.prop('disabled', 'disabled');
-
-                                        $file_upload.on('change', function () {
-                                            var number_of_images = $(this)[0].files.length;
-                                            if (number_of_images > max_file_number) {
-                                                alert(`You can upload maximum ${max_file_number} product images files.`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
-                                        });
-                                    });
-                                </script>
-                            </div>
-                            <button class="btn btn-success" type="submit">Confirm</button>
-                        </form>
-                        <script>
-                            (function() {
-                                'use strict';
-                                window.addEventListener('load', function() {
-                                    var forms = document.getElementsByClassName('needs-validation');
-                                    // Loop over them and prevent submission
-                                    var validation = Array.prototype.filter.call(forms, function(form) {
-                                        form.addEventListener('submit', function(event) {
-                                            if (form.checkValidity() === false) {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-                                            }
-                                            form.classList.add('was-validated');
-                                        }, false);
-                                    });
-                                }, false);
-                            })();
-                        </script>
+                                    }, false);
+                                })();
+                            </script>
+                        </div>
                     </div>
-                </div>
+                {{/if}}
             </div>
         </div>
     </div>

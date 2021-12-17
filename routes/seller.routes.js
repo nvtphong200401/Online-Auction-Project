@@ -81,8 +81,22 @@ router.get('/product/list/sold', async function (req, res) {
 })
 
 router.post('/product/delete', async function (req, res) {
-    await productModel.del(req.body.ProID);
+    await productModel.del(req.body.id);
     res.redirect('/seller/product/list/sold');
+})
+
+router.post('/product/edit', function(req, res) {
+
+})
+
+router.get('/product/edit', async function (req, res) {
+    const ProID = req.query.id || 0;
+    const product = await productModel.findById(ProID);
+    res.render('vwSeller/edit', {
+        layout: 'seller',
+        product: product[0],
+        empty: product.length === 0
+    });
 })
 
 router.post('/product/add',async function(req, res) {
