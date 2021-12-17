@@ -1,36 +1,14 @@
-<script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '#FullDesc',
-        plugins: 'paste image link autolink lists table media',
-        menubar: false,
-        toolbar: ['undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link media'],
-    });
-</script>
-<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
-<script>
-    $('#thumbnail').fileinput({
-        showCaption: false,
-        dropZoneEnabled: false
-    });
-    $('#subImages').fileinput({
-        showCaption: false,
-        dropZoneEnabled: false
-    });
-</script>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
             <div class="card my-5">
-                <h3 class="card-header">Add a new product</h3>
+                <h3 class="card-header">Edit description</h3>
                 <div class="card-body">
                     <div class="border border-secondary rounded px-5 py-5">
-                        <h5 class="card-title">Product details</h5>
+                        <h5 class="card-title">Append new description below</h5>
                         <hr>
-                        <form id="addForm" name="addForm" class="needs-validation" novalidate method="post" enctype="multipart/form-data">
+                        <form id="editForm" name="editForm" class="needs-validation" novalidate method="post">
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="ProName">Product name</label>
@@ -123,14 +101,23 @@
                                     <label for="thumbnail">Main thumbnail</label>
                                     <input type="file" id="thumbnail" name="thumbnail" required>
                                 </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $("#thumbnail").fileinput({showCaption: false, dropZoneEnabled: false});
+                                    });
+                                </script>
                                 <div class="col-md-4 mb-3">
                                     <label for="subImages">Product images</label>
                                     <input type="file" id="subImages" name="subImages" required multiple>
                                 </div>
                                 <script>
+                                    $(document).ready(function() {
+                                        $("#subImages").fileinput({showCaption: false, dropZoneEnabled: false});
+                                    });
+                                </script>
+                                <script>
                                     $(function() {
                                         var max_file_number = 5,
-                                            min_file_number = 3;
                                             $form = $('#addForm'),
                                             $file_upload = $('#subImages', $form),
                                             $button = $('.submit', $form);
@@ -140,10 +127,6 @@
                                             var number_of_images = $(this)[0].files.length;
                                             if (number_of_images > max_file_number) {
                                                 alert(`You can upload maximum ${max_file_number} product images files.`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else if (number_of_images < min_file_number) {
-                                                alert(`Product must have at least ${min_file_number} images beside the thumbnail`);
                                                 $(this).val('');
                                                 $button.prop('disabled', 'disabled');
                                             } else {
