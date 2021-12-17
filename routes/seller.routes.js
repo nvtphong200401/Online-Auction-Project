@@ -80,22 +80,38 @@ router.get('/product/list/sold', async function (req, res) {
     });
 })
 
-const upload = multer({dest: 'uploads/'});
-const cpUpload = upload.fields([{name: 'thumbnail', maxCount: 1}, {name: 'subImages', maxCount: 10}])
-router.post('/product/add', cpUpload,function(req, res) {
-    console.log(req.files);
-    console.log(req.body);
-    // const storage = multer.diskStorage({
-    //     destination: function (req, file, cb) {
-    //         cb(null, './public/imgs/sp')
-    //     },
-    //     filename: function (req, file, cb) {
-    //         cb(null, file.)
-    //     }
-    // })
+router.post('/product/add',async function(req, res) {
+    const maxProID = await productModel.findLastProID();
+    const newProID = +maxProID + 1;
+    const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+            cb(null, './public/imgs/sp/' + newProID);
+        },
+        filename: function (req, file, cb) {
+            if (file.fieldname === 'thumbnail') {
+                cb(null, 'main_thumbs.jpg');
+            }
+            if (file.fieldname === 'subImages') {
+                cb(null, file.fieldname + '-' + Date.now() + '.jpg');
+            }
+        }
+    })
+    const upload = multer({ storage: storage });
+    upload.fields([{name: 'thumbnail', maxCount: 1}, {name: 'subImages', maxCount: 5}]) (req, res, async function(err) {
+        const product = req.body;
+        product.CatID = await categoryModel.findByCatName(product.CatName);
+        product.ProID = newProID;
+        delete product.CatName;
+        console.log(product);
 
-    const upload = multer({ storage: storage })
-    res.redirect('/seller/product/list/active');
+        //await productModel.addProduct(product);
+        if(err) {
+            console.log(err);
+        }
+        else {
+            res.redirect('/seller/product/list/active');
+        }
+    })
 })
 
 router.get('/product/add', async function(req, res) {
