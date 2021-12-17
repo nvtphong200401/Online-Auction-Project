@@ -1,3 +1,11 @@
+{{#section 'js'}}
+    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
+{{/section}}
+
+{{#section 'css'}}
+    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+{{/section}}
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-2"></div>
@@ -99,12 +107,22 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="thumbnail">Main thumbnail</label>
-                                    <input type="file" class="form-control" id="thumbnail" name="thumbnail" required>
+                                    <input type="file" id="thumbnail" name="thumbnail" required>
                                 </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $("#thumbnail").fileinput({showCaption: false, dropZoneEnabled: false});
+                                    });
+                                </script>
                                 <div class="col-md-4 mb-3">
                                     <label for="subImages">Product images</label>
-                                    <input type="file" class="form-control" id="subImages" name="subImages" required multiple>
+                                    <input type="file" id="subImages" name="subImages" required multiple>
                                 </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $("#subImages").fileinput({showCaption: false, dropZoneEnabled: false});
+                                    });
+                                </script>
                                 <script>
                                     $(function() {
                                         var max_file_number = 5,

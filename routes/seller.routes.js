@@ -80,6 +80,11 @@ router.get('/product/list/sold', async function (req, res) {
     });
 })
 
+router.post('/product/delete', async function (req, res) {
+    await productModel.del(req.body.ProID);
+    res.redirect('/seller/product/list/sold');
+})
+
 router.post('/product/add',async function(req, res) {
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
@@ -102,9 +107,8 @@ router.post('/product/add',async function(req, res) {
         product.CatID = await categoryModel.findByCatName(product.CatName);
         product.ProID = newProID;
         delete product.CatName;
-        console.log(product);
 
-        //await productModel.addProduct(product);
+        await productModel.addProduct(product);
         if(err) {
             console.log(err);
         }

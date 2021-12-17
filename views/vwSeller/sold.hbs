@@ -42,15 +42,19 @@
                         {{#each this.products}}
                             <tr>
                                 <td>{{ProID}}</td>
-                                <td>{{ProName}}</td>
+                                <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</td>
                                 <td>{{CatName}}</td>
                                 <td>{{UploadDate}}</td>
                                 <td>{{EndDate}}</td>
                                 <td>{{Current_bid}}</td>
                                 <td>
-                                    <a class="btn btn-sm btn-danger" href="/seller/product/{{ProID}}/delete" role="button">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                    </a>
+                                    <form method="post">
+                                        <label for="ProID" hidden>ProID</label>
+                                        <input type="text" class="form-control" id="ProID" name="ProID" value="{{ProID}}" hidden>
+                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/product/delete">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         {{/each}}

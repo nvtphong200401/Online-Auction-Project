@@ -20,6 +20,7 @@
   "homepage": "https://github.com/JrMasterno1/Online-Auction---Web-Final-Project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "bootstrap-fileinput": "^5.2.6",
     "express": "^4.17.1",
     "express-flash": "^0.0.2",
     "express-handlebars": "^6.0.1",
