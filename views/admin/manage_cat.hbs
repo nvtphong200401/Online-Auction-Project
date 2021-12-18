@@ -7,7 +7,7 @@
                 Add Category
             </a>
         </span>
-        <div class="modal fade" id="addCat" role="dialog" style="display: none;">
+        <div class="modal fade" id="addCat" role="dialog">
             <div class="modal-dialog">
 
                 <!-- Modal content-->
@@ -25,8 +25,43 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:$('#formAdd').submit();" role="button" class="btn btn-success btn-sm"
-                            ><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</a>
+                        <a href="javascript:$('#formAdd').submit();" role="button" class="btn btn-success btn-sm" data-dismiss="modal"><i
+                                class="fa fa-floppy-o" aria-hidden="true"></i> Save</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal fade" id="editCat" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit category</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEdit" method="put">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Category ID</span>
+                                </div>
+                                <input id="EditCatID" class="form-control" type="text" name="CatID" class="form-control"
+                                    aria-describedby="helpId" readonly>
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Category Name</span>
+                                </div>    
+                                <input id="EditCatName" class="form-control" type="text" name="CatName" class="form-control"
+                                    aria-describedby="helpId">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="SaveCat()" class="btn btn-success btn-sm" data-dismiss="modal"><i
+                                class="fa fa-floppy-o" aria-hidden="true" ></i> Save</button>
                     </div>
                 </div>
 
@@ -54,7 +89,7 @@
                         {{/if}}
                     </td>
                     <td class="text-right">
-                        <a onclick="Edit({{CatID}})" class="edit btn btn-warning btn-sm shadow" href="#"
+                        <a onclick="Edit(this)" class="edit btn btn-warning btn-sm shadow" href="#"
                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i>
                             Edit</a>
                         {{#if deletable}}
@@ -67,7 +102,7 @@
                             {{/if}}
                     </td>
                 </tr>
-                <tr class="row-{{CatID}}" style="display: none;">
+                {{!-- <tr class="row-{{CatID}}" style="display: none;">
                     <form class="form-inline">
                         <th scope="row">
                             <div class="form-group">
@@ -90,7 +125,7 @@
                         </td>
                         </td>
                     </form>
-                </tr>
+                </tr> --}}
                 {{/each}}
             </tbody>
         </table>

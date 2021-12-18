@@ -26,6 +26,12 @@ router.get('/category', async (req, res) => {
 })
 router.get('/category/:id', async (req, res) => {
     const list = await CatModel.findSubCat(req.params.id);
+    for (const i in list){
+        const deletable = await CatModel.deletable(list[i].CatID);
+        if (deletable.length > 0) {
+            list[i]['deletable'] = true;
+        }
+    }
     res.render('admin/manage_cat', {
         layout: 'admin',
         cates: list,

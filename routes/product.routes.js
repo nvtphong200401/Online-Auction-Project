@@ -3,6 +3,7 @@ import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from '../models/users_model.js';
 import bid_historyModel from "../models/bid_history.model.js";
+import fs from 'fs';
 const router = express.Router();
 
 router.get('/detail', (req, res) => {
@@ -11,6 +12,14 @@ router.get('/detail', (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
+    const folder = "./public/imgs/sp/" + id + '/';
+    const img_files = fs.readdirSync(folder);
+    img_files.splice(img_files.indexOf('main_thumbs.jpg'));
+    var imgs = []
+    img_files.forEach((file) => {
+        imgs.push({file_name : file, ProID: id});
+    })
+
     const pro = await productModel.findById(id);
     const categories = await categoryModel.findByPro(id);
     const sellers = await userModel.getSellerByPro(id);
@@ -34,7 +43,8 @@ router.get('/:id', async (req, res) => {
         seller: sellers[0] || 0,
         highestPrice,
         bid_his,
-        sameCat
+        sameCat,
+        imgs
     })
 })
 

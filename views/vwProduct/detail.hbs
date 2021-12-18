@@ -25,23 +25,22 @@
                             style="width: 100%;">
                     </div>
                     <div class="pro-img-list">
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/1.jpg" alt="">
+                        {{#each this.imgs}}
+                        <a href="javascript:;">
+                            <img src="/public/imgs/sp/{{ProID}}/{{file_name}}" alt="">
                         </a>
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/1_thumbs.jpg" alt="">
-                        </a>
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/main.jpg" alt="">
-                        </a>
+                        {{/each}}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <h4 class="pro-d-title" style="display: inline;">
                         {{this.product.ProName}}
                     </h4>
-                    <a class="btn btn-outline-success btn-sm float-right" href="#" role="button"><i class="fa fa-heart"
-                            aria-hidden="true"></i> Add to watchlist</a>
+                    <form action="/watchlist/add" method="post" class="float-right">
+                    <input type="hidden" name="id" value="{{this.product.ProID}}">
+                    <button class="btn btn-outline-success btn-sm " role="button"><i class="fa fa-heart"
+                            aria-hidden="true"></i> Add to watchlist</button>
+                    </form>
 
                     <div>
                         <small class="text-muted start-day">
