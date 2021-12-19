@@ -81,12 +81,19 @@ router.get('/product/list/sold', async function (req, res) {
 })
 
 router.post('/product/delete', async function (req, res) {
-    await productModel.del(req.body.id);
+    await productModel.del(req.body.ProID);
     res.redirect('/seller/product/list/sold');
 })
 
-router.post('/product/edit', function(req, res) {
-
+router.post('/product/edit', async function (req, res) {
+    const ProID = req.body.ProID;
+    const product = await productModel.findById(ProID);
+    var FullDesc = product[0].FullDesc;
+    const today = moment().format('DD-MM-YYYY');
+    FullDesc += today + '<br>' + req.body.FullDesc;
+    // add maxlength for description warning later in edit.hbs
+    await productModel.appendDescription(ProID, FullDesc);
+    res.redirect('/seller/product/list/active');
 })
 
 router.get('/product/edit', async function (req, res) {

@@ -19,6 +19,11 @@ export default {
     addProduct(product) {
         return db('product').insert(product);
     },
+    appendDescription(ProID, NewDesc) {
+        return db('product').where('ProID', '=', ProID).update({
+            FullDesc: NewDesc
+        })
+    },
     async findLastProID() {
         const maxProID = await db('product').max('ProID as id').first();
         return maxProID.id;
@@ -139,7 +144,6 @@ export default {
         }
         return list;
     },
-
     async findById(id){
         const list = await db('product').where('ProID', '=', id);
         await this.addDetail(list);

@@ -27,22 +27,22 @@
                             <h5 class="card-title">Current description</h5>
                             <hr>
                             <div class="col mb-3">
-                                <p class="mt-3">
-                                    {{{this.product.FullDesc}}}
-                                </p>
+                                {{{this.product.FullDesc}}}
                             </div>
                             <h5 class="card-title">New description</h5>
                             <hr>
                             <form id="editForm" name="editForm" class="needs-validation" novalidate method="post">
                                 <div class="form-row">
                                     <div class="col mb-3">
-                                        <label for="NewDesc">Description</label>
+                                        <label for="ProID" hidden>ProID</label>
+                                        <input type="text" class="form-control" id="ProID" name="ProID" value="{{this.product.ProID}}" hidden>
+                                        <label for="NewDesc">New description will be appended to the current one</label>
                                         <textarea rows="10" type="text" class="form-control" id="NewDesc" name="FullDesc"
                                                   placeholder="Write something to describe your product" required></textarea>
                                         <div class="invalid-feedback">You must not leave this field blank</div>
                                     </div>
                                 </div>
-                                <button class="btn btn-success" type="submit">Confirm</button>
+                                <button class="btn btn-success" type="submit" formaction="/seller/product/edit">Confirm</button>
                             </form>
                             <script>
                                 (function() {
