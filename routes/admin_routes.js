@@ -3,6 +3,7 @@ import CatModel from '../models/category.model.js';
 import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
 import categoryModel from '../models/category.model.js';
+import moment from 'moment';
 const router = express.Router();
 router.get('/', (req,res) => {
     res.redirect('/admin/category')
@@ -75,6 +76,10 @@ router.get('/pending', async (req, res) => {
 
 router.get('/product', async (req, res) => {
     const products = await ProductModel.findAll();
+    for (const product of products) {
+        product.UploadDate = moment(product.UploadDate).format('DD/MM/YYYY HH:mm:ss');
+        product.EndDate = moment(product.EndDate).format('DD/MM/YYYY HH:mm:ss')
+    }
     res.render('admin/manage_pro', {
         products,
         layout: 'admin'
