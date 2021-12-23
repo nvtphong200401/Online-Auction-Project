@@ -17,7 +17,7 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form id="formAdd" method="post" action="./category/add/">
+                        <form id="formAdd" method="post" action="./category/add">
                             <div class="form-group">
                                 <input type="text" name="CatName" class="form-control" placeholder="Category name"
                                     aria-describedby="helpId">
@@ -25,7 +25,7 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <a href="javascript:$('#formAdd').submit();" role="button" class="btn btn-success btn-sm" data-dismiss="modal"><i
+                        <a href="javascript:$('#formAdd').submit();" role="button" class="btn btn-success btn-sm"><i
                                 class="fa fa-floppy-o" aria-hidden="true"></i> Save</a>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
 
                         <button onclick="Delete(this, {{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
                             role="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                            delete</a>
+                            Delete</a>
                             {{/if}}
                     </td>
                 </tr>

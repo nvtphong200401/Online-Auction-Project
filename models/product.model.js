@@ -1,4 +1,3 @@
-import knex from 'knex';
 import moment from 'moment';
 
 function untilNow(begin) {
@@ -96,13 +95,16 @@ export default {
             .where('ProID', '=', ProID)
             .orderBy('Price', "desc");
     },
+    getStartPrice(ProID){
+        return db.select('Start_price as Price').from('product').where('ProID', '=', ProID)
+    },
     async getCurrentBid(ProID) {
         const price_user = await db.max("Price as Price").from("bid_history")
             .where('ProID', '=', ProID);
         let current_bid = price_user[0].Price;
 
         if (current_bid === null) {
-            const initial_price = await db.select('Start_price as Price').from('product').where('ProID', '=', ProID);
+            const initial_price = await this.getStartPrice(ProID);
             current_bid = initial_price[0].Price;
         }
         return current_bid;

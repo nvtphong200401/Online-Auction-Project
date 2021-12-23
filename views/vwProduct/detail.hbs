@@ -1,5 +1,6 @@
 {{#section 'js'}}
 <script crossorigin="anonymous" src="/public/js/time.js"></script>
+<script crossorigin="anonymous" src="/public/js/detail.js"></script>
 <script type="text/javascript">
     remainingDate('time-left', "{{this.product.EndDate}}");
     uploadDate('start-day', '{{this.product.UploadDate}}');
@@ -73,17 +74,22 @@
                         </label>
                     </div>
                     <div class="bid mt-3 mb-3">
-                        <form>
+                        {{#if success}}
+                            <div class="alert alert-warning" role="alert">
+                                {{success}}
+                            </div>  
+                        {{/if}}
+                        <form method="post" class="bidForm">
                             <div class="form-group">
                                 <div class="price mb-4">
                                     <h6 style="display: inline;">Highest bid: </h6>
                                     <h5 style="display: inline; color:red"> {{{format_number this.highestPrice}}} </h5>
                                 </div>
-                                <input type="text" name="" id="" class="form-control" placeholder=""
+                                <input type="text" name="BidPrice" id="bidprice" class="form-control" placeholder=""
                                     aria-describedby="helpId">
                                 <small id="helpId" class="text-muted">US Dollar</small>
                             </div>
-                            <button class="btn btn-round btn-danger" type="button"><i class="fa fa-money"
+                            <button class="btn btn-round btn-danger" type="submit"><i class="fa fa-money"
                                     aria-hidden="true"></i> Bid</button>
                         </form>
                     </div>

@@ -1,4 +1,5 @@
 import db from '../utils/db.js';
+import commentModel from './comment.model.js';
 
 export default {
     findAll() {
@@ -77,5 +78,10 @@ export default {
     },
     getAllScore(id){
       return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
+    },
+    getPercentScore(id){
+      const sum = this.getAllScore(id);
+      const total = commentModel.countComment(id);
+      return (total - (total-sum)/2)/total;
     }
   }
