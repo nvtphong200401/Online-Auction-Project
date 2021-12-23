@@ -29,10 +29,11 @@ router.get('/product/list/active', async function(req, res) {
     }
 
     const productList = await productModel.findActivePage(limit, offset);
-    productList.forEach(async (product) => {
+    for (const product of productList) {
         const cat = await categoryModel.findByPro(product.ProID);
         product.CatName = cat[0].CatName;
         const highestBid = await productModel.findHighestBID(product.ProID);
+        console.log(highestBid);
         if (highestBid === null) {
             product.HighestBid = "None";
         }
@@ -41,7 +42,7 @@ router.get('/product/list/active', async function(req, res) {
         }
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
-    })
+    }
     res.render('vwSeller/active', {
         layout: 'seller',
         products: productList,
