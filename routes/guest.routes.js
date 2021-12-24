@@ -84,12 +84,21 @@ router.get('/user/:id', function (req, res) {
 
 router.get('/search', async (req, res) => {
     const q = req.query.q;
-    const filter = req.query.filter | "";
-    const CatName = req.query.CatName | "";
-
+    const f =  () => {
+        if(req.query.filter === undefined){
+            return ""
+        }
+        return req.query.filter;
+    }
+    const c = () => {
+        if(req.query.CatName === undefined){
+            return "";
+        }
+        return req.query.CatName;
+    }
+    const filter = f();
+    const CatName = c();
     var prod;
-    console.log(filter)
-    console.log(q)
     if (CatName.length > 0) {
         if(filter.length > 0){
             prod = await productModel.searchAndFilter(q, CatName, filter);
@@ -100,12 +109,24 @@ router.get('/search', async (req, res) => {
     }
     else if (filter.length > 0){
         prod = await productModel.searchOrFilter(q, filter);
-        console.log(prod);
     }
     else {
         prod = await productModel.searchOr(q);
     }
     
+    await productModel.addDetail(prod);
+    if (filter === "MaxPrice") {
+        function compare(a, b) {
+            if(a.Current_bid < b.Current_bid){
+                return -1;
+            }
+            else if (a.Current_bid > b.Current_bid) {
+                return 1;
+            }
+            return 0;
+        }
+        prod.sort(compare);
+    }
     const CatId = req.query.CatID || 1;
     const nPage = Math.ceil(prod.length / 8) || 1;
     let PageNow = req.query.page || 1;

@@ -8,6 +8,9 @@ $(document).ready(function () {
         $('.bid').show('500');
         $('.buy').hide('500');
     });
+    if ($('.time-left').html() === 'END') {
+        $('.bidForm').html('<h5 style="display: inline; color:red">Unavailable to bid</h5>')
+    }
 });
 function timeDifference(current, previous) {
 
@@ -58,7 +61,12 @@ const remainingDate = function (className, endTime) {
     var msPerMonth = msPerDay * 30;
     var msPerYear = msPerDay * 365;
     if(elapsed < 50*msPerDay){
-        $('.' + className).html(Math.floor(elapsed/msPerDay) + ' day(s)');
+        if (elapsed <= 0) {
+            $('.' + className).html('END');
+        }
+        else {
+            $('.' + className).html(Math.floor(elapsed/msPerDay) + ' day(s)');
+        }
     }
     else {
         f(className, endTime);

@@ -29,10 +29,11 @@ router.get('/product/list/active', async function(req, res) {
     }
 
     const productList = await productModel.findActivePage(limit, offset);
-    productList.forEach(async (product) => {
+    for (const product of productList) {
         const cat = await categoryModel.findByPro(product.ProID);
         product.CatName = cat[0].CatName;
         const highestBid = await productModel.findHighestBID(product.ProID);
+        console.log(highestBid);
         if (highestBid === null) {
             product.HighestBid = "None";
         }
@@ -41,7 +42,7 @@ router.get('/product/list/active', async function(req, res) {
         }
         product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
         product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
-    })
+    }
     res.render('vwSeller/active', {
         layout: 'seller',
         products: productList,
@@ -83,6 +84,27 @@ router.get('/product/list/sold', async function (req, res) {
 router.post('/product/delete', async function (req, res) {
     await productModel.del(req.body.ProID);
     res.redirect('/seller/product/list/sold');
+})
+
+router.post('/product/edit', async function (req, res) {
+    const ProID = req.body.ProID;
+    const product = await productModel.findById(ProID);
+    var FullDesc = product[0].FullDesc;
+    const today = moment().format('DD-MM-YYYY');
+    FullDesc += today + '<br>' + req.body.FullDesc;
+    // add maxlength for description warning later in edit.hbs
+    await productModel.appendDescription(ProID, FullDesc);
+    res.redirect('/seller/product/list/active');
+})
+
+router.get('/product/edit', async function (req, res) {
+    const ProID = req.query.id || 0;
+    const product = await productModel.findById(ProID);
+    res.render('vwSeller/edit', {
+        layout: 'seller',
+        product: product[0],
+        empty: product.length === 0
+    });
 })
 
 router.post('/product/add',async function(req, res) {

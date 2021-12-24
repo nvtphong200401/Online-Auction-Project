@@ -3,7 +3,6 @@
 {{/section}}
 
 {{#section 'js'}}
-
     <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
@@ -16,15 +15,12 @@
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
     <script>
         $('#thumbnail').fileinput({
-            showCaption: false,
             dropZoneEnabled: false
         });
         $('#subImages').fileinput({
-            showCaption: false,
             dropZoneEnabled: false
         });
     </script>
-
 {{/section}}
 
 <div class="container-fluid">
@@ -46,14 +42,12 @@
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <div class="form-group">
-                                        <label for="CatName">Category</label>
-                                        <select class="form-control" id="CatName" name="CatName" required>
-                                            {{#each this.catList}}
-                                                <option>{{CatName}}</option>
-                                            {{/each}}
-                                        </select>
-                                    </div>
+                                    <label for="CatName">Category</label>
+                                    <select class="form-control" id="CatName" name="CatName" required>
+                                        {{#each this.catList}}
+                                            <option>{{CatName}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-row">

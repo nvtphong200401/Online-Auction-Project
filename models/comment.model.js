@@ -18,7 +18,7 @@ export default {
         if (!beingJudged) {
             [id_judged, id_judging] = [id_judging, id_judged];
         }
-        const list = await db.count('* as nComment').from('comment')
+        const list = await db.count('* as nComment').from('comment as c')
             .rightJoin('user as u', 'c.' + id_judging, 'u.ID')
             .where(id_judged,  '=', userID)
             .groupBy('Score');

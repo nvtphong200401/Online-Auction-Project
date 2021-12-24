@@ -1,15 +1,16 @@
 {{#section 'js'}}
 <script crossorigin="anonymous" src="/public/js/time.js"></script>
+<script crossorigin="anonymous" src="/public/js/detail.js"></script>
 <script type="text/javascript">
     remainingDate('time-left', "{{this.product.EndDate}}");
     uploadDate('start-day', '{{this.product.UploadDate}}');
 </script>
 
-    {{#each sameCat}}
-    <script type="text/javascript">
-            f('time-left-{{ProID}}', "{{EndDate}}");
-    </script>
-    {{/each}}
+{{#each sameCat}}
+<script type="text/javascript">
+    f('time-left-{{ProID}}', "{{EndDate}}");
+</script>
+{{/each}}
 {{/section}}
 {{#section 'css'}}
 <link rel="stylesheet" href="/public/css/style.css">
@@ -25,23 +26,22 @@
                             style="width: 100%;">
                     </div>
                     <div class="pro-img-list">
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/1.jpg" alt="">
+                        {{#each this.imgs}}
+                        <a href="javascript:;">
+                            <img src="/public/imgs/sp/{{ProID}}/{{file_name}}" alt="">
                         </a>
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/1_thumbs.jpg" alt="">
-                        </a>
-                        <a href="#">
-                            <img src="/public/imgs/sp/{{this.product.ProID}}/main.jpg" alt="">
-                        </a>
+                        {{/each}}
                     </div>
                 </div>
                 <div class="col-md-6">
                     <h4 class="pro-d-title" style="display: inline;">
                         {{this.product.ProName}}
                     </h4>
-                    <a class="btn btn-outline-success btn-sm float-right" href="#" role="button"><i class="fa fa-heart"
-                            aria-hidden="true"></i> Add to watchlist</a>
+                    <form action="/watchlist/add" method="post" class="float-right">
+                        <input type="hidden" name="id" value="{{this.product.ProID}}">
+                        <button class="btn btn-outline-success btn-sm " role="button"><i class="fa fa-heart"
+                                aria-hidden="true"></i> Add to watchlist</button>
+                    </form>
 
                     <div>
                         <small class="text-muted start-day">
@@ -74,35 +74,42 @@
                         </label>
                     </div>
                     <div class="bid mt-3 mb-3">
-                        <form>
+                        {{#if success}}
+                        <div class="alert alert-warning" role="alert">
+                            {{success}}
+                        </div>
+                        {{/if}}
+                        <div class="price mb-4">
+                            <h6 style="display: inline;">Highest bid: </h6>
+                            <h5 style="display: inline; color:red"> {{{format_number this.highestPrice}}} </h5>
+                        </div>
+                        <form method="post" class="bidForm">
                             <div class="form-group">
-                                <div class="price mb-4">
-                                    <h6 style="display: inline;">Highest bid: </h6>
-                                    <h5 style="display: inline; color:red"> {{{format_number this.highestPrice}}} </h5>
-                                </div>
-                                <input type="text" name="" id="" class="form-control" placeholder=""
+                                <input type="text" name="BidPrice" id="bidprice" class="form-control" placeholder=""
                                     aria-describedby="helpId">
                                 <small id="helpId" class="text-muted">US Dollar</small>
                             </div>
-                            <button class="btn btn-round btn-danger" type="button"><i class="fa fa-money"
+                            <button class="btn btn-round btn-danger" type="submit"><i class="fa fa-money"
                                     aria-hidden="true"></i> Bid</button>
                         </form>
                     </div>
                     <div class="buy mt-3" style="display: none;">
                         <div class="price mt-3">
                             <h6 style="display: inline;">Price: </h6>
-                            <h5 style="display: inline; color:red"> 
+                            <h5 style="display: inline; color:red">
                                 {{#if this.product.Buy_now}}
-                                {{{format_number this.product.Buy_now}}} 
-                        <form>
-                            <button class="btn btn-round btn-success" type="button"><i class="fa fa-cart-plus"
-                                    aria-hidden="true"></i> Buy now</button>
-                        </form>
+                                <div class="mb-3">
+                                {{{format_number this.product.Buy_now}}}
+                                </div>
+                                <form class="buyForm">
+                                    <button class="btn btn-round btn-success" type="button"><i class="fa fa-cart-plus"
+                                            aria-hidden="true"></i> Buy now</button>
+                                </form>
                                 {{else}}
-                                Not available
+                                Unavailable to buy
                                 {{/if}}
-                                
-                                </h5>
+
+                            </h5>
                         </div>
                     </div>
                 </div>
@@ -114,7 +121,8 @@
             <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description"
-                        role="tab" aria-controls="description" aria-selected="true" style="color: rgb(116, 184, 15);">Mô tả sản phẩm</a>
+                        role="tab" aria-controls="description" aria-selected="true" style="color: rgb(116, 184, 15);">Mô
+                        tả sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
@@ -122,7 +130,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab"
-                        aria-controls="reviews" aria-selected="false" style="color: rgb(116, 184, 15);">Danh sách bidder</a>
+                        aria-controls="reviews" aria-selected="false" style="color: rgb(116, 184, 15);">Danh sách
+                        bidder</a>
                 </li>
             </ul>
             <div class="tab-content ml-3" id="nav-tabContent">
@@ -184,8 +193,8 @@
                 {{#each sameCat}}
                 <div class="card card-small mr-2 rounded">
                     <div class="thumbnail">
-                        <img class="card-img-top" src="http://localhost:3000/public/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}"
-                            title="{{ProName}}">
+                        <img class="card-img-top" src="http://localhost:3000/public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                            alt="{{ProName}}" title="{{ProName}}">
                         {{#if New}}
                         <span class="tag-picture bg-info text-white">New</span>
                         {{/if}}

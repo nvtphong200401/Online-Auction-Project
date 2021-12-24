@@ -1,4 +1,3 @@
-import knex from 'knex';
 import moment from 'moment';
 
 function untilNow(begin) {
@@ -18,6 +17,11 @@ import db from '../utils/db.js';
 export default {
     addProduct(product) {
         return db('product').insert(product);
+    },
+    appendDescription(ProID, NewDesc) {
+        return db('product').where('ProID', '=', ProID).update({
+            FullDesc: NewDesc
+        })
     },
     async findLastProID() {
         const maxProID = await db('product').max('ProID as id').first();
@@ -91,13 +95,16 @@ export default {
             .where('ProID', '=', ProID)
             .orderBy('Price', "desc");
     },
+    getStartPrice(ProID){
+        return db.select('Start_price as Price').from('product').where('ProID', '=', ProID)
+    },
     async getCurrentBid(ProID) {
         const price_user = await db.max("Price as Price").from("bid_history")
             .where('ProID', '=', ProID);
         let current_bid = price_user[0].Price;
 
         if (current_bid === null) {
-            const initial_price = await db.select('Start_price as Price').from('product').where('ProID', '=', ProID);
+            const initial_price = await this.getStartPrice(ProID);
             current_bid = initial_price[0].Price;
         }
         return current_bid;
@@ -139,7 +146,6 @@ export default {
         }
         return list;
     },
-
     async findById(id){
         const list = await db('product').where('ProID', '=', id);
         await this.addDetail(list);
@@ -158,10 +164,10 @@ export default {
         return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${query}') OR MATCH(category.CatName) AGAINST('${query}')`);
     },
     searchAnd(proName, catName){
-        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND CatName = '${catName}'`);
+        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`);
     },
     searchAndFilter(proName, catName, filter){
-        return db('product').join('category', 'category.CatID', 'product.CatID').join('bid_system', 'product.ProID', 'bid_system.ProID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND CatName = '${catName}'`).orderBy(filter);
+        return db('product').join('category', 'category.CatID', 'product.CatID').join('bid_system', 'product.ProID', 'bid_system.ProID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`).orderBy(filter);
     },
     searchOrFilter(query, filter){
         if (filter === "EndDate"){

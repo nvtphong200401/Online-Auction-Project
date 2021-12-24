@@ -1,3 +1,4 @@
+
 <div class="card border-primary">
     <div class="card-header p-4" style="background-color: #2fbdd3;">
         <i class="fa fa-user" aria-hidden="true"></i> User management
@@ -14,6 +15,49 @@
         </span>
     </div>
     <div class="card-body">
+        <div class="modal fade" id="editUser" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit User</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="formEdit" method="put">
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">User ID</span>
+                                </div>
+                                <input id="EditUserID" class="form-control" type="text" name="UserID" class="form-control"
+                                    aria-describedby="helpId" readonly>
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Username</span>
+                                </div>    
+                                <input id="EditUsername" class="form-control" type="text" name="Username" class="form-control"
+                                    aria-describedby="helpId">
+                            </div>
+                            <div class="form-group input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Email</span>
+                                </div>    
+                                <input id="EditEmail" class="form-control" type="text" name="Email" class="form-control"
+                                    aria-describedby="helpId">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button onclick="SaveUser()" class="btn btn-success btn-sm" data-dismiss="modal"><i
+                                class="fa fa-floppy-o" aria-hidden="true" ></i> Save</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -27,7 +71,7 @@
             <tbody>
                 {{#each this.users}}
                 <tr class="row-{{ID}}">
-                    <th scope="row">{{ID}}</th>
+                    <th class="UserID" scope="row">{{ID}}</th>
                     <td class="Username">{{Username}}</td>
                     <td class="Email">{{Email}}</td>
                     {{#if Role}}
@@ -41,15 +85,15 @@
                         <button onclick="toSeller(this, {{ID}})" class="btn btn-info btn-sm shadow"><i class="fa fa-arrow-up" aria-hidden="true"></i>
                             To Seller</button>
                     {{/if}}
-                        <button onclick="Edit({{ID}})" class="btn btn-warning btn-sm shadow"><i class="fa fa-pencil"
+                        <button onclick="EditUser(this)" class="btn btn-warning btn-sm shadow"><i class="fa fa-pencil"
                                 aria-hidden="true"></i>
                             Edit</button>
                         <button onclick="Delete(this, {{ID}})" class="btn btn-danger btn-sm shadow"><i class="fa fa-trash"
                                 aria-hidden="true"></i>
-                            delete</button>
+                            Delete</button>
                     </td>
                 </tr>
-                <tr class="row-{{ID}}" style="display: none;">
+                {{!-- <tr class="row-{{ID}}" style="display: none;">
                     <form class="form-inline">
                         <th scope="row">
                             <div class="form-group">
@@ -84,7 +128,7 @@
                                 Cancel</a>
                         </td>
                     </form>
-                </tr>
+                </tr> --}}
                 {{/each}}
             </tbody>
         </table>

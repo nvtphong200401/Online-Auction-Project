@@ -1,5 +1,6 @@
 
 var table;
+var editor;
 $(document).ready(function () {
     table = $('.table').DataTable();
     $('.save').click((e) => {
@@ -7,13 +8,35 @@ $(document).ready(function () {
     });
     $('.edit').click((e) => {
         e.preventDefault();
-    })
+    });
 })
-
-function Edit(CatID) {
+function Edit(button) {
+    var CatName = $(button).parent().parent().find('.CatName');
+    const sub = $(CatName).find('a');
+    if (sub.length > 0) {
+        CatName = sub.html();
+    }
+    else {
+        CatName = CatName.html().trim();
+    }
+    const CatID = $(button).parent().parent().find('th').html();
+    $('#editCat').modal();
+    $('#EditCatID').val(CatID);
+    $('#EditCatName').val(CatName);
     
-    $(`.row-${CatID}`).toggle();
+    $('#formEdit').attr('action', './category/edit/' + CatID);
 }
+function EditUser(button) {
+    const Username = $(button).parent().parent().find('.Username').html();
+    const UserID = $(button).parent().parent().find('.UserID').html();
+    const Email = $(button).parent().parent().find('.Email').html();
+    $('#editUser').modal();
+    $('#EditUserID').val(UserID);
+    $('#EditUsername').val(Username);
+    $('#EditEmail').val(Email);
+    $('#formEdit').attr('action', './user/edit/' + UserID);
+}
+
 function Delete(button, ID) {
     table.row($(button).parents("tr")).remove().draw(false);
     const url = window.location.href + '/del/' + ID;
@@ -22,6 +45,7 @@ function Delete(button, ID) {
         method: 'POST',
     })
 }
+
 function Approve(button, ID) {
     table.row($(button).parents("tr")).remove().draw();
     const url = window.location.href + '/approve/' + ID;
@@ -30,8 +54,9 @@ function Approve(button, ID) {
         method: 'POST',
     }) 
 }
-function Save(CatID) {
-    const value = $(`.row-${CatID}`).find('input[name="CatName"]').val();
+function SaveCat() {
+    const CatID = $('#EditCatID').val();
+    const value = $('#EditCatName').val();
     const url = window.location.href + `/edit/${CatID}`;
     fetch(url, {
         method: 'PUT',
@@ -43,14 +68,13 @@ function Save(CatID) {
         })
     })
     const t = $(`.row-${CatID}`).find('.CatName');
-    console.log(t.find('a').length)
     if(t.find('a').length){
-        $(`.row-${CatID}`).find('.CatName').html(`<a href="./${CatID}">${value}</a>`);
+        $(`.row-${CatID}`).find('.CatName').html(`<a href="./category/${CatID}">${value}</a>`);
     }
     else {
         $(`.row-${CatID}`).find('.CatName').html(value)
     }
-    $(`.row-${CatID}`).toggle();
+    //$(`.row-${CatID}`).toggle();
 }
 function toggleModal() {
     $("#addCat").modal();
@@ -74,10 +98,10 @@ function toSeller(button, ID) {
         method: 'POST',
     })
 }
-function SaveUser(ID) {
-    const username = $(`.row-${ID}`).find('input[name="Username"]').val();
-    console.log(username);
-    const email = $(`.row-${ID}`).find('input[name="Email"]').val();
+function SaveUser() {
+    const ID = $('#EditUserID').val();
+    const username = $('#EditUsername').val();
+    const email = $('#EditEmail').val();
     const url = window.location.href + `/edit/${ID}`;
     fetch(url, {
         method: 'PUT',
@@ -91,5 +115,4 @@ function SaveUser(ID) {
     });
     $(`.row-${ID}`).find('.Username').html(username);
     $(`.row-${ID}`).find('.Email').html(email);
-    $(`.row-${ID}`).toggle();
 }
