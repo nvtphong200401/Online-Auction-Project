@@ -1,5 +1,5 @@
 import express from "express";
-
+import userModel from '../models/users_model.js';
 const router = express.Router();
 
 router.get('/request', function (req, res) {
@@ -9,10 +9,26 @@ router.get('/request', function (req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        res.render('vwBidder/request', {
-            layout: 'default'
-        });
+        if (req.session.authUser.Pending) {
+            res.render('vwBidder/waiting', {
+                layout: 'default'
+            });
+        }
+        else {
+            res.render('vwBidder/request', {
+                layout: 'default'
+            });
+        }
     }
+});
+
+router.post('/request', async function (req, res) {
+    const id = req.session.authUser.ID;
+    req.session.authUser.Pending = true;
+    await userModel.setPending(id);
+
+    const url = req.headers.referer || '/';
+    res.redirect(url);
 });
 
 router.get('/profile', function (req, res) {

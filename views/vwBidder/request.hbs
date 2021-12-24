@@ -4,30 +4,10 @@
 
 {{#section 'js'}}
 
-    <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function () {
-            'use strict';
-            window.addEventListener('load', function () {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                let forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                let validation = Array.prototype.filter.call(forms, function (form) {
-                    form.addEventListener('submit', function (event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
-    </script>
 {{/section}}
 
 
-<form class="needs-validation text-center border border-light" novalidate>
+<div class="needs-validation text-center border border-light">
     <div class="wrapper">
         <div class="overlay">
             <nav class="navbar navbar-expand-lg text-white navbar-light mb-0 d-flex justify-content-between">
@@ -137,11 +117,11 @@
                                         <div class="mt-4 inputs">
                                             <div class="form-group text-left">
                                                 <label class="text-left">Name</label>
-                                                <input type="text" class="form-control" placeholder="Your name" value="{{authUser.FullName}}" required>
+                                                <input type="text" class="form-control" placeholder="Your name" value="{{authUser.FullName}}" readonly>
                                             </div>
                                             <div class="form-group text-left">
                                                 <label class="text-left">Email</label>
-                                                <input type="text" class="form-control mb-5" placeholder="Your email address" value="{{authUser.Email}}" required>
+                                                <input type="text" class="form-control mb-5" placeholder="Your email address" value="{{authUser.Email}}" readonly>
                                             </div>
                                         </div>
                                         <div class="form-group ml-1">
@@ -157,7 +137,9 @@
                                             </div>
                                         </div>
                                         <div class="button text-left">
-                                            <button class="btn btn-success btn-lg btn-block">Submit</button>
+                                            <form id="frmRequest" action="/bidder/request" method="post"></form>
+                                            <a class="btn btn-success btn-lg btn-block"
+                                                    href="javascript: $('#frmRequest').submit();">Submit</a>
                                         </div>
 
                                     </div>
@@ -169,5 +151,5 @@
             </div>
         </div>
     </div>
-</form>
+</div>
 
