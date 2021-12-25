@@ -1,4 +1,5 @@
 {{#section 'js'}}
+<script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 <script crossorigin="anonymous" src="/public/js/time.js"></script>
 <script crossorigin="anonymous" src="/public/js/detail.js"></script>
 <script type="text/javascript">
@@ -94,15 +95,15 @@
                         </form>
                     </div>
                     <div class="buy mt-3" style="display: none;">
-                        <div class="price mt-3">
+                        <div class="buynow mt-3">
                             <h6 style="display: inline;">Price: </h6>
                             <h5 style="display: inline; color:red">
                                 {{#if this.product.Buy_now}}
                                 <div class="mb-3">
                                 {{{format_number this.product.Buy_now}}}
                                 </div>
-                                <form class="buyForm">
-                                    <button class="btn btn-round btn-success" type="button"><i class="fa fa-cart-plus"
+                                <form class="buyForm" action="./buy/{{this.product.ProID}}" method="post">
+                                    <button class="btn btn-round btn-success" type="submit"><i class="fa fa-cart-plus"
                                             aria-hidden="true"></i> Buy now</button>
                                 </form>
                                 {{else}}
@@ -171,7 +172,7 @@
                                 {{#each this.bid_his}}
                                 <tr>
                                     <td scope="row">{{Time}}</td>
-                                    <td>{{FullName}}</td>
+                                    <td>{{{format_name FullName}}}</td>
                                     <td>{{Price}}</td>
                                     <td>{{Score}}</td>
                                 </tr>

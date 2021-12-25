@@ -1,11 +1,18 @@
 $(document).ready(function () {
     $('.bidForm').submit((e) => {
         var currentHighest = $('.price > h5').html().split(' ');
-        currentHighest = currentHighest[1];
-        const currentBid = $('#bidprice').val();
+        currentHighest = numeral(currentHighest[1]).value();
+        const currentBid = numeral($('#bidprice').val()).value();
+        var buyPrice = $('.buynow > h5 > div').html().trim().split(' ');
+        buyPrice = numeral(buyPrice[0]).value();
         if(currentHighest > currentBid){
             $('.price').append('<div class="alert alert-danger" role="alert">Your bid is lower than the highest price! Please make a higher bid</div>')
             e.preventDefault();
         }
+        else if (currentBid > buyPrice){
+            $('.price').append('<div class="alert alert-warning" role="alert">You can buy now with that amount of money! Please click Buy now button</div>')
+            e.preventDefault();
+        }
+        
     })
 })

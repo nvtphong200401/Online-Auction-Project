@@ -114,7 +114,8 @@ let countDown = function (className, endTime) {
         // If the count down is over, write some text
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById(className).innerHTML = "Ended";
+            $('.' + className).html("Ended");
+            $('.' + className).addClass('text-danger');
         }
         console.log("Running")
     }

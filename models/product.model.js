@@ -157,8 +157,10 @@ export default {
     countAllByUser(id){
         return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     },
-    proSameCat(catID, proID){
-        return db('product').whereRaw(`CatID = ${catID} AND ProID != ${proID}`).orderByRaw('RAND()').limit(5)
+    async proSameCat(catID, proID){
+        const list = await db('product').whereRaw(`CatID = ${catID} AND ProID != ${proID}`).orderByRaw('RAND()').limit(5)
+        await this.addDetail(list);
+        return list;
     },
     searchOr(query){
         return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${query}') OR MATCH(category.CatName) AGAINST('${query}')`);
@@ -174,5 +176,8 @@ export default {
             return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter ,'desc');
         }
         return db('bid_system').rightJoin('product', 'product.ProID', 'bid_system.ProID').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
+    },
+    getSeller(ProID){
+        return db('sale').join('user', 'sale.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
     }
 }
