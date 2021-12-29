@@ -166,7 +166,7 @@ export default {
         return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${query}') OR MATCH(category.CatName) AGAINST('${query}')`);
     },
     searchAnd(proName, catName){
-        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`);
+        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST('${catName}')`);
     },
     searchAndFilter(proName, catName, filter){
         return db('product').join('category', 'category.CatID', 'product.CatID').join('bid_system', 'product.ProID', 'bid_system.ProID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`).orderBy(filter);

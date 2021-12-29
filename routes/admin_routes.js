@@ -4,6 +4,7 @@ import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
 import categoryModel from '../models/category.model.js';
 import moment from 'moment';
+import nodemailer from 'nodemailer';
 const router = express.Router();
 router.get('/', (req,res) => {
     res.redirect('/admin/category')
@@ -69,7 +70,17 @@ router.post('/category/del/:id', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
-    const users = await UserModel.findAll()
+    const filter = req.query.filter;
+    var users;
+    if (filter === 'Seller'){
+        users = await UserModel.findByRole(1);
+    }
+    else if (filter === 'Bidder'){
+        users = await UserModel.findByRole(0);
+    }
+    else {
+        users = await UserModel.findAll()
+    }
     res.render('admin/user', {
         users,
         layout: 'admin'

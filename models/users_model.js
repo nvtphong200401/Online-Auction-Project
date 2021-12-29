@@ -3,7 +3,7 @@ import commentModel from './comment.model.js';
 
 export default {
     findAll() {
-        return db('user');
+        return db('user').where('isBanned', 0);
     },
 
     async findByID(ID) {
@@ -12,6 +12,9 @@ export default {
             return null;
 
         return list[0];
+    },
+    findByRole(role){
+        return db('user').where('Role', role);
     },
 
     async findByUsername(username) {
@@ -29,7 +32,7 @@ export default {
     del(ID) {
         return db('user')
             .where('ID', ID)
-            .del();
+            .update('isBanned', 1);
     },
 
     patch(entity) {
