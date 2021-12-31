@@ -3,9 +3,8 @@ import commentModel from './comment.model.js';
 
 export default {
     findAll() {
-        return db('user').where('isBanned', 0);
+        return db('user');
     },
-
     async findByID(ID) {
         const list = await db('user').where('ID', ID);
         if (list.length === 0)
@@ -15,6 +14,9 @@ export default {
     },
     findByRole(role){
         return db('user').where('Role', role);
+    },
+    findByEmail(email){
+        return db('user').where('Email', email);
     },
 
     async findByUsername(username) {
@@ -86,9 +88,12 @@ export default {
     getAllScore(id) {
         return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
     },
-    getPercentScore(id) {
-        const sum = this.getAllScore(id);
-        const total = commentModel.countComment(id);
-        return (total - (total - sum) / 2) / total;
+    getPercentScore(id){
+      const sum = this.getAllScore(id);
+      const total = commentModel.countComment(id);
+      return (total - (total-sum)/2)/total;
+    },
+    unban(id){
+        return db('user').where('ID', id).update('isBanned', 0);
     }
 }

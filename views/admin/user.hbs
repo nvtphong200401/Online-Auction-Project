@@ -93,9 +93,14 @@
                         <button onclick="EditUser(this)" class="btn btn-warning btn-sm shadow"><i class="fa fa-pencil"
                                 aria-hidden="true"></i>
                             Edit</button>
+                        {{#if isBanned}}
+                        <button onclick="Unban(this, {{ID}})" class="btn btn-success btn-sm shadow"><i class="fa fa-check" aria-hidden="true"></i>
+                            Unban</button>
+                        {{else}}
                         <button onclick="Delete(this, {{ID}})" class="btn btn-danger btn-sm shadow"><i class="fa fa-trash"
                                 aria-hidden="true"></i>
                             Delete</button>
+                        {{/if}}
                     </td>
                 </tr>
                 {{!-- <tr class="row-{{ID}}" style="display: none;">
