@@ -18,12 +18,31 @@ export default {
         if (!beingJudged) {
             [id_judged, id_judging] = [id_judging, id_judged];
         }
-        const list = await db.count('* as nComment').from('comment as c')
+        return db.count('* as nComment').from('comment as c')
             .rightJoin('user as u', 'c.' + id_judging, 'u.ID')
-            .where(id_judged,  '=', userID)
-            .groupBy('Score');
-
-        return list;
+            .where(id_judged, '=', userID);
     },
+    async countGoodComment(userID, beingJudged = true) {
+        let id_judged = 'ID2';
+        let id_judging = 'ID1';
+        if (!beingJudged) {
+            [id_judged, id_judging] = [id_judging, id_judged];
+        }
+        return db.count('* as nComment').from('comment as c')
+            .rightJoin('user as u', 'c.' + id_judging, 'u.ID')
+            .where(id_judged, '=', userID).andWhere('Score', '=', 1);
+    },
+
+    async countBadComment(userId, beingJudged = true) {
+        return await this.countComment(userId, beingJudged) - await this.countGoodComment(userId, beingJudged);
+    },
+
+    async percentGoodComment(userId, beingJudged = true) {
+        const total = await this.countComment(userId, beingJudged);
+        if (total === 0) // If there is no comment yet, return -1
+            return -1;
+        const good = await this.countGoodComment(userId, beingJudged);
+        return good / total * 100;
+    }
 }
 

@@ -76,18 +76,16 @@ export default {
     setNewPassword(email, newPassword) {
         return db('user').where('Email', email).update('Password', newPassword);
     },
-    getAllScore(id) {
-        return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
-    },
     setPending(id) {
         return db('user').where('ID', id).update('Pending', true);
     },
-    getAllScore(id){
-      return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
+    // 2 functions below are now available in comment.model.js :)
+    getAllScore(id) {
+        return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
     },
-    getPercentScore(id){
-      const sum = this.getAllScore(id);
-      const total = commentModel.countComment(id);
-      return (total - (total-sum)/2)/total;
+    getPercentScore(id) {
+        const sum = this.getAllScore(id);
+        const total = commentModel.countComment(id);
+        return (total - (total - sum) / 2) / total;
     }
 }
