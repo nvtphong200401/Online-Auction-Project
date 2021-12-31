@@ -81,6 +81,8 @@ router.post('/:id', auth, async (req, res) => {
     const ProID = req.params.id;
     const MaxPrice = req.body.BidPrice;
     const product = await productModel.findById(ProID);
+    const seller = await productModel.getSeller(ProID);
+    console.log(seller)
     var err_message = null;
     const t = await bidModel.getTop2();
     if (t.length > 0) {
@@ -101,6 +103,7 @@ router.post('/:id', auth, async (req, res) => {
                 const user1 = await userModel.findByID(top[0].BID);
                 
                 sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${req.params.id}">Link</a>`, "Bid system");
+
                 if (top[1] !== undefined) {
                     const user2 = await userModel.findByID(top[1].BID);
                     sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${req.params.id}">here</a> to bid a new price now !`, "Bid system");
@@ -125,6 +128,10 @@ router.post('/:id', auth, async (req, res) => {
         }
         return res.redirect('/product/' + req.params.id)
     }
+})
+router.post('/buy/:id', auth, async (req,res) => {
+    console.log(req.params.id);
+    return res.redirect('/product/' + req.params.id)
 })
 
 

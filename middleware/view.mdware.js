@@ -20,6 +20,11 @@ export default function (app) {
             format_date_calendar(val) {
                 return moment(val).calendar();
             },
+            format_name(name){
+                const str = name.split(' ');
+                const n = str.length;
+                return '****' + str[n-1];
+            },
             section: hbs_sections()
         }
     }));

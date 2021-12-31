@@ -15,6 +15,7 @@ export default function (app) {
 
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
+    res.locals.admin = req.session.authUser.Role === 2;
     app.locals.success = req.flash('success');
     next();
   });

@@ -3,13 +3,13 @@
 {{#each related}}
 <script type="text/javascript">
     f('time-left-{{ProID}}', "{{EndDate}}");
-    function submitForm(button) {
-        $(button).parent('form').submit();
-    }
 </script>
 {{/each}}
 
 <script>
+    function submitForm(button) {
+        $(button).parent('form').submit();
+    }
     $('.addItem').on('click', function (e) {
         const id = $(this).data('id');
         $('#txtProID').val(id);

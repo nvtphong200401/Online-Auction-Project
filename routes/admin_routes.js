@@ -4,10 +4,35 @@ import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
 import categoryModel from '../models/category.model.js';
 import moment from 'moment';
+import nodemailer from 'nodemailer';
 const router = express.Router();
 router.get('/', (req,res) => {
     res.redirect('/admin/category')
 })
+function sendEmail(email, message, title) {
+    var email = email;
+    var mail = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'dragonslayers248@gmail.com',
+            pass: 'matkhauvip'
+        }
+    });
+    var mailOptions = {
+        from: 'dragonslayers248@gmail.com',
+        to: email,
+        subject: title + ' - onlineauction.com',
+        html: '<p>'+message+'</p>'
+
+    };
+    mail.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return 1
+        } else {
+            return 0
+        }
+    });
+}
 router.get('/category', async (req, res) => {
     const list = await CatModel.findAllMain();
     for (const i in list) {
@@ -45,23 +70,39 @@ router.post('/category/del/:id', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
-    const users = await UserModel.findAll()
+    const filter = req.query.filter;
+    var users;
+    if (filter === 'Seller'){
+        users = await UserModel.findByRole(1);
+    }
+    else if (filter === 'Bidder'){
+        users = await UserModel.findByRole(0);
+    }
+    else {
+        users = await UserModel.findAll()
+    }
     res.render('admin/user', {
         users,
         layout: 'admin'
     });
 })
 router.post('/user/toBidder/:id', async (req, res) => {
+    const user = UserModel.findByID(req.params.id);
+    sendEmail(user.Email, "You have been downgraded to be bidder !", "Admin");
     await UserModel.toBidder(req.params.id);
 
 })
 router.post('/user/toSeller/:id', async (req, res) => {
+    const user = UserModel.findByID(req.params.id);
+    sendEmail(user.Email, "You have been upgraded to be seller !", "Admin");
     await UserModel.toSeller(req.params.id);
 })
 router.put('/user/edit/:id', async (req, res) => {
     await UserModel.edit(req.params.id, req.body.Username, req.body.Email);
 })
 router.post('/user/del/:id', async (req, res) => {
+    const user = UserModel.findByID(req.params.id);
+    sendEmail(user.Email, "You have violated our terms of policy so that we decided to delete your account !", "Admin");
     await UserModel.del(req.params.id);
 })
 
@@ -86,7 +127,9 @@ router.get('/product', async (req, res) => {
     })
 })
 router.post('/product/del/:id', async (req, res) => {
-    console.log(req.params.id);
+    const user = UserModel.findByID(req.params.id);
+    const seller = ProductModel.getSeller(req.params.id);
+    //sendEmail(seller[0].Email, "Your product has violated our terms of policy so that we decided to delete it !", "Admin");
     await ProductModel.del(req.params.id);
 })
 router.put('/category/edit/:id', async (req, res) => {
@@ -97,9 +140,13 @@ router.post('/category/add', async (req,res) => {
     return res.redirect('/admin/category');
 })
 router.post('/pending/del/:id', async (req, res) => {
+    const user = UserModel.findByID(req.params.id);
+    sendEmail(user.Email, "You have been rejected to be seller !", "Admin");
     await UserModel.reject(req.params.id);
 })
 router.post('/pending/approve/:id', async (req, res) => {
+    const user = UserModel.findByID(req.params.id);
+    sendEmail(user.Email, "You have been approved to be seller !", "Admin");
     await UserModel.approve(req.params.id)
 })
 
