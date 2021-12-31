@@ -1,6 +1,69 @@
 {{#section 'css'}}
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 {{/section}}
+{{#section 'js'}}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+    <script src="https://momentjs.com/downloads/moment.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            const handleString = function (str) {
+                return str.replace(/\s+/g, ' ').trim()
+            }
+
+            $("#submitButton").click(function () {
+                //Fetch form to apply custom Bootstrap validation
+                const form = $("#frmChangeProfile");
+
+                if (form[0].checkValidity() === false) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                const username = handleString($('#txtUsername').val());
+                const fullname = handleString($('#txtFullname').val());
+                const email = handleString($('#txtEmail').val());
+                const dob = $('#txtDOB').val();
+
+                const old_username = "{{authUser.Username}}"
+                const old_fullname = "{{authUser.FullName}}"
+                const old_email = "{{authUser.Email}}"
+                const old_dob = "{{format_date_calendar authUser.DOB}}"
+
+                if (username === old_username && fullname === old_fullname && email === old_email && dob === old_dob) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                else {
+                    $('#nameForm').addClass("was-validated");
+                    $('#userForm').addClass("was-validated");
+                    $('#emailForm').addClass("was-validated");
+
+                    const eighteenYearsAgo = moment().subtract(18, "years");
+                    if (!eighteenYearsAgo.isAfter(dob)) {
+                        $('#txtDOB').addClass('is-invalid')
+                        $('#txtDOB').removeClass('is-valid')
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    else {
+                        $('#txtDOB').removeClass('is-invalid')
+                        $('#txtDOB').addClass('is-valid')
+                    }
+                }
+            });
+
+
+            $('#txtDOB').datetimepicker({
+                timepicker: false,
+                format: 'd/m/Y',
+                mask: true
+            });
+            $('#txtDOB').val("{{format_date_calendar authUser.DOB}}");
+        });
+    </script>
+{{/section}}
 
 <div class="container mt-5">
     <div class="row flex-lg-nowrap">
@@ -66,34 +129,73 @@
                                 </ul>
                                 <div class="tab-content pt-3">
                                     <div class="tab-pane active">
-                                        <form class="form" novalidate="">
+                                        <form class="form" novalidate="" action="/bidder/profile/edit"
+                                              id="frmChangeProfile"
+                                              method="post">
                                             <div class="row">
                                                 <div class="col">
                                                     <div class="row">
                                                         <div class="col">
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="nameForm">
                                                                 <label>Full Name</label>
                                                                 <input class="form-control" type="text" name="name"
                                                                        placeholder="Your username"
-                                                                       value="{{authUser.FullName}}" required>
+                                                                       value="{{authUser.FullName}}"
+                                                                       id="txtFullname"
+                                                                       required>
+                                                                <div class="invalid-feedback ml-2">
+                                                                    This field should not be empty
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="userForm">
                                                                 <label>Username</label>
                                                                 <input class="form-control" type="text" name="username"
                                                                        placeholder="Your name"
-                                                                       value="{{authUser.Username}}" readonly>
+                                                                       id="txtUsername"
+                                                                       value="{{authUser.Username}}" required>
+                                                                <div id='invalidUsername' class="invalid-feedback ml-2">
+                                                                    This field should not be empty
+                                                                </div>
+                                                                {{#if err_username}}
+                                                                    <div class="alert alert-warning alert-dismissible fade show"
+                                                                         role="alert">
+                                                                        {{err_username}}
+                                                                        <button type="button" class="close"
+                                                                                data-dismiss="alert"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                {{/if}}
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col">
-                                                            <div class="form-group">
+                                                            <div class="form-group" id="emailForm">
                                                                 <label>Email</label>
-                                                                <input class="form-control" type="text"
+                                                                <input class="form-control" type="text" name="email"
                                                                        placeholder="Your email"
-                                                                       value="{{authUser.Email}}" required>
+                                                                       value="{{authUser.Email}}"
+                                                                       id="txtEmail"
+                                                                       pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+                                                                       required>
+                                                                <div class="invalid-feedback ml-2">
+                                                                    This field should be a valid email
+                                                                </div>
+                                                                {{#if err_email}}
+                                                                    <div class="alert alert-warning alert-dismissible fade show"
+                                                                         role="alert">
+                                                                        {{err_email}}
+                                                                        <button type="button" class="close"
+                                                                                data-dismiss="alert"
+                                                                                aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                {{/if}}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -103,13 +205,16 @@
                                                             {{!-- DOB --}}
                                                             <div class="form-group">
                                                                 <label>Date of birth</label>
-                                                                <div class="input-group">
-                                                                    <input type="text" class="form-control" id="txtDOB"
-                                                                           name="dob" placeholder="__/__/____">
+                                                                <div class="form-group input-group">
                                                                     <div class="input-group-prepend">
                                                                         <span class="input-group-text"><i
                                                                                 class="fa fa-calendar"
                                                                                 aria-hidden="true"></i></span>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" id="txtDOB"
+                                                                           name="dob" value="{{authUser.DOB}}">
+                                                                    <div class="invalid-feedback ml-2">
+                                                                        You must be above 18 to trade here!
                                                                     </div>
                                                                 </div>
 
@@ -121,7 +226,9 @@
 
                                             <div class="row">
                                                 <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
+                                                    <button id="submitButton" class="btn btn-primary" type="submit">Save
+                                                        Changes
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>

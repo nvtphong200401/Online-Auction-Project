@@ -3,6 +3,7 @@ import userModel from '../models/users_model.js';
 import commentModel from '../models/comment.model.js'
 import productModel from '../models/product.model.js'
 import bcrypt from "bcryptjs";
+import moment from "moment";
 const router = express.Router();
 
 router.get('/request', function (req, res) {
@@ -73,11 +74,60 @@ router.get('/profile/edit', function (req, res) {
         res.redirect('/auth');
     } else {
         res.render('vwBidder/edit', {
+            err_email: req.flash('email_fail'),
+            err_username: req.flash('username_fail'),
             layout: 'main'
         });
     }
 });
+router.post('/profile/edit', async function (req, res) {
+    const user = await userModel.findByUsername(res.locals.authUser.Username);
+    delete user.Password;
 
+    const handleString = function (str) {
+        return str.replace(/\s+/g, ' ').trim()
+    }
+
+    const email = handleString(req.body.email);
+    const username = handleString(req.body.username);
+    const name = handleString(req.body.name);
+    const dob = req.body.dob;
+
+    if (email !== res.locals.authUser.Email) {
+        const data = await userModel.findByEmail(email);
+        if (data.length === 0) {
+            await userModel.editEmail(user.ID, email);
+            res.locals.authUser.Email = email;
+        }
+        else {
+            req.flash("email_fail", "Email " + email + " has already been used");
+            res.redirect('/bidder/profile/edit');
+            return;
+        }
+    }
+    if (username !== res.locals.authUser.Username) {
+        const data = await userModel.findByUsername(username);
+        console.log(data)
+        if (data === null) {
+            await userModel.editUsername(user.ID, username);
+            res.locals.authUser.Username = username;
+        }
+        else {
+            req.flash("username_fail", "Username " + username + " has already been used");
+            res.redirect('/bidder/profile/edit');
+            return;
+        }
+    }
+    if (name !== res.locals.authUser.FullName) {
+        await userModel.editName(user.ID, name);
+        res.locals.authUser.FullName = name;
+    }
+    if (dob !== moment(res.locals.authUser.DOB).calendar()) {
+        await userModel.editDob(user.DOB, dob);
+        res.locals.authUser.DOB = dob;
+    }
+    res.redirect('/bidder/profile/edit');
+});
 router.get('/profile/reset-password', function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
