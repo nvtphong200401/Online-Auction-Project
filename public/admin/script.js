@@ -38,8 +38,17 @@ function EditUser(button) {
 }
 
 function Delete(button, ID) {
-    table.row($(button).parents("tr")).remove().draw(false);
+    //table.row($(button).parents("tr")).remove().draw(false);
+    $(button).attr('class', 'btn btn-success btn-sm shadow').html('<i class="fa fa-check" aria-hidden="true"></i> Unban');
     const url = window.location.href + '/del/' + ID;
+    console.log(url);
+    fetch(url, {
+        method: 'POST',
+    })
+}
+function Unban(button, ID) {
+    $(button).attr('class', 'btn btn-danger btn-sm shadow').html('<i class="fa fa-trash" aria-hidden="true"></i> Delete');
+    const url = window.location.href + '/unban/' + ID;
     console.log(url);
     fetch(url, {
         method: 'POST',

@@ -15,9 +15,11 @@ export default function (app) {
 
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
-    if (res.locals.authUser != null)
+    if (req.session.auth === true) {
       res.locals.admin = req.session.authUser.Role === 2;
+    }
     app.locals.success = req.flash('success');
+    app.locals.warning = req.flash('warning');
     next();
   });
   app.use(async function (req, res, next) {

@@ -111,21 +111,24 @@ router.post('/getNewPassword', async (req, res) => {
 })
 router.get('/verify-email', async (req, res) => {
   var type = 'success';
-  var msg = 'Your email has been verify';
+  var msg = 'Your email has been verified';
   const result = await verifyModel.verify_email(req.query.token);
 
   if (result.length > 0) {
     await userModel.setVerified(result[0].email);
     await verifyModel.removeToken(result[0].email);
   } else {
-    type = 'success';
-    msg = 'The email has already been verified';
+    type = 'warning';
+    msg = 'Unknown request';
   }
   req.flash(type, msg);
-  res.redirect('/auth');
+  return res.redirect('/auth');
 })
 
 router.get('/', (req, res) => {
+  if (req.session.auth) {
+    return res.redirect('/');
+  }
   res.render('auth/login', { layout: 'auth' })
 })
 
@@ -156,6 +159,13 @@ router.post('/', async (req, res) => {
       DOB,
       Email
     };
+    const u = await findByEmail(Email);
+    if (u[0].isBanned === 1) {
+      var type = 'warning';
+      var msg = 'You has been banned before ! Please contact admin to solve the problem !';
+      req.flash(type, msg);
+      return res.redirect('/auth/');
+    }
     const token = randToken.generate(20);
     const verification = {
       email: Email,
@@ -183,6 +193,13 @@ router.post('/', async (req, res) => {
       return res.render('auth/login', {
         layout: 'auth',
         err_message: 'Invalid username or password.'
+      });
+    }
+    // Check banned user
+    if (user.isBanned === 1) {
+      return res.render('auth/login', {
+        layout: 'auth',
+        err_message: 'Your account has been banned, please contact admin to solve the problem'
       });
     }
     //Check verified account
