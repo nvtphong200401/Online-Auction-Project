@@ -69,15 +69,15 @@
                                             {{/if}}
                                             <div class="details">
                                                 {{#if HighestBID}}
-                                                    <a href="/user/{{HighestBID.ID}}" class="user">
+                                                    <span href="#" class="user">
                                                         <div class="user-photo">
                                                             <img alt="Thumb" src="./public/imgs/avatar/0/avatar1.png">
                                                         </div>
                                                         <div class="name" data-toggle="tooltip" data-placement="top"
-                                                             title="{{HighestBID.Username}}">
-                                                            {{HighestBID.Username}}
+                                                             title="{{{format_name HighestBID.FullName}}}">
+                                                            {{{format_name HighestBID.FullName}}}
                                                         </div>
-                                                    </a>
+                                                    </span>
                                                 {{else}}
                                                     <div class="user">
                                                         <div class="name">No bidder!</div>

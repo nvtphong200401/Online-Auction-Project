@@ -2,6 +2,7 @@ import express from "express";
 import userModel from '../models/users_model.js';
 import commentModel from '../models/comment.model.js'
 import productModel from '../models/product.model.js'
+import bcrypt from "bcryptjs";
 const router = express.Router();
 
 router.get('/request', function (req, res) {
@@ -85,9 +86,32 @@ router.get('/profile/reset-password', function (req, res) {
         res.redirect('/auth');
     } else {
         res.render('vwBidder/changepassword', {
+            err_message: req.flash('fail'),
             layout: 'main'
         });
     }
 });
+router.post('/profile/reset-password', async function (req, res) {
+    const user = await userModel.findByUsername(res.locals.authUser.Username);
+    const ret = bcrypt.compareSync(req.body.old_pass, user.Password);
+    if (ret === false) {
+        req.flash("fail", "Incorrect password");
+        res.redirect('/bidder/profile/reset-password');
+        return;
+    }
+    delete user.Password;
 
+    const email = res.locals.authUser.Email;
+    const rawPassword = req.body.pass;
+    const salt = bcrypt.genSaltSync(10);
+    const newPassword = bcrypt.hashSync(rawPassword, salt);
+    await userModel.setNewPassword(email, newPassword);
+
+    req.session.auth = false;
+    req.session.authUser = null;
+    req.session.cart = [];
+
+    req.flash("success", "Please use new password to continue");
+    res.redirect('/auth')
+});
 export default router;
