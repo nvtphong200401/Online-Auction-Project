@@ -10,6 +10,17 @@
     {{/each}}
 {{/section}}
 
+{{#section 'css'}}
+<style>
+    .product {
+        transition: 0.5s;
+    }
+    .product:hover{
+    box-shadow: 0 10px 20px 0 gray;
+    }
+</style>
+{{/section}}
+
 <div id="main-content">
     <!--Main Content-->
     <!-- Category -->
@@ -60,7 +71,7 @@
                         <div class="card-body">
                             <div class="card-group">
                                 {{#each list}}
-                                    <div class="card card-small mr-2 rounded">
+                                    <div class="card product card-small mr-2 rounded">
                                         <div class="thumbnail">
                                             <img class="card-img-top" src="./public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                                  alt="{{ProName}}" title="{{ProName}}">

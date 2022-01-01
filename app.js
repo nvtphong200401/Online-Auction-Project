@@ -4,6 +4,8 @@ import routesMdware from './middleware/routes.mdware.js';
 import localMdware from "./middleware/locals.mdware.js";
 import sessionMdware from "./middleware/session.mdware.js";
 import flash from 'express-flash';
+
+
 const app = express();
 
 app.use(express.urlencoded({

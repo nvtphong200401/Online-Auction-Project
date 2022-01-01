@@ -108,5 +108,11 @@ export default {
     },
     unban(id){
         return db('user').where('ID', id).update('isBanned', 0);
+    },
+    addFbUser(user){
+        return db('fbUser').insert(user);
+    },
+    findFbById(id){
+        return db('fbuser').where('facebookId', id);
     }
 }

@@ -6,9 +6,31 @@ import verifyModel from '../models/verif.model.js';
 import randToken from 'rand-token';
 import nodemailer from 'nodemailer';
 import fetch from 'node-fetch';
+import passport from 'passport';
+import fb from 'passport-facebook';
 
+const FacebookStrategy = fb.Strategy;
 const router = express.Router();
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
 
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
+router.use(passport.initialize());
+router.use(passport.session());
+passport.use(new FacebookStrategy({
+  clientID: '636448247537390',
+  clientSecret: '8e5b954aeb5e0c716b1edb0d3c6b9631',
+  callbackURL: "http://localhost:3000/auth/facebook/login"
+},
+  async function (accessToken, refreshToken, profile, cb) {
+    process.nextTick(() => {
+      return cb(null, profile);
+    });
+  }
+));
 function sendEmail(email, token, verify) {
   var email = email;
   var token = token;
@@ -21,7 +43,7 @@ function sendEmail(email, token, verify) {
   });
   var link;
   var purpose;
-  if(verify){
+  if (verify) {
     link = "verify-email";
     purpose = "verify your email address";
   }
@@ -33,7 +55,7 @@ function sendEmail(email, token, verify) {
     from: 'dragonslayers248@gmail.com',
     to: email,
     subject: 'Email verification - onlineauction.com',
-    html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> '+ purpose +'</p>'
+    html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> ' + purpose + '</p>'
 
   };
   mail.sendMail(mailOptions, function (error, info) {
@@ -88,17 +110,17 @@ router.post('/requestNewPassword', async (req, res) => {
 })
 router.get('/getNewPassword', async (req, res) => {
   const token = req.query.token;
-  if(token === undefined) res.redirect('/auth');
+  if (token === undefined) res.redirect('/auth');
 
   const result = await verifyModel.verify_email(req.query.token);
-  if(result.length > 0){
+  if (result.length > 0) {
     await verifyModel.removeToken(result[0].email)
     return res.render('auth/forgot', {
       email: result[0].email,
       layout: 'auth'
     });
   }
-  res.redirect('/auth') 
+  res.redirect('/auth')
 })
 router.post('/getNewPassword', async (req, res) => {
   const email = req.body.Email;
@@ -136,15 +158,15 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   const form = req.body;
   if (form.action === 'Register') {
-    if(req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null){
-      return res.json({"success": false, 'msg' : "Please select captcha"});
+    if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+      return res.json({ "success": false, 'msg': "Please select captcha" });
     }
     const secretKey = '6LeQeVkdAAAAAII17USsJckBlpj_4KW6ZntKEo_q';
     const verifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${secretKey}&response=${req.body['g-recaptcha-response']}`;
     const captchaVerified = await fetch(verifyUrl, {
       method: 'POST'
     })
-    if(captchaVerified === false) return res.json({"success": false, 'msg': "Failed to verified"});
+    if (captchaVerified === false) return res.json({ "success": false, 'msg': "Failed to verified" });
     const rawPassword = form.password;
     const salt = bcrypt.genSaltSync(10);
     const Password = bcrypt.hashSync(rawPassword, salt);
@@ -226,7 +248,29 @@ router.post('/', async (req, res) => {
     const url = req.session.retUrl || '/';
     res.redirect(url);
   }
-})
+});
+
+router.get('/facebook', passport.authenticate('facebook'));
+
+router.get('/facebook/login', passport.authenticate('facebook', { failureRedirect: '/auth' }),
+async (req, res) => {
+  const user = {};
+  user.facebookId = req.user.id;
+  user.FullName = req.user.displayName;
+  const li = user.FullName.split(' ');
+  user.Username = li[li.length - 1];
+  console.log(user);
+  req.session.auth = true;
+  req.session.authUser = user;
+  const rs = await userModel.findFbById(user.facebookId);
+  if (rs.length === 0) {
+    await userModel.addFbUser(user);
+  }
+  const url = req.session.retUrl || '/';
+  res.redirect(url);
+  // Successful authentication, redirect home.
+});
+
 router.get('/is-available', async function (req, res) {
   const username = req.query.user;
   const user = await userModel.findByUsername(username);
