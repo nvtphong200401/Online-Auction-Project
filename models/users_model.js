@@ -71,13 +71,13 @@ export default {
         return db('user').where('ID', id).update({'Username': username});
     },
     editEmail(id, email) {
-        return db('user').where('ID', id).update({'Email': email});
+        return db('user').where('ID', id).update({'Email': email, 'Verified': 0});
     },
     editName(id, name) {
         return db('user').where('ID', id).update({'FullName': name});
     },
     editDob(id, dob) {
-        return db('user').where('ID', id).update({'DOB': new Date(moment(dob, "YYYY-DD-MM"))});
+        return db('user').where('ID', id).update({'DOB': moment(dob, "L").toISOString()});
     },
     getSellerByPro(id) {
         return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role': 1, 'ProID': id});
