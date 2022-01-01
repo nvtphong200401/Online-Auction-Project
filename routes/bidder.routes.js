@@ -122,11 +122,9 @@ router.post('/profile/edit', async function (req, res) {
         await userModel.editName(user.ID, name);
         res.locals.authUser.FullName = name;
     }
-    if (dob !== moment(res.locals.authUser.DOB).calendar()) {
+    if (dob !== moment(res.locals.authUser.DOB,"L").toISOString()) {
         await userModel.editDob(user.ID, dob);
-        console.log(res.locals.authUser.DOB)
         res.locals.authUser.DOB = moment(dob, "L").toISOString();
-        console.log(res.locals.authUser.DOB)
     }
     res.redirect('/bidder/profile/edit');
 });
