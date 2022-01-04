@@ -8,7 +8,9 @@ import nodemailer from 'nodemailer';
 import fetch from 'node-fetch';
 import passport from 'passport';
 import fb from 'passport-facebook';
+import gg from 'passport-google-oauth2';
 
+const GoogleStrategy = gg.Strategy;
 const FacebookStrategy = fb.Strategy;
 const router = express.Router();
 passport.serializeUser(function(user, done) {
@@ -20,6 +22,22 @@ passport.deserializeUser(function(obj, done) {
 });
 router.use(passport.initialize());
 router.use(passport.session());
+
+//google config
+passport.use(new GoogleStrategy({
+  clientID:     '190176789225-196nq44iv4d0mvcp0ura99uam4u5d7ii.apps.googleusercontent.com',
+  clientSecret: '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',
+  callbackURL: "http://localhost:3000/auth/google/login",
+  passReqToCallback   : true
+},
+function(request, accessToken, refreshToken, profile, cb) {
+  process.nextTick(() => {
+    return cb(null, profile);
+  });
+}
+));
+
+//facebook config
 passport.use(new FacebookStrategy({
   clientID: '636448247537390',
   clientSecret: '8e5b954aeb5e0c716b1edb0d3c6b9631',
@@ -251,23 +269,46 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/facebook', passport.authenticate('facebook'));
+router.get('/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }));
+
+router.get('/google/login', passport.authenticate('google', { failureRedirect: '/auth' }),
+  async (req, res) => {
+    const user = {};
+    user.ID = req.user.id;
+    user.FullName = req.user.displayName;
+    user.DOB = '';
+    const li = user.FullName.split(' ');
+    user.Username = li[li.length - 1];
+    req.session.auth = true;
+    req.session.authUser = user;
+    const rs = await userModel.findByID(user.ID);
+    console.log(rs);
+    if (rs === null) {
+      await userModel.add(user);
+    }
+    const url = req.session.retUrl || '/';
+    return res.redirect(url);
+  // Successful authentication, redirect home.
+});
+
 
 router.get('/facebook/login', passport.authenticate('facebook', { failureRedirect: '/auth' }),
 async (req, res) => {
   const user = {};
-  user.facebookId = req.user.id;
+  user.ID = req.user.id;
   user.FullName = req.user.displayName;
+  user.DOB = '';
   const li = user.FullName.split(' ');
   user.Username = li[li.length - 1];
-  console.log(user);
   req.session.auth = true;
   req.session.authUser = user;
-  const rs = await userModel.findFbById(user.facebookId);
-  if (rs.length === 0) {
-    await userModel.addFbUser(user);
+  const rs = await userModel.findByID(user.ID);
+  console.log(rs);
+  if (rs === null) {
+    await userModel.add(user);
   }
   const url = req.session.retUrl || '/';
-  res.redirect(url);
+  return res.redirect(url);
   // Successful authentication, redirect home.
 });
 
