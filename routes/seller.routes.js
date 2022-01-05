@@ -57,7 +57,8 @@ router.get('/product/list/active', async function(req, res) {
         res.render('vwSeller/active', {
             layout: 'main',
             products: productList,
-            pageNumbers
+            pageNumbers,
+            isExSeller: res.locals.exSeller
         });
     }
 })
@@ -95,7 +96,8 @@ router.get('/product/list/sold', async function (req, res) {
         res.render('vwSeller/sold', {
             layout: 'main',
             products: productList,
-            pageNumbers
+            pageNumbers,
+            isExSeller: res.locals.exSeller
         });
     }
 })
@@ -182,11 +184,15 @@ router.get('/product/add', async function(req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        const catList = await categoryModel.findAllSubCat();
-        res.render('vwSeller/add', {
-            layout: 'main',
-            catList: catList
-        });
+        if (res.locals.exSeller) {
+            res.redirect('/seller/product/list/active');
+        } else {
+            const catList = await categoryModel.findAllSubCat();
+            res.render('vwSeller/add', {
+                layout: 'main',
+                catList: catList
+            });
+        }
     }
 })
 

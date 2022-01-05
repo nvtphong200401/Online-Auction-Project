@@ -1,7 +1,3 @@
-{{#section 'css'}}
-    <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-{{/section}}
-
 {{#section 'js'}}
     <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -12,14 +8,84 @@
             toolbar: ['undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link media'],
         });
     </script>
-    <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
+
     <script>
-        $('#thumbnail').fileinput({
-            dropZoneEnabled: false
+        $(function() {
+            var $form = $('#addForm'),
+                    $start_date = $('#UploadDate', $form),
+                    $end_date = $('#EndDate', $form),
+                    $button = $('.submit', $form);
+            $button.prop('disabled', 'disabled');
+
+            $start_date.on('change', function () {
+                var startDate = new Date($(this).val());
+                var endDate = new Date($end_date.val());
+                if (startDate >= endDate) {
+                    alert(`Start date must be before End date`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else {
+                    $button.prop('disabled', false);
+                }
+            });
+
+            $end_date.on('change', function () {
+                var startDate = new Date($start_date.val());
+                var endDate = new Date($(this).val());
+                if (endDate <= startDate) {
+                    alert(`End date must be after Start date`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else {
+                    $button.prop('disabled', false);
+                }
+            });
         });
-        $('#subImages').fileinput({
-            dropZoneEnabled: false
+    </script>
+
+    <script>
+        $(function() {
+            var max_file_number = 5,
+                    min_file_number = 3;
+            $form = $('#addForm'),
+                    $file_upload = $('#subImages', $form),
+                    $button = $('.submit', $form);
+            $button.prop('disabled', 'disabled');
+
+            $file_upload.on('change', function () {
+                var number_of_images = $(this)[0].files.length;
+                if (number_of_images > max_file_number) {
+                    alert(`You can upload maximum ${max_file_number} product images files.`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else if (number_of_images < min_file_number) {
+                    alert(`Product must have at least ${min_file_number} images beside the thumbnail`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else {
+                    $button.prop('disabled', false);
+                }
+            });
         });
+    </script>
+
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
     </script>
 {{/section}}
 
@@ -38,12 +104,14 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="ProName">Product name</label>
                                     <input type="text" class="form-control" id="ProName" name="ProName"
-                                           placeholder="Product name" required>
+                                           placeholder="Product name"
+                                           required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="CatName">Category</label>
-                                    <select class="form-control" id="CatName" name="CatName" required>
+                                    <select class="form-control" id="CatName" name="CatName"
+                                            required>
                                         {{#each this.catList}}
                                             <option>{{CatName}}</option>
                                         {{/each}}
@@ -58,9 +126,14 @@
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="Buy_now">Buy now price</label>
-                                    <input type="number" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND"
+                                    <label for="Step_price">Step price</label>
+                                    <input type="number" min="0" class="form-control" id="Step_price" name="Step_price" placeholder="VND"
                                            required>
+                                    <div class="invalid-feedback">Price should be a positive number</div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="Buy_now">Buy now price</label>
+                                    <input type="number" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND">
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                             </div>
@@ -77,103 +150,46 @@
                                            required>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
-                                <script>
-                                    $(function() {
-                                        var $form = $('#addForm'),
-                                            $start_date = $('#UploadDate', $form),
-                                            $end_date = $('#EndDate', $form),
-                                            $button = $('.submit', $form);
-                                        $button.prop('disabled', 'disabled');
-
-                                        $start_date.on('change', function () {
-                                            var startDate = new Date($(this).val());
-                                            var endDate = new Date($end_date.val());
-                                            if (startDate > endDate) {
-                                                alert(`Start date must be before End date`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
-                                        });
-
-                                        $end_date.on('change', function () {
-                                            var startDate = new Date($start_date.val());
-                                            var endDate = new Date($(this).val());
-                                            if (endDate <= startDate) {
-                                                alert(`End date must be after Start date`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
-                                        });
-                                    });
-                                </script>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
-                                    <label for="FullDesc">Description</label>
+                                    <label for="TinyDesc">Brief description</label>
+                                    <textarea rows="3" type="text" minlength="50" class="form-control" id="TinyDesc" name="TinyDesc"
+                                              placeholder="Write an overview of your product" required></textarea>
+                                    <div class="invalid-feedback">Product's brief description must have at least 50 characters</div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col mb-3">
+                                    <label for="FullDesc">Full description</label>
                                     <textarea rows="10" type="text" minlength="200" class="form-control" id="FullDesc" name="FullDesc"
-                                              placeholder="Write something to describe your product" required></textarea>
+                                              placeholder="Write in details to describe your product" required></textarea>
                                     <div class="invalid-feedback">Product description must have at least 200 characters</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="thumbnail">Main thumbnail</label>
-                                    <input type="file" id="thumbnail" name="thumbnail" required>
+                                    <input type="file" id="thumbnail" name="thumbnail"
+                                           required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="subImages">Product images</label>
-                                    <input type="file" id="subImages" name="subImages" required multiple>
+                                    <input type="file" id="subImages" name="subImages"
+                                           required multiple>
                                 </div>
-                                <script>
-                                    $(function() {
-                                        var max_file_number = 5,
-                                            min_file_number = 3;
-                                            $form = $('#addForm'),
-                                            $file_upload = $('#subImages', $form),
-                                            $button = $('.submit', $form);
-                                        $button.prop('disabled', 'disabled');
-
-                                        $file_upload.on('change', function () {
-                                            var number_of_images = $(this)[0].files.length;
-                                            if (number_of_images > max_file_number) {
-                                                alert(`You can upload maximum ${max_file_number} product images files.`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else if (number_of_images < min_file_number) {
-                                                alert(`Product must have at least ${min_file_number} images beside the thumbnail`);
-                                                $(this).val('');
-                                                $button.prop('disabled', 'disabled');
-                                            } else {
-                                                $button.prop('disabled', false);
-                                            }
-                                        });
-                                    });
-                                </script>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check text-left">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                           id="autoTime">
+                                    <label class="form-check-label" for="autoTime">
+                                        Auto extend auction time
+                                    </label>
+                                </div>
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>
                         </form>
-                        <script>
-                            (function() {
-                                'use strict';
-                                window.addEventListener('load', function() {
-                                    var forms = document.getElementsByClassName('needs-validation');
-                                    // Loop over them and prevent submission
-                                    var validation = Array.prototype.filter.call(forms, function(form) {
-                                        form.addEventListener('submit', function(event) {
-                                            if (form.checkValidity() === false) {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-                                            }
-                                            form.classList.add('was-validated');
-                                        }, false);
-                                    });
-                                }, false);
-                            })();
-                        </script>
                     </div>
                 </div>
             </div>

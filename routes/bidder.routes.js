@@ -13,7 +13,7 @@ router.get('/request', function (req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        if (res.locals.seller || res.locals.admin) {
+        if (res.locals.seller || res.locals.admin || res.locals.exSeller) {
             res.redirect('/seller/product/list/active');
         } else {
             if (req.session.authUser.Pending) {

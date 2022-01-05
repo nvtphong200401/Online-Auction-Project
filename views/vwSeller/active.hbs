@@ -11,12 +11,16 @@
                         <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
                     </div>
                     <div class="ml-auto p-2">
+                        {{#if this.isExSeller}}
+                        <!--do not render add a new product button-->
+                        {{else}}
                         <a href="/seller/product/add">
                             <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
                                 <i class="fa fa-plus" aria-hidden="true"></i>
                                 Add a new product
                             </button>
                         </a>
+                        {{/if}}
                     </div>
                 </div>
             </div>
