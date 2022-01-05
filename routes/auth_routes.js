@@ -199,7 +199,7 @@ router.post('/', async (req, res) => {
       DOB,
       Email
     };
-    const u = await findByEmail(Email);
+    const u = await userModel.findByEmail(Email);
     if (u[0].isBanned === 1) {
       var type = 'warning';
       var msg = 'You has been banned before ! Please contact admin to solve the problem !';
@@ -274,14 +274,14 @@ router.get('/google', passport.authenticate('google', { scope: [ 'email', 'profi
 router.get('/google/login', passport.authenticate('google', { failureRedirect: '/auth' }),
   async (req, res) => {
     const user = {};
-    user.ID = req.user.id;
     user.FullName = req.user.displayName;
     user.DOB = '';
+    user.Email = req.user.email;
     const li = user.FullName.split(' ');
     user.Username = li[li.length - 1];
     req.session.auth = true;
     req.session.authUser = user;
-    const rs = await userModel.findByID(user.ID);
+    const rs = await userModel.findByEmail(user.Email);
     console.log(rs);
     if (rs === null) {
       await userModel.add(user);

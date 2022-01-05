@@ -179,5 +179,11 @@ export default {
     },
     getSeller(ProID){
         return db('sale').join('user', 'sale.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
+    },
+    isAutoTime(ProID){
+        return db.select('AutoTime').from('sale').where('ProID', ProID);
+    },
+    updateTime(ProID){
+        return db('product').where('ProID', ProID).update('EndDate', db.raw('select date_add(EndDate, interval 10 minnute) from product where ProID =' + ProID)) ;
     }
 }
