@@ -16,8 +16,9 @@ export default function (app) {
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
     if (req.session.auth === true) {
-      res.locals.admin = req.session.authUser.Role === 2;
+      res.locals.bidder = req.session.authUser.Role === 0;
       res.locals.seller = req.session.authUser.Role === 1;
+      res.locals.admin = req.session.authUser.Role === 2;
       res.locals.exSeller = req.session.authUser.Role === 3;
     }
     app.locals.success = req.flash('success');

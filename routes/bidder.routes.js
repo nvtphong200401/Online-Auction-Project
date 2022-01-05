@@ -1,7 +1,6 @@
 import express from "express";
 import userModel from '../models/users_model.js';
 import commentModel from '../models/comment.model.js'
-import productModel from '../models/product.model.js'
 import bcrypt from "bcryptjs";
 import moment from "moment";
 const router = express.Router();
@@ -13,9 +12,7 @@ router.get('/request', function (req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        if (res.locals.seller || res.locals.admin || res.locals.exSeller) {
-            res.redirect('/seller/product/list/active');
-        } else {
+        if (res.locals.bidder) {
             if (req.session.authUser.Pending) {
                 res.render('vwBidder/waiting', {
                     layout: 'default'
@@ -25,6 +22,8 @@ router.get('/request', function (req, res) {
                     layout: 'default'
                 });
             }
+        } else {
+            res.redirect('/seller/product/list/active');
         }
     }
 });
