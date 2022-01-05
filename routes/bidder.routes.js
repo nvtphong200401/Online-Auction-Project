@@ -13,15 +13,18 @@ router.get('/request', function (req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        if (req.session.authUser.Pending) {
-            res.render('vwBidder/waiting', {
-                layout: 'default'
-            });
-        }
-        else {
-            res.render('vwBidder/request', {
-                layout: 'default'
-            });
+        if (res.locals.seller || res.locals.admin) {
+            res.redirect('/seller/product/list/active');
+        } else {
+            if (req.session.authUser.Pending) {
+                res.render('vwBidder/waiting', {
+                    layout: 'default'
+                });
+            } else {
+                res.render('vwBidder/request', {
+                    layout: 'default'
+                });
+            }
         }
     }
 });
