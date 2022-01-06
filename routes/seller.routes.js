@@ -4,6 +4,7 @@ import multer from "multer";
 
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
+import userModel from "../models/users_model.js";
 
 const router = express.Router();
 
@@ -106,8 +107,8 @@ router.get('/product/list/sold', async function (req, res) {
 })
 
 router.post('/product/delete', async function (req, res) {
+    //TODO: comment and minus score of winner on delete
     await productModel.del(req.body.ProID);
-
     res.redirect('/seller/product/list/sold');
 })
 
@@ -209,6 +210,12 @@ router.get('/product/add', async function(req, res) {
             }
         }
     }
+})
+
+router.post('/deny_bidder', async function (req, res) {
+    //TODO: user on banned bidder cannot bid on the product and pass the product to the 2nd highest bidder
+    await userModel.denyUserOnProduct(req.body.BID, req.body.ProID);
+    res.redirect('/product/' + req.body.ProID);
 })
 
 router.get('/request', function (req, res) {

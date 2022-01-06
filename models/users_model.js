@@ -27,17 +27,14 @@ export default {
 
         return list[0];
     },
-
     add(entity) {
         return db('user').insert(entity);
     },
-
     del(ID) {
         return db('user')
             .where('ID', ID)
             .update('isBanned', 1);
     },
-
     patch(entity) {
         const ID = entity.ID;
         delete entity.ID;
@@ -116,5 +113,8 @@ export default {
     },
     findFbById(id){
         return db('fbuser').where('facebookId', id);
+    },
+    denyUserOnProduct(userID, proID) {
+        return db('banned_bidder').insert({BID: userID, ProID: proID});
     }
 }

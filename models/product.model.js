@@ -166,7 +166,7 @@ export default {
     },
     //TODO: Phong pls check if this is your desired result
     countAllByUser(id){
-        return db('product').where('SID', id).count({count: '*'});
+        return db('product').where('SID', id).count({p: '*'});
         //return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     },
     async proSameCat(catID, proID){
@@ -191,7 +191,7 @@ export default {
     },
     //TODO: Phong pls check if this is your desired result
     getSeller(ProID){
-        return db.select('SID', 'Step_price', 'AutoTime').where('ProID', ProID);
+        return db.select('SID', 'Step_price', 'AutoTime').from('product').where('ProID', ProID);
         //return db('sale').join('user', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
     },
     isAutoTime(ProID){

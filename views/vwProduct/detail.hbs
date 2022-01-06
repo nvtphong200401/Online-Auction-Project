@@ -50,13 +50,10 @@
                         </small>
                     </div>
 
-
                     <h6 class="mt-3">
                         <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
                         <h5 class="time-left" style="color: red; font-size:30px"></h5>
                     </h6>
-
-
 
                     <p class="mt-3">
                         {{{this.product.FullDesc}}}
@@ -104,7 +101,7 @@
                                 </div>
                                 <form class="buyForm" action="./buy/{{this.product.ProID}}" method="post">
                                     <button class="btn btn-round btn-success" type="submit"><i class="fa fa-cart-plus"
-                                            aria-hidden="true"></i> Buy now</button>
+                                            aria-hidden="true"></i>Buy now</button>
                                 </form>
                                 {{else}}
                                 Unavailable to buy
@@ -166,15 +163,31 @@
                                     <th scope="col">Người mua</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col">Điểm đánh giá</th>
+                                    {{#if this.isSeller}}
+                                        <th scope="col">Từ chối</th>
+                                    {{/if}}
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each this.bid_his}}
                                 <tr>
-                                    <td scope="row">{{Time}}</td>
+                                    <td>{{Time}}</td>
                                     <td>{{{format_name FullName}}}</td>
                                     <td>{{Price}}</td>
                                     <td>{{Score}}</td>
+                                    {{#if ../isSeller}}
+                                        <td>
+                                            <form method="post">
+                                                <label for="ProID" hidden>ProID</label>
+                                                <input type="text" class="form-control" id="ProID" name="ProID" value="{{../product.ProID}}" hidden>
+                                                <label for="BID" hidden>BID</label>
+                                                <input type="text" class="form-control" id="BID" name="BID" value="{{BID}}" hidden>
+                                                <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/deny_bidder/">
+                                                    <i class="fa fa-close" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    {{/if}}
                                 </tr>
                                 {{/each}}
                             </tbody>

@@ -73,7 +73,8 @@ router.get('/:id', async (req, res) => {
         highestPrice,
         bid_his,
         sameCat,
-        imgs
+        imgs,
+        isSeller: sellers[0].ID === res.locals.authUser.ID
     })
 })
 router.post('/:id', auth, async (req, res) => {
