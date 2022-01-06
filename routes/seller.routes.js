@@ -21,11 +21,12 @@ router.get('/product/list/active', async function(req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
-            const limit = 5;
+            const limit = 10;
             const page = req.query.page || 1;
             const offset = (page - 1) * limit;
+            const SID = res.locals.authUser.ID;
 
-            const total = await productModel.countAllActive();
+            const total = await productModel.countAllActive(SID);
             let numPages = Math.floor(total / limit);
             if (total % limit > 0) numPages++;
 
@@ -37,7 +38,7 @@ router.get('/product/list/active', async function(req, res) {
                 });
             }
 
-            const productList = await productModel.findActivePage(limit, offset);
+            const productList = await productModel.findActivePage(SID, limit, offset);
             for (const product of productList) {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;
@@ -70,11 +71,12 @@ router.get('/product/list/sold', async function (req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
-            const limit = 5;
+            const limit = 10;
             const page = req.query.page || 1;
             const offset = (page - 1) * limit;
+            const SID = res.locals.authUser.ID;
 
-            const total = await productModel.countAll();
+            const total = await productModel.countAllSold(SID);
             let numPages = Math.floor(total / limit);
             if (total % limit > 0) numPages++;
 
@@ -86,7 +88,7 @@ router.get('/product/list/sold', async function (req, res) {
                 });
             }
 
-            const productList = await productModel.findPage(limit, offset);
+            const productList = await productModel.findSoldPage(SID, limit, offset);
             productList.forEach(async (product) => {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;

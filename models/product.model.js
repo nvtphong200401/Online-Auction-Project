@@ -46,20 +46,30 @@ export default {
     findAll() {
         return db('product');
     },
-    findActivePage(limit, offset) {
+    findSoldPage(SID, limit, offset) {
         const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
-        return db('product').where('EndDate', '>', now).limit(limit).offset(offset);
+        return db('product').where('EndDate', '<', now)
+            .andWhere('SID', SID)
+            .limit(limit).offset(offset);
     },
-    findPage(limit, offset) {
-        return db('product').limit(limit).offset(offset);
+    findActivePage(SID, limit, offset) {
+        const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
+        return db('product').where('EndDate', '>', now)
+            .andWhere('SID', SID)
+            .limit(limit).offset(offset);
     },
-    async countAll() {
-        const total= await db('product').count({count: '*'});
+    async countAllSold(SID) {
+        const now = moment.now();
+        const total= await db('product').where('EndDate', '<', now)
+            .andWhere('SID', SID)
+            .count({count: '*'});
         return total[0].count;
     },
-    async countAllActive() {
+    async countAllActive(SID) {
         const now = moment.now();
-        const total = await db('product').where('EndDate', '>', now).count({count: '*'});
+        const total = await db('product').where('EndDate', '>', now)
+            .andWhere('SID', SID)
+            .count({count: '*'});
         return total[0].count;
     },
     async countProductByCat(CatID) {
@@ -156,7 +166,7 @@ export default {
     },
     //TODO: Phong pls check if this is your desired result
     countAllByUser(id){
-        return db('product').sum('product as p').where('SID', id);
+        return db('product').where('SID', id).count({count: '*'});
         //return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     },
     async proSameCat(catID, proID){

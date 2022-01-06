@@ -81,7 +81,7 @@ export default {
     },
     //TODO: Phong pls check if this is your desired result
     getSellerByPro(id) {
-        return db.select('FullName').from('user').join('product', 'user.ID', 'product.SID').where('ProID', id);
+        return db.select('user.FullName', 'user.ID').from('user').join('product', 'user.ID', 'product.SID').where('ProID', id);
         //return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role': 1, 'ProID': id});
     },
     checkVerified(username) {
