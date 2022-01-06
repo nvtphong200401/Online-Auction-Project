@@ -3,7 +3,9 @@ import productModel from './product.model.js';
 import moment from 'moment';
 async function autoUpdate(ProID) {
     const today = moment().format('YYYY-MM-DD HH:mm:ss');
-    const step = await db.select('Step_price').from('sale').where('ProID', ProID)[0] || 10000;
+    //TODO: Phong pls check if this is your desired result
+    const step = await db.select('Step_price').from('product').where('ProID', ProID)[0] || 10000;
+    //const step = await db.select('Step_price').from('sale').where('ProID', ProID)[0] || 10000;
     const top2 = await db('bid_system').where('ProID', ProID).orderBy('MaxPrice', 'desc').limit(2);
     // if there is only one
     if(top2.length < 2){

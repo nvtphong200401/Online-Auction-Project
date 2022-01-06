@@ -79,8 +79,10 @@ export default {
     editDob(id, dob) {
         return db('user').where('ID', id).update({'DOB': moment(dob, "L").toISOString()});
     },
+    //TODO: Phong pls check if this is your desired result
     getSellerByPro(id) {
-        return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role': 1, 'ProID': id});
+        return db.select('FullName').from('user').join('product', 'user.ID', 'product.SID').where('ProID', id);
+        //return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role': 1, 'ProID': id});
     },
     checkVerified(username) {
         return db.select('Verified').from('user').where('Username', username);

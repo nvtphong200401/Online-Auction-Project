@@ -154,8 +154,10 @@ export default {
     del(id) {
         return db('product').where('ProID', '=', id).del();
     },
+    //TODO: Phong pls check if this is your desired result
     countAllByUser(id){
-        return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
+        return db('product').sum('product as p').where('SID', id);
+        //return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     },
     async proSameCat(catID, proID){
         const list = await db('product').whereRaw(`CatID = ${catID} AND ProID != ${proID}`).orderByRaw('RAND()').limit(5)
@@ -177,13 +179,15 @@ export default {
         }
         return db('bid_system').rightJoin('product', 'product.ProID', 'bid_system.ProID').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
     },
+    //TODO: Phong pls check if this is your desired result
     getSeller(ProID){
-        return db('sale').join('user', 'sale.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
+        return db.select('SID', 'Step_price', 'AutoTime').where('ProID', ProID);
+        //return db('sale').join('user', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
     },
     isAutoTime(ProID){
-        return db.select('AutoTime').from('sale').where('ProID', ProID);
+        return db.select('AutoTime').from('product').where('ProID', ProID);
     },
     updateTime(ProID){
-        return db('product').where('ProID', ProID).update('EndDate', db.raw('select date_add(EndDate, interval 10 minnute) from product where ProID =' + ProID)) ;
+        return db('product').where('ProID', ProID).update('EndDate', db.raw('select date_add(EndDate, interval 10 minute) from product where ProID =' + ProID)) ;
     }
 }

@@ -114,7 +114,6 @@ router.post('/product/edit', async function (req, res) {
     var FullDesc = product[0].FullDesc;
     const today = moment().format('DD-MM-YYYY');
     FullDesc += today + '<br>' + req.body.FullDesc;
-    // add maxlength for description warning later in edit.hbs
     await productModel.appendDescription(ProID, FullDesc);
     res.redirect('/seller/product/list/active');
 })
@@ -131,10 +130,13 @@ router.get('/product/edit', async function (req, res) {
         } else {
             const ProID = req.query.id || 0;
             const product = await productModel.findById(ProID);
+            const maxLength = 1000 - product[0].FullDesc.length;
+            console.log(maxLength)
             res.render('vwSeller/edit', {
                 layout: 'main',
                 product: product[0],
-                empty: product.length === 0
+                empty: product.length === 0,
+                maxLength: maxLength
             });
         }
     }

@@ -70,22 +70,30 @@
     </script>
 
     <script>
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                    form.addEventListener('submit', function(event) {
-                        if (form.checkValidity() === false) {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        form.classList.add('was-validated');
-                    }, false);
-                });
-            }, false);
-        })();
+        $(function () {
+            var $form = $('#addForm'),
+                    $full_desc = $('#FullDesc', $form),
+                    $button = $('.submit', $form);
+            $button.prop('disabled', 'disabled');
+
+            $full_desc.on('change', function() {
+                var body = tinymce.get('FullDesc').getBody(),
+                        text = tinymce.trim(body.innerText || body.textContent);
+                var chars = text.length;
+                console.log(chars);
+                if (chars < 200) {
+                    alert("You need to enter 200 characters or more");
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else if (chars > 1000) {
+                    alert("You need to enter less than 1000 characters");
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else {
+                    $button.prop('disabled', false);
+                }
+            });
+        });
     </script>
 {{/section}}
 
@@ -154,17 +162,17 @@
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="TinyDesc">Brief description</label>
-                                    <textarea rows="3" type="text" minlength="50" class="form-control" id="TinyDesc" name="TinyDesc"
+                                    <textarea rows="3" type="text" minlength="50" maxlength="150" class="form-control" id="TinyDesc" name="TinyDesc"
                                               placeholder="Write an overview of your product" required></textarea>
-                                    <div class="invalid-feedback">Product's brief description must have at least 50 characters</div>
+                                    <div class="invalid-feedback">Product's brief description must be within 50 to 150 characters</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="FullDesc">Full description</label>
-                                    <textarea rows="10" type="text" minlength="200" class="form-control" id="FullDesc" name="FullDesc"
+                                    <textarea rows="10" type="text" minlength="200" maxlength="1000" class="form-control" id="FullDesc" name="FullDesc"
                                               placeholder="Write in details to describe your product" required></textarea>
-                                    <div class="invalid-feedback">Product description must have at least 200 characters</div>
+                                    <div class="invalid-feedback">Product description must be within 200 to 1000 characters</div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -190,6 +198,24 @@
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>
                         </form>
+                        <script>
+                            (function() {
+                                'use strict';
+                                window.addEventListener('load', function() {
+                                    var forms = document.getElementsByClassName('needs-validation');
+                                    // Loop over them and prevent submission
+                                    var validation = Array.prototype.filter.call(forms, function(form) {
+                                        form.addEventListener('submit', function(event) {
+                                            if (form.checkValidity() === false) {
+                                                event.preventDefault();
+                                                event.stopPropagation();
+                                            }
+                                            form.classList.add('was-validated');
+                                        }, false);
+                                    });
+                                }, false);
+                            })();
+                        </script>
                     </div>
                 </div>
             </div>
