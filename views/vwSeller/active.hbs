@@ -12,14 +12,19 @@
                     </div>
                     <div class="ml-auto p-2">
                         {{#if this.isExSeller}}
-                        <!--do not render add a new product button-->
+                            <a href="/seller/request">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    Become a seller
+                                </button>
+                            </a>
                         {{else}}
-                        <a href="/seller/product/add">
-                            <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
-                                <i class="fa fa-plus" aria-hidden="true"></i>
-                                Add a new product
-                            </button>
-                        </a>
+                            <a href="/seller/product/add">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add a new product
+                                </button>
+                            </a>
                         {{/if}}
                     </div>
                 </div>

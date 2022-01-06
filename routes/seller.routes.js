@@ -200,4 +200,27 @@ router.get('/product/add', async function(req, res) {
     }
 })
 
+router.get('/request', function (req, res) {
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        if (res.locals.exSeller) {
+            if (req.session.authUser.Pending) {
+                res.render('vwBidder/waiting', {
+                    layout: 'default'
+                });
+            } else {
+                res.render('vwBidder/request', {
+                    layout: 'default'
+                });
+            }
+        } else {
+            res.redirect('/seller/product/list/active');
+        }
+    }
+})
+
 export default router;
