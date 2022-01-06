@@ -38,8 +38,9 @@
                                         <input type="text" class="form-control" id="ProID" name="ProID" value="{{this.product.ProID}}" hidden>
                                         <label for="NewDesc">New description will be appended to the current one</label>
                                         <textarea rows="10" type="text" maxlength="{{this.maxLength}}" class="form-control" id="NewDesc" name="FullDesc"
-                                                  placeholder="Write something to describe your product" required></textarea>
-                                        <div class="invalid-feedback">New description must be within {{this.maxLength}} characters</div>
+                                                  placeholder="Write some additional information to describe your product within {{this.maxLength}} characters" required></textarea>
+                                        <div class="invalid-feedback">You must not leave this field blank</div>
+                                        //TODO: add maxLength js validation later
                                     </div>
                                 </div>
                                 <button class="btn btn-success" type="submit" formaction="/seller/product/edit">Confirm</button>

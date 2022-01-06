@@ -105,10 +105,12 @@ router.get('/product/list/sold', async function (req, res) {
 
 router.post('/product/delete', async function (req, res) {
     await productModel.del(req.body.ProID);
+
     res.redirect('/seller/product/list/sold');
 })
 
 router.post('/product/edit', async function (req, res) {
+    //TODO: add maxLength js validation later
     const ProID = req.body.ProID;
     const product = await productModel.findById(ProID);
     var FullDesc = product[0].FullDesc;
@@ -131,7 +133,6 @@ router.get('/product/edit', async function (req, res) {
             const ProID = req.query.id || 0;
             const product = await productModel.findById(ProID);
             const maxLength = 1000 - product[0].FullDesc.length;
-            console.log(maxLength)
             res.render('vwSeller/edit', {
                 layout: 'main',
                 product: product[0],
@@ -143,6 +144,7 @@ router.get('/product/edit', async function (req, res) {
 })
 
 router.post('/product/add',async function(req, res) {
+    //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
     const storage = multer.diskStorage({
@@ -164,10 +166,17 @@ router.post('/product/add',async function(req, res) {
         maxCount: 5
     }])(req, res, async function (err) {
         const product = req.body;
+        product.SID = res.locals.authUser.ID;
         product.CatID = await categoryModel.findByCatName(product.CatName);
         product.ProID = newProID;
         delete product.CatName;
 
+        if (product.AutoTime === undefined) {
+            product.AutoTime = 0;
+        }
+        if (product.AllowAll === undefined) {
+            product.AllowAll = 0;
+        }
         await productModel.addProduct(product);
         if (err) {
             console.log(err);

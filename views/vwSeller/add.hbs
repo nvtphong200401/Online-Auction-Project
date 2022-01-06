@@ -1,3 +1,7 @@
+{{#section 'css'}}
+
+{{/section}}
+
 {{#section 'js'}}
     <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
@@ -24,6 +28,10 @@
                     alert(`Start date must be before End date`);
                     $(this).val('');
                     $button.prop('disabled', 'disabled');
+                } else if (startDate < Date.now()) {
+                    alert(`Start date must be after the moment`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
                 } else {
                     $button.prop('disabled', false);
                 }
@@ -34,6 +42,10 @@
                 var endDate = new Date($(this).val());
                 if (endDate <= startDate) {
                     alert(`End date must be after Start date`);
+                    $(this).val('');
+                    $button.prop('disabled', 'disabled');
+                } else if (endDate < Date.now()) {
+                    alert(`End date must be after the moment`);
                     $(this).val('');
                     $button.prop('disabled', 'disabled');
                 } else {
@@ -94,6 +106,38 @@
                 }
             });
         });
+    </script>
+
+<!--    <script>-->
+<!--        $(function () {-->
+<!--            $form = $('#addForm'),-->
+<!--                    $auto_time = $('#AutoTime', $form),-->
+<!--                    $allow_all = $('#AllowAll', $form),-->
+<!--                    $button = $('.submit', $form);-->
+<!--            let val = 0;-->
+<!--            $button.on('click', function () {-->
+<!--                -->
+<!--            });-->
+<!--        });-->
+<!--    </script>-->
+
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
     </script>
 {{/section}}
 
@@ -162,17 +206,17 @@
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="TinyDesc">Brief description</label>
-                                    <textarea rows="3" type="text" minlength="50" maxlength="150" class="form-control" id="TinyDesc" name="TinyDesc"
+                                    <textarea rows="3" type="text" maxlength="150" class="form-control" id="TinyDesc" name="TinyDesc"
                                               placeholder="Write an overview of your product" required></textarea>
-                                    <div class="invalid-feedback">Product's brief description must be within 50 to 150 characters</div>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="FullDesc">Full description</label>
                                     <textarea rows="10" type="text" minlength="200" maxlength="1000" class="form-control" id="FullDesc" name="FullDesc"
-                                              placeholder="Write in details to describe your product" required></textarea>
-                                    <div class="invalid-feedback">Product description must be within 200 to 1000 characters</div>
+                                              placeholder="Write in detail to describe your product" required></textarea>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -189,33 +233,22 @@
                             </div>
                             <div class="form-group">
                                 <div class="form-check text-left">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                           id="autoTime">
-                                    <label class="form-check-label" for="autoTime">
+                                    <input class="form-check-input" type="checkbox" value="1" id="AutoTime" name="AutoTime">
+                                    <label class="form-check-label" for="AutoTime">
                                         Auto extend auction time
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check text-left">
+                                    <input class="form-check-input" type="checkbox" value="1" id="AllowAll" name="AllowAll">
+                                    <label class="form-check-label" for="AllowAll">
+                                        Allow all users to bid on your product
                                     </label>
                                 </div>
                             </div>
                             <button class="btn btn-success" type="submit">Confirm</button>
                         </form>
-                        <script>
-                            (function() {
-                                'use strict';
-                                window.addEventListener('load', function() {
-                                    var forms = document.getElementsByClassName('needs-validation');
-                                    // Loop over them and prevent submission
-                                    var validation = Array.prototype.filter.call(forms, function(form) {
-                                        form.addEventListener('submit', function(event) {
-                                            if (form.checkValidity() === false) {
-                                                event.preventDefault();
-                                                event.stopPropagation();
-                                            }
-                                            form.classList.add('was-validated');
-                                        }, false);
-                                    });
-                                }, false);
-                            })();
-                        </script>
                     </div>
                 </div>
             </div>
