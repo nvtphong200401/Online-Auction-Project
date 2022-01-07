@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2022 at 06:15 PM
+-- Generation Time: Jan 07, 2022 at 06:20 PM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -265,6 +265,19 @@ INSERT INTO `user` (`ID`, `Username`, `FullName`, `Password`, `DOB`, `Email`, `R
 (29, 'Phongdz', 'asfsad', '$2a$10$9vo6pAPk8QLUL6CW8Ti3VuLaex3qwyvGlj.zJUj3jN6xCDGJ3Db/S', '2021-12-03', 'asdfasd@hi.com', 0, 0, 0, 0),
 (30, 'phong123', 'Phong Nguyen', '$2a$10$Rq35FP9LMya94T8B4NunOeH00P2jdCnY/LO0KyRJxJyKi4majkZ5m', '2000-12-08', 'hackkerguy11@gmail.com', 1, 0, 1, 0);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `verifications`
+--
+
+CREATE TABLE `verifications` (
+  `id` int(11) NOT NULL,
+  `email` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `token` varchar(250) CHARACTER SET utf8 NOT NULL,
+  `created_at` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -337,6 +350,12 @@ ALTER TABLE `user`
   ADD UNIQUE KEY `Username` (`Username`);
 
 --
+-- Indexes for table `verifications`
+--
+ALTER TABLE `verifications`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -357,6 +376,12 @@ ALTER TABLE `product`
 --
 ALTER TABLE `user`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+
+--
+-- AUTO_INCREMENT for table `verifications`
+--
+ALTER TABLE `verifications`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
