@@ -47,27 +47,23 @@ export default {
         return db('product');
     },
     findSoldPage(SID, limit, offset) {
-        const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
-        return db('product').where('EndDate', '<', now)
+        return db('product').where('Status', 1)
             .andWhere('SID', SID)
             .limit(limit).offset(offset);
     },
     findActivePage(SID, limit, offset) {
-        const now = moment(new Date()).format("YYYY/MM/DD HH:mm:ss");
-        return db('product').where('EndDate', '>', now)
+        return db('product').where('Status', 0)
             .andWhere('SID', SID)
             .limit(limit).offset(offset);
     },
     async countAllSold(SID) {
-        const now = moment.now();
-        const total= await db('product').where('EndDate', '<', now)
+        const total= await db('product').where('Status', 1)
             .andWhere('SID', SID)
             .count({count: '*'});
         return total[0].count;
     },
     async countAllActive(SID) {
-        const now = moment.now();
-        const total = await db('product').where('EndDate', '>', now)
+        const total = await db('product').where('Status', 0)
             .andWhere('SID', SID)
             .count({count: '*'});
         return total[0].count;
@@ -164,10 +160,8 @@ export default {
     del(id) {
         return db('product').where('ProID', '=', id).del();
     },
-    //TODO: Phong pls check if this is your desired result
     countAllByUser(id){
         return db('product').where('SID', id).count({p: '*'});
-        //return db('product').join('sale', 'sale.ProID', 'product.ProID').sum('product as p').where('SID', id)
     },
     async proSameCat(catID, proID){
         const list = await db('product').whereRaw(`CatID = ${catID} AND ProID != ${proID}`).orderByRaw('RAND()').limit(5)
@@ -196,5 +190,11 @@ export default {
     },
     updateEndTime(ProID, EndDate){
         return db('product').where('ProID', ProID).update('EndDate', EndDate);
+    },
+    addWinner(BID, ProID) {
+        return db('product').where('ProID', ProID).update('Winner', BID);
+    },
+    setSold(ProID) {
+        return db('product').where('ProID', ProID).update('Status', 1);
     }
 }

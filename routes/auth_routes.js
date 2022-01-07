@@ -244,7 +244,7 @@ router.post('/', async (req, res) => {
     }
     //Check verified account
     const verify = await userModel.checkVerified(req.body.username);
-    if (verify[0].Verified == 0) {
+    if (verify[0].Verified === 0) {
       return res.render('auth/login', {
         err_message: 'Your email has not been verified.',
         re_verify: true,

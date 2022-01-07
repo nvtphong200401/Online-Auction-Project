@@ -94,7 +94,7 @@ export default {
         return db('user').where('Email', email).update('Password', newPassword);
     },
     setPending(id) {
-        return db('user').where('ID', id).update('Pending', true);
+        return db('user').where('ID', id).update('Pending', 1);
     },
     // 2 functions below are now available in comment.model.js :)
     getAllScore(id) {
@@ -116,5 +116,9 @@ export default {
     },
     denyUserOnProduct(userID, proID) {
         return db('banned_bidder').insert({BID: userID, ProID: proID});
+    },
+    async isBannedOnProduct(userID, proID) {
+        const user = await db('banned_bidder').where('BID', userID).andWhere('ProID', proID);
+        return user[0] !== undefined;
     }
 }

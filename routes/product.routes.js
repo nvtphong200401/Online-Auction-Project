@@ -87,6 +87,12 @@ router.post('/:id', auth, async (req, res) => {
     const MaxPrice = req.body.BidPrice;
     const product = await productModel.findById(ProID);
 
+    const isBannedOnProduct = await userModel.isBannedOnProduct(BID, ProID);
+    if (isBannedOnProduct) {
+        req.flash('success', 'You have been banned by the seller on this product !');
+        return res.redirect('/product/' + ProID);
+    }
+
     var err_message = null;
     const t = await bidModel.getTop2();
     if (t.length > 0) {
@@ -97,7 +103,7 @@ router.post('/:id', auth, async (req, res) => {
     }
     if (err_message) {
         req.flash('success', err_message);
-        return res.redirect('/product/' + req.params.id)
+        return res.redirect('/product/' + ProID)
     }
     else {
         if (product[0].AllowAll === 0) {
@@ -107,7 +113,7 @@ router.post('/:id', auth, async (req, res) => {
                 const b = await bidModel.findBid(BID, ProID);
                 if (b.length > 0) {
                     await bidModel.updateBid(BID, ProID, MaxPrice);
-                    return res.redirect('/product/' + req.params.id)
+                    return res.redirect('/product/' + ProID)
                 }
 
                 // not in db
@@ -115,16 +121,16 @@ router.post('/:id', auth, async (req, res) => {
                 const top = await bidModel.getTop2();
                 const user1 = await userModel.findByID(top[0].BID);
                 
-                sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${req.params.id}">Link</a>`, "Bid system");
+                sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
 
                 if (top[1] !== undefined) {
                     const user2 = await userModel.findByID(top[1].BID);
-                    sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${req.params.id}">here</a> to bid a new price now !`, "Bid system");
+                    sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
                 }
             } else {
                 err_message = "Your current point is too low to bid this product !";
                 req.flash('success', err_message);
-                return res.redirect('/product/' + req.params.id)
+                return res.redirect('/product/' + ProID)
             }
         }
         else {
@@ -132,16 +138,18 @@ router.post('/:id', auth, async (req, res) => {
             const b = await bidModel.findBid(BID, ProID);
             if (b.length > 0) {
                 await bidModel.updateBid(BID, ProID, MaxPrice);
-                return res.redirect('/product/' + req.params.id)
+                return res.redirect('/product/' + ProID)
             }
             await bidModel.addBid(BID, ProID, MaxPrice);
             const top = await bidModel.getTop2();
             const user1 = await userModel.findByID(top[0].BID);
 
-            sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${req.params.id}">Link</a>`, "Bid system");
+            sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! 
+            See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
             if (top[1] !== undefined) {
                 const user2 = await userModel.findByID(top[1].BID);
-                sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${req.params.id}">here</a> to bid a new price now !`, "Bid system");
+                sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! 
+                Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
             }
         }
         // auto time
@@ -154,12 +162,36 @@ router.post('/:id', auth, async (req, res) => {
                 await productModel.updateEndTime(ProID, EndDate);
             }
         }
-        return res.redirect('/product/' + req.params.id);
+        return res.redirect('/product/' + ProID);
     }
 })
 router.post('/buy/:id', auth, async (req,res) => {
     return res.redirect('/product/' + req.params.id)
 })
 
+// perform check on expired product for winner and email user if neccessary
+setInterval(async () => {
+    const now = new Date();
+    const products = await productModel.findAll();
+    for (const product of products) {
+        if (product.EndDate < now && product.Status === 0) {
+            await productModel.setSold(product.ProID);
+            const seller = await userModel.findByID(product.SID);
+            const winner = await productModel.findHighestBID(product.ProID);
+            if (winner === null) {
+                sendEmail(seller.email, `Your product ${product.ProName} has ended but no one seems to bid on it !
+                Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
+            } else {
+                console.log(winner);
+                await productModel.setSold(product.ProID);
+                await productModel.addWinner(winner.ID, product.ProID);
+                sendEmail(seller.email, `Your product ${product.ProName} has been sold to ${winner.FullName} !
+                Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
+                sendEmail(winner.email, `You have won the bid on ${product.ProName} !
+                Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
+            }
+        }
+    }
+}, 5000)
 
 export default router;

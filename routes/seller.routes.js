@@ -172,6 +172,7 @@ router.post('/product/add',async function(req, res) {
         product.SID = res.locals.authUser.ID;
         product.CatID = await categoryModel.findByCatName(product.CatName);
         product.ProID = newProID;
+        product.Status = 0;
         delete product.CatName;
 
         if (product.AutoTime === undefined) {
@@ -213,7 +214,7 @@ router.get('/product/add', async function(req, res) {
 })
 
 router.post('/deny_bidder', async function (req, res) {
-    //TODO: user on banned bidder cannot bid on the product and pass the product to the 2nd highest bidder
+    //TODO: send email to the banned user and pass the product to the 2nd highest bidder
     await userModel.denyUserOnProduct(req.body.BID, req.body.ProID);
     res.redirect('/product/' + req.body.ProID);
 })
