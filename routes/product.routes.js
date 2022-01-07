@@ -63,6 +63,10 @@ router.get('/:id', async (req, res) => {
         his.Score = s[0].score || 0;
         his.Time = moment(his.Time).format('DD/MM/YYYY hh:mm:ss')
     }
+    var isSeller = false;
+    if (req.session.auth === true) {
+      isSeller = sellers[0].ID === req.session.authUser.ID;
+    }
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
     const highestPrice = await productModel.getCurrentBid(id);
     res.render('vwProduct/detail', {
@@ -74,7 +78,7 @@ router.get('/:id', async (req, res) => {
         bid_his,
         sameCat,
         imgs,
-        isSeller: sellers[0].ID === res.locals.authUser.ID
+        isSeller: isSeller
     })
 })
 router.post('/:id', auth, async (req, res) => {
@@ -82,7 +86,6 @@ router.post('/:id', auth, async (req, res) => {
     const ProID = req.params.id;
     const MaxPrice = req.body.BidPrice;
     const product = await productModel.findById(ProID);
-    const seller = await productModel.getSeller(ProID);
 
     var err_message = null;
     const t = await bidModel.getTop2();
@@ -127,10 +130,6 @@ router.post('/:id', auth, async (req, res) => {
         else {
             // allow all user to buy
             const b = await bidModel.findBid(BID, ProID);
-            const autotime = await productModel.isAutoTime(ProID)
-            if (autotime[0] === 1) {
-                await productModel.updateTime(ProID);
-            }
             if (b.length > 0) {
                 await bidModel.updateBid(BID, ProID, MaxPrice);
                 return res.redirect('/product/' + req.params.id)
@@ -145,11 +144,20 @@ router.post('/:id', auth, async (req, res) => {
                 sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${req.params.id}">here</a> to bid a new price now !`, "Bid system");
             }
         }
-        return res.redirect('/product/' + req.params.id)
+        // auto time
+        if (product[0].AutoTime === 1) {
+            const now = new Date();
+            const EndDate = product[0].EndDate;
+            const minLeft = parseInt((Math.abs(EndDate.getTime() - now.getTime())/1000)/60);
+            if (minLeft <= 5) {
+                EndDate.setMinutes(EndDate.getMinutes() + 10);
+                await productModel.updateEndTime(ProID, EndDate);
+            }
+        }
+        return res.redirect('/product/' + req.params.id);
     }
 })
 router.post('/buy/:id', auth, async (req,res) => {
-    console.log(req.params.id);
     return res.redirect('/product/' + req.params.id)
 })
 

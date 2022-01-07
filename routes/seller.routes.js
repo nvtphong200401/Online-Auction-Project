@@ -90,12 +90,12 @@ router.get('/product/list/sold', async function (req, res) {
             }
 
             const productList = await productModel.findSoldPage(SID, limit, offset);
-            productList.forEach(async (product) => {
+            for (const product of productList) {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;
                 product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
                 product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
-            })
+            }
             res.render('vwSeller/sold', {
                 layout: 'main',
                 products: productList,

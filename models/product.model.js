@@ -194,10 +194,7 @@ export default {
         return db.select('SID', 'Step_price', 'AutoTime').from('product').where('ProID', ProID);
         //return db('sale').join('user', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
     },
-    isAutoTime(ProID){
-        return db.select('AutoTime').from('product').where('ProID', ProID);
-    },
-    updateTime(ProID){
-        return db('product').where('ProID', ProID).update('EndDate', db.raw('select date_add(EndDate, interval 10 minute) from product where ProID =' + ProID)) ;
+    updateEndTime(ProID, EndDate){
+        return db('product').where('ProID', ProID).update('EndDate', EndDate);
     }
 }
