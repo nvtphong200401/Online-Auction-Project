@@ -10,12 +10,18 @@ async function autoUpdate(ProID) {
         // the bid would be start_price + step price
         // add it to bid history
         const start_price = await productModel.getStartPrice(ProID);
-        return await db('bid_history').insert({
-            'BID': top2[0].BID,
-            'Price': parseInt(start_price[0].Price) + parseInt(step[0].Step_price),
-            'ProID': ProID,
-            'Time': today
-        })
+        try {
+            await db('bid_history').insert({
+                'BID': top2[0].BID,
+                'Price': parseInt(start_price[0].Price) + parseInt(step[0].Step_price) > top2[0].MaxPrice ? top2[0].MaxPrice : parseInt(start_price[0].Price) + parseInt(step[0].Step_price),
+                'ProID': ProID,
+                'Time': today
+            })
+        } catch (error) {
+            
+        }
+        return;
+    }
 
         // const history = await db('bid_history').where({BID, ProID});
         // // is it already in bid_history ?
@@ -40,7 +46,7 @@ async function autoUpdate(ProID) {
         try {
             await db('bid_history').insert({
                 'BID': top2[0].BID,
-                'Price': parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price),
+                'Price': parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price) > top2[0].MaxPrice ? top2[0].MaxPrice : parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price),
                 'ProID': ProID,
                 'Time': today
             })
@@ -48,9 +54,8 @@ async function autoUpdate(ProID) {
             await db('bid_history').where({
                 'BID': top2[0].BID,
                 'ProID': ProID
-            }).update({'Price': parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price), 'Time': today});
+            }).update({'Price': parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price) > top2[0].MaxPrice ? top2[0].MaxPrice : parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price), 'Time': today});
         }
-    }
 }
 export default {
     getHistoryByPro(id) {
@@ -61,8 +66,8 @@ export default {
         await db('bid_system').insert({BID, ProID, MaxPrice});
         await autoUpdate(ProID);
     },
-    getTop2() {
-        return db('bid_system').orderBy('MaxPrice', 'desc').limit(2);
+    getTop2(ProID) {
+        return db('bid_system').where('ProID', ProID).orderBy('MaxPrice', 'desc').limit(2);
     },
     async updateBid(BID, ProID, MaxPrice) {
         await db('bid_system').where({'BID': BID, 'ProID': ProID}).update('MaxPrice', MaxPrice);

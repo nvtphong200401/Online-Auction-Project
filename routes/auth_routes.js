@@ -41,7 +41,8 @@ function(request, accessToken, refreshToken, profile, cb) {
 passport.use(new FacebookStrategy({
   clientID: '636448247537390',
   clientSecret: '8e5b954aeb5e0c716b1edb0d3c6b9631',
-  callbackURL: "http://localhost:3000/auth/facebook/login"
+  callbackURL: "http://localhost:3000/auth/facebook/login",
+  profileFields: ['id', 'emails', 'name', 'birthday']
 },
   async function (accessToken, refreshToken, profile, cb) {
     process.nextTick(() => {
@@ -267,24 +268,28 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/facebook', passport.authenticate('facebook'));
+router.get('/facebook', passport.authenticate('facebook', {scope: ['email', 'user_birthday']}));
 router.get('/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }));
 
 router.get('/google/login', passport.authenticate('google', { failureRedirect: '/auth' }),
   async (req, res) => {
-    const user = {};
+    var user = {};
+    const ID = await userModel.findLastUserID(); 
+    user.ID =  +ID + 1;
     user.FullName = req.user.displayName;
     user.DOB = '';
     user.Email = req.user.email;
+    user.Verified = 1;
     const li = user.FullName.split(' ');
     user.Username = li[li.length - 1];
+    var rs = await userModel.findByEmail(user.Email);
+    if (rs.length === 0) {
+      await userModel.add(user);
+      rs = await userModel.findByEmail(user.Email);
+    }
+    user = rs[0];
     req.session.auth = true;
     req.session.authUser = user;
-    const rs = await userModel.findByEmail(user.Email);
-    console.log(rs);
-    if (rs === null) {
-      await userModel.add(user);
-    }
     const url = req.session.retUrl || '/';
     return res.redirect(url);
   // Successful authentication, redirect home.
@@ -293,19 +298,24 @@ router.get('/google/login', passport.authenticate('google', { failureRedirect: '
 
 router.get('/facebook/login', passport.authenticate('facebook', { failureRedirect: '/auth' }),
 async (req, res) => {
-  const user = {};
-  user.ID = req.user.id;
-  user.FullName = req.user.displayName;
-  user.DOB = '';
-  const li = user.FullName.split(' ');
-  user.Username = li[li.length - 1];
+  var user = {};
+  const u = req.user._json;
+  const ID = await userModel.findLastUserID(); 
+  var rs = await userModel.findByEmail(u.email);
+  if (rs.length === 0) {
+    user.ID =  +ID + 1;
+    user.Username = u.first_name;
+    user.FullName = u.last_name + " "+ u.middle_name +" "+ u.first_name;
+    user.DOB = moment(u.birthday).format('YYYY-MM-DD') ;
+    user.Email = u.email;
+    user.Verified = 1;
+    await userModel.add(user);
+    rs = await userModel.findByEmail(u.email);
+    user = rs[0];
+  }
+  user = rs[0];
   req.session.auth = true;
   req.session.authUser = user;
-  const rs = await userModel.findByID(user.ID);
-  console.log(rs);
-  if (rs === null) {
-    await userModel.add(user);
-  }
   const url = req.session.retUrl || '/';
   return res.redirect(url);
   // Successful authentication, redirect home.

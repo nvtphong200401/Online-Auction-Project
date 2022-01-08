@@ -50,7 +50,7 @@ router.get('/:id', async (req, res) => {
 
     const pro = await productModel.findById(id);
     const categories = await categoryModel.findByPro(id);
-    const sellers = await userModel.getSellerByPro(id);
+    const sellers = await productModel.getSeller(id);
     for (const seller of sellers) {
         const s = await userModel.getAllScore(seller.ID);
         const p = await productModel.countAllByUser(seller.ID);
@@ -75,7 +75,7 @@ router.get('/:id', async (req, res) => {
         category: categories[0],
         seller: sellers[0] || 0,
         highestPrice,
-        bid_his,
+        bid_his: bid_his || 0,
         sameCat,
         imgs,
         isSeller: isSeller
@@ -85,6 +85,11 @@ router.post('/:id', auth, async (req, res) => {
     const BID = req.session.authUser.ID;
     const ProID = req.params.id;
     const MaxPrice = req.body.BidPrice;
+    const highestPrice = await productModel.getCurrentBid(ProID);
+    if (MaxPrice < highestPrice) {
+        req.flash('success', 'You bid is too low! Please try again with higher bid');
+        return res.redirect('/product/' + ProID);
+    }
     const product = await productModel.findById(ProID);
 
     const isBannedOnProduct = await userModel.isBannedOnProduct(BID, ProID);
@@ -94,9 +99,9 @@ router.post('/:id', auth, async (req, res) => {
     }
 
     var err_message = null;
-    const t = await bidModel.getTop2();
+    const t = await bidModel.getTop2(ProID);
     if (t.length > 0) {
-        if (t[0].BID == BID && t[0].ProID == ProID) {
+        if (t[0].BID == BID) {
             await bidModel.updateBid(BID, ProID, MaxPrice);
             err_message = 'You are at top bid now ! Stay chill until someone get over !';
         }
@@ -118,7 +123,7 @@ router.post('/:id', auth, async (req, res) => {
 
                 // not in db
                 const result = await bidModel.addBid(BID, ProID, MaxPrice);
-                const top = await bidModel.getTop2();
+                const top = await bidModel.getTop2(ProID);
                 const user1 = await userModel.findByID(top[0].BID);
                 
                 sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
@@ -141,9 +146,8 @@ router.post('/:id', auth, async (req, res) => {
                 return res.redirect('/product/' + ProID)
             }
             await bidModel.addBid(BID, ProID, MaxPrice);
-            const top = await bidModel.getTop2();
+            const top = await bidModel.getTop2(ProID);
             const user1 = await userModel.findByID(top[0].BID);
-
             sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! 
             See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
             if (top[1] !== undefined) {
