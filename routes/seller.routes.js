@@ -5,6 +5,8 @@ import multer from "multer";
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from "../models/users_model.js";
+import commentModel from "../models/comment.model.js";
+import bidModel from "../models/bid.model.js";
 
 const router = express.Router();
 
@@ -56,6 +58,7 @@ router.get('/product/list/active', async function(req, res) {
                 layout: 'main',
                 products: productList,
                 pageNumbers,
+                empty: productList.length === 0,
                 isExSeller: res.locals.exSeller
             });
         }
@@ -95,11 +98,18 @@ router.get('/product/list/sold', async function (req, res) {
                 product.CatName = cat[0].CatName;
                 product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
                 product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+                if (product.Winner !== null) {
+                    const winner = await userModel.findByID(product.Winner);
+                    product.WinnerName = winner.Username;
+                } else {
+                    product.WinnerName = null;
+                }
             }
             res.render('vwSeller/sold', {
                 layout: 'main',
                 products: productList,
                 pageNumbers,
+                empty: productList.length === 0,
                 isExSeller: res.locals.exSeller
             });
         }
@@ -107,8 +117,13 @@ router.get('/product/list/sold', async function (req, res) {
 })
 
 router.post('/product/delete', async function (req, res) {
-    //TODO: comment and minus score of winner on delete
+    // const proID = req.body.ProID;
+    // const sellerID = req.body.SID;
+    // const winnerID = req.body.Winner;
     await productModel.del(req.body.ProID);
+    await commentModel.setComment(req.body.SID, req.body.Winner, 'Người thắng không thanh toán', -1);
+    // await bidModel.deleteBidHistory(winnerID, proID);
+    // await bidModel.deleteBidSystem(winnerID, proID);
     res.redirect('/seller/product/list/sold');
 })
 
@@ -135,7 +150,10 @@ router.get('/product/edit', async function (req, res) {
         } else {
             const ProID = req.query.id || 0;
             const product = await productModel.findById(ProID);
-            const maxLength = 1000 - product[0].FullDesc.length;
+            var maxLength = 0;
+            if (product[0] !== undefined) {
+                maxLength = 1000 - product[0].FullDesc.length;
+            }
             res.render('vwSeller/edit', {
                 layout: 'main',
                 product: product[0],
@@ -215,8 +233,12 @@ router.get('/product/add', async function(req, res) {
 
 router.post('/deny_bidder', async function (req, res) {
     //TODO: send email to the banned user and pass the product to the 2nd highest bidder
-    await userModel.denyUserOnProduct(req.body.BID, req.body.ProID);
-    res.redirect('/product/' + req.body.ProID);
+    const BID = req.body.BID;
+    const ProID = req.body.ProID;
+    await userModel.denyUserOnProduct(BID, ProID);
+    await bidModel.deleteBidHistory(BID, ProID);
+    await bidModel.deleteBidSystem(BID, ProID);
+    res.redirect('/product/' + ProID);
 })
 
 router.get('/request', function (req, res) {

@@ -70,7 +70,8 @@ export default {
     },
     async countProductByCat(CatID) {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        const list = await db.count('p.ProID as amount').from('product as p').rightJoin('category as c', 'p.CatID', 'c.CatID')
+        const list = await db.count('p.ProID as amount').from('product as p')
+            .rightJoin('category as c', 'p.CatID', 'c.CatID')
             .where('EndDate', '>', today).andWhere(function () {
                 this.where('p.CatID', '=', CatID)
                     .orWhere('c.CatParent', '=', CatID);
@@ -80,7 +81,8 @@ export default {
     async findPageByCat(CatID, page, limit) {
         const off = (page - 1) * limit;
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        const list = await db('product').from('product as p').rightJoin('category as c', 'p.CatID', 'c.CatID')
+        const list = await db('product').from('product as p')
+            .rightJoin('category as c', 'p.CatID', 'c.CatID')
             .where('EndDate', '>', today).andWhere(function () {
                 this.where('p.CatID', '=', CatID)
                     .orWhere('c.CatParent', '=', CatID);
@@ -132,7 +134,8 @@ export default {
 
     async findTopBid() {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        const list = await db.select('p.*').count('bd.BID as BidNumber').from('product as p')
+        const list = await db.select('p.*').count('bd.BID as BidNumber')
+            .from('product as p')
             .leftJoin('bid_history as bd', 'p.ProID', 'bd.ProID')
             .where('EndDate', '>', today)
             .groupBy('p.ProID', 'p.ProName')
@@ -169,19 +172,26 @@ export default {
         return list;
     },
     searchOr(query){
-        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${query}') OR MATCH(category.CatName) AGAINST('${query}')`);
+        return db('product').join('category', 'product.CatID', 'category.CatID')
+            .whereRaw(`MATCH(product.ProName) AGAINST('${query}') OR MATCH(category.CatName) AGAINST('${query}')`);
     },
     searchAnd(proName, catName){
-        return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(product.ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST('${catName}')`);
+        return db('product').join('category', 'product.CatID', 'category.CatID')
+            .whereRaw(`MATCH(product.ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST('${catName}')`);
     },
     searchAndFilter(proName, catName, filter){
-        return db('product').join('category', 'category.CatID', 'product.CatID').join('bid_system', 'product.ProID', 'bid_system.ProID').whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`).orderBy(filter);
+        return db('product').join('category', 'category.CatID', 'product.CatID')
+            .join('bid_system', 'product.ProID', 'bid_system.ProID')
+            .whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`).orderBy(filter);
     },
     searchOrFilter(query, filter){
         if (filter === "EndDate"){
-            return db('product').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter ,'desc');
+            return db('product').join('category', 'product.CatID', 'category.CatID')
+                .whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter ,'desc');
         }
-        return db('bid_system').rightJoin('product', 'product.ProID', 'bid_system.ProID').join('category', 'product.CatID', 'category.CatID').whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
+        return db('bid_system').rightJoin('product', 'product.ProID', 'bid_system.ProID')
+            .join('category', 'product.CatID', 'category.CatID')
+            .whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
     },
     //TODO: Phong pls check if this is your desired result
     getSeller(ProID){

@@ -70,5 +70,11 @@ export default {
     },
     findBid(BID, ProID) {
         return db('bid_system').where({BID, ProID});
+    },
+    deleteBidHistory(BID, ProID) {
+        return db('bid_history').where('BID', BID).andWhere('ProID', ProID).del();
+    },
+    deleteBidSystem(BID, ProID) {
+        return db('bid_system').where('BID', BID).andWhere('ProID', ProID).del();
     }
 }

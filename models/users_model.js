@@ -8,9 +8,9 @@ export default {
     },
     async findByID(ID) {
         const list = await db('user').where('ID', ID);
-        if (list.length === 0)
+        if (list.length === 0) {
             return null;
-
+        }
         return list[0];
     },
     findByRole(role){
@@ -22,9 +22,9 @@ export default {
 
     async findByUsername(username) {
         const list = await db('user').where('Username', username);
-        if (list.length === 0)
+        if (list.length === 0) {
             return null;
-
+        }
         return list[0];
     },
     add(entity) {
@@ -38,7 +38,6 @@ export default {
     patch(entity) {
         const ID = entity.ID;
         delete entity.ID;
-
         return db('user')
             .where('ID', ID)
             .update(entity);

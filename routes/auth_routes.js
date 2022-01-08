@@ -172,7 +172,6 @@ router.get('/', (req, res) => {
   res.render('auth/login', { layout: 'auth' })
 })
 
-
 router.post('/', async (req, res) => {
   const form = req.body;
   if (form.action === 'Register') {

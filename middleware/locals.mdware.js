@@ -11,16 +11,16 @@ export default function (app) {
 
     if (req.session.auth === false) {
       req.session.cart = [];
-    }
-
-    res.locals.auth = req.session.auth;
-    res.locals.authUser = req.session.authUser;
-    if (req.session.auth === true) {
+    } else {
       res.locals.bidder = req.session.authUser.Role === 0;
       res.locals.seller = req.session.authUser.Role === 1;
       res.locals.admin = req.session.authUser.Role === 2;
       res.locals.exSeller = req.session.authUser.Role === 3;
     }
+
+    res.locals.auth = req.session.auth;
+    res.locals.authUser = req.session.authUser;
+
     app.locals.success = req.flash('success');
     app.locals.warning = req.flash('warning');
     next();

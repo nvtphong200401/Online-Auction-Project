@@ -64,8 +64,8 @@ router.get('/:id', async (req, res) => {
         his.Time = moment(his.Time).format('DD/MM/YYYY hh:mm:ss')
     }
     var isSeller = false;
-    if (req.session.auth === true) {
-      isSeller = sellers[0].ID === req.session.authUser.ID;
+    if (res.locals.auth === true) {
+      isSeller = sellers[0].ID === res.locals.authUser.ID;
     }
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
     const highestPrice = await productModel.getCurrentBid(id);

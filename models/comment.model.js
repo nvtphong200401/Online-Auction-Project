@@ -37,13 +37,11 @@ export default {
 
         return good[0].nComment;
     },
-
     async countBadComment(userId, beingJudged = true) {
         const total = await this.countComment(userId, beingJudged)
         const good = await this.countGoodComment(userId, beingJudged)
         return total - good;
     },
-
     async percentGoodComment(userId, beingJudged = true) {
         const total = await this.countComment(userId, beingJudged);
         if (total === 0) // If there is no comment yet, return -1
@@ -51,13 +49,17 @@ export default {
         const good = await this.countGoodComment(userId, beingJudged);
         return good / total * 100;
     },
-
     async percentBadComment(userId, beingJudged = true) {
         const total = await this.countComment(userId, beingJudged);
         if (total === 0) // If there is no comment yet, return -1
             return -1;
         const bad = await this.countBadComment(userId, beingJudged);
         return bad / total * 100;
-    }
+    },
+    setComment(commenterID, beingCommentedID, comment, score) {
+        return db('comment').where('ID1', commenterID)
+            .andWhere('ID2', beingCommentedID)
+            .update({'Opinion': comment, 'Score': score});
+    },
 }
 
