@@ -32,7 +32,7 @@
                                 </button>
                             </a>
 
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" style="padding:0">
                                 <div class="dropdown-menu">
                                     {{#each SubCat}}
                                         <a class="dropdown-item" href="/byCat/{{CatID}}">{{CatName}}</a>
@@ -59,8 +59,11 @@
                         {{#each lcCategories}}
                             <a data-toggle="collapse" href="#collapse{{CatID}}"
                                class="list-group-item list-group-item-action {{#if isActive}} active {{/if}}">
-                                <h6 class="font-weight-bold">{{CatName}}</h6>
-                                <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
+                                <div>
+                                    <h6 class="font-weight-bold">{{CatName}}
+                                        <i class="fa fa-list float-right mt-1" aria-hidden="true"></i>
+                                    </h6>
+                                </div>
                             </a>
                             <div class="collapse ml-4 mt-3" id="collapse{{CatID}}">
                                 <div class="form-check">

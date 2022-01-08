@@ -45,7 +45,6 @@
                 <a class="nav-link" href="#">Help</a>
             </li>
             {{#if auth}}
-
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button"
                        data-toggle="dropdown" aria-expanded="false">
@@ -64,12 +63,12 @@
                             My watchlist
                         </a>
                         {{#if admin}}
-                        <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider"></div>
 
-                        <a class="dropdown-item" href="/admin">
-                            <i class="fa fa-user-secret" aria-hidden="true"></i>
-                            Admin
-                        </a>
+                            <a class="dropdown-item" href="/admin">
+                                <i class="fa fa-user-secret mr-1" aria-hidden="true"></i>
+                                Admin
+                            </a>
                         {{/if}}
 
                         <div class="dropdown-divider"></div>
