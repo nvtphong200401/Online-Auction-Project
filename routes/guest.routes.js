@@ -47,10 +47,21 @@ router.get('/byCat/:id/:page', async function (req, res) {
     const nProduct = 8;
     const ProductList = await productModel.findPageByCat(CatId, PageNow, nProduct) || [];
 
+    let chosenCat;
     for (const c of res.locals.lcCategories) {
-        c.isActive = c.CatID === CatId;
+        for (const sub of c.SubCat) {
+            c.isActive = +sub.CatID === +CatId
+            if (c.isActive) {
+                chosenCat = sub.CatName;
+                break;
+            }
+        }
+        if (!c.isActive) {
+            c.isActive = c.CatID === +CatId;
+            if (c.isActive) chosenCat = c.CatName;
+        }
     }
-
+    console.log(chosenCat)
     const nPage = Math.ceil(await productModel.countProductByCat(CatId) / nProduct) || 1;
 
     let PageList = [];
@@ -64,6 +75,7 @@ router.get('/byCat/:id/:page', async function (req, res) {
     res.render('vwProduct/byCat', {
         layout: 'main',
         category: CatList,
+        chosenCat: chosenCat,
         product: ProductList,
         page: PageList,
         prev: prev,
