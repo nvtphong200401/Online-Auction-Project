@@ -12,8 +12,7 @@ const router = express.Router();
 
 router.get('/', function (req, res) {
     res.redirect('/seller/product/list/active');
-})
-
+});
 router.get('/product/list/active', async function(req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -29,7 +28,7 @@ router.get('/product/list/active', async function(req, res) {
             const offset = (page - 1) * limit;
             const SID = res.locals.authUser.ID;
 
-            const total = await productModel.countAllActive(SID);
+            const total = await productModel.countAllSellerActive(SID);
             let numPages = Math.floor(total / limit);
             if (total % limit > 0) numPages++;
 
@@ -41,7 +40,7 @@ router.get('/product/list/active', async function(req, res) {
                 });
             }
 
-            const productList = await productModel.findActivePage(SID, limit, offset);
+            const productList = await productModel.findSellerActivePage(SID, limit, offset);
             for (const product of productList) {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;
@@ -63,8 +62,7 @@ router.get('/product/list/active', async function(req, res) {
             });
         }
     }
-})
-
+});
 router.get('/product/list/sold', async function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -122,8 +120,7 @@ router.get('/product/list/sold', async function (req, res) {
             });
         }
     }
-})
-
+});
 router.post('/review', async function (req, res) {
     const comment = {
         ID1: req.body.SID,
@@ -135,14 +132,13 @@ router.post('/review', async function (req, res) {
     }
     await commentModel.addComment(comment);
     res.redirect('/seller/product/list/sold');
-})
-
+});
 router.post('/product/delete', async function (req, res) {
     const comment = {
         ID1: req.body.SID,
         ID2: req.body.Winner,
         Date: moment().format('YYYY-MM-DD HH:mm:ss'),
-        Score: -1,
+        Score: 0,
         Opinion: 'Người thắng không thanh toán',
         ProID: req.body.ProID,
     }
@@ -151,8 +147,7 @@ router.post('/product/delete', async function (req, res) {
     // await bidModel.deleteBidHistory(winnerID, proID);
     // await bidModel.deleteBidSystem(winnerID, proID);
     res.redirect('/seller/product/list/sold');
-})
-
+});
 router.post('/product/edit', async function (req, res) {
     //TODO: add maxLength js validation later
     const ProID = req.body.ProID;
@@ -162,8 +157,7 @@ router.post('/product/edit', async function (req, res) {
     FullDesc += today + '<br>' + req.body.FullDesc;
     await productModel.appendDescription(ProID, FullDesc);
     res.redirect('/seller/product/list/active');
-})
-
+});
 router.get('/product/edit', async function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -188,8 +182,7 @@ router.get('/product/edit', async function (req, res) {
             });
         }
     }
-})
-
+});
 router.post('/product/add',async function(req, res) {
     //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
@@ -232,8 +225,7 @@ router.post('/product/add',async function(req, res) {
             res.redirect('/seller/product/list/active');
         }
     })
-})
-
+});
 router.get('/product/add', async function(req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -244,19 +236,14 @@ router.get('/product/add', async function(req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
-            if (res.locals.exSeller) {
-                res.redirect('/seller/product/list/active');
-            } else {
-                const catList = await categoryModel.findAllSubCat();
-                res.render('vwSeller/add', {
-                    layout: 'main',
-                    catList: catList
-                });
-            }
+            const catList = await categoryModel.findAllSubCat();
+            res.render('vwSeller/add', {
+                layout: 'main',
+                catList: catList
+            });
         }
     }
-})
-
+});
 router.post('/deny_bidder', async function (req, res) {
     //TODO: send email to the banned user and pass the product to the 2nd highest bidder
     const BID = req.body.BID;
@@ -265,29 +252,5 @@ router.post('/deny_bidder', async function (req, res) {
     await bidModel.deleteBidHistory(BID, ProID);
     await bidModel.deleteBidSystem(BID, ProID);
     res.redirect('/product/' + ProID);
-})
-
-router.get('/request', function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
-        if (res.locals.exSeller) {
-            if (req.session.authUser.Pending) {
-                res.render('vwBidder/waiting', {
-                    layout: 'default'
-                });
-            } else {
-                res.render('vwBidder/request', {
-                    layout: 'default'
-                });
-            }
-        } else {
-            res.redirect('/seller/product/list/active');
-        }
-    }
-})
-
+});
 export default router;

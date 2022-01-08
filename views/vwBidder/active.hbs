@@ -1,0 +1,73 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="card my-3">
+                <div class="card-header bg-white">
+                    <div class="d-flex flex-row">
+                        <div class="nav-item">
+                            <a class="nav-link text-success font-weight-bold" href="/bidder/product/list/active">Active</a>
+                        </div>
+                        <div class="nav-item">
+                            <a class="nav-link text-success font-weight-bold" href="/bidder/product/list/won">Won</a>
+                        </div>
+                    </div>
+                </div>
+                {{#if this.empty}}
+                    <div class="card-body">
+                        <div class="text-center mb-5">
+                            <img src="/public/imgs/picture/no-product-found.png" alt="No active products here">
+                        </div>
+                    </div>
+                {{else}}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Highest bid</th>
+                                    <th>Current bid</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {{#each this.products}}
+                                    <tr>
+                                        <td>{{ProID}}</td>
+                                        <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</td>
+                                        <td>{{CatName}}</td>
+                                        <td>{{UploadDate}}</td>
+                                        <td>{{EndDate}}</td>
+                                        <td>{{HighestBid}}</td>
+                                        <td>{{CurrentBid}}</td>
+                                    </tr>
+                                {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {{#each this.pageNumbers}}
+            {{#if isCurrent}}
+                <li class="page-item">
+                    <a class="page-link bg-success text-white" href="javascript:;">{{value}}</a>
+                </li>
+            {{else}}
+                <li class="page-item">
+                    <a class="page-link text-success" href="?page={{value}}">{{value}}</a>
+                </li>
+            {{/if}}
+        {{/each}}
+    </ul>
+</nav>

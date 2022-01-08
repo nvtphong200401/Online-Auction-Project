@@ -3,6 +3,8 @@ import userModel from '../models/users_model.js';
 import commentModel from '../models/comment.model.js'
 import bcrypt from "bcryptjs";
 import moment from "moment";
+import productModel from "../models/product.model.js";
+import categoryModel from "../models/category.model.js";
 const router = express.Router();
 
 router.get('/request', function (req, res) {
@@ -12,7 +14,7 @@ router.get('/request', function (req, res) {
     if (req.session.auth === false) {
         res.redirect('/auth');
     } else {
-        if (res.locals.bidder) {
+        if (res.locals.bidder || res.locals.exSeller) {
             if (req.session.authUser.Pending) {
                 res.render('vwBidder/waiting', {
                     layout: 'default'
@@ -23,11 +25,10 @@ router.get('/request', function (req, res) {
                 });
             }
         } else {
-            res.redirect('/seller/product/list/active');
+            res.redirect('/seller/');
         }
     }
 });
-
 router.post('/request', async function (req, res) {
     const id = req.session.authUser.ID;
     req.session.authUser.Pending = true;
@@ -36,7 +37,6 @@ router.post('/request', async function (req, res) {
     const url = req.headers.referer || '/';
     res.redirect(url);
 });
-
 router.get('/profile', async function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -67,7 +67,6 @@ router.get('/profile', async function (req, res) {
         });
     }
 });
-
 router.get('/profile/edit', function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
@@ -165,5 +164,112 @@ router.post('/profile/reset-password', async function (req, res) {
 
     req.flash("success", "Please use new password to continue");
     res.redirect('/auth')
+});
+router.get('/product/list/won', async function (req, res) {
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        const limit = 10;
+        const page = req.query.page || 1;
+        const offset = (page - 1) * limit;
+        const BID = res.locals.authUser.ID;
+
+        const total = await productModel.countAllWon(BID);
+        let numPages = Math.floor(total / limit);
+        if (total % limit > 0) numPages++;
+
+        const pageNumbers = [];
+        for (let i = 1; i <= numPages; i++) {
+            pageNumbers.push({
+                value: i,
+                isCurrent: +page === i,
+            });
+        }
+
+        const productList = await productModel.findWonPage(BID, limit, offset);
+        for (const product of productList) {
+            const cat = await categoryModel.findByPro(product.ProID);
+            product.CatName = cat[0].CatName;
+            product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
+            product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+            const seller = await userModel.findByID(product.SID);
+            const price = await productModel.findHighestBID(product.ProID);
+            product.Price = price.Price;
+            product.SellerName = seller.Username;
+            if (product.Winner === product.SID) {
+                product.winnerIsSeller = true;
+            } else {
+                product.winnerIsSeller = false;
+            }
+        }
+        res.render('vwBidder/won', {
+            layout: 'main',
+            products: productList,
+            pageNumbers,
+            empty: productList.length === 0
+        });
+    }
+});
+router.post('/review', async function (req, res) {
+    const comment = {
+        ID1: req.body.Winner,
+        ID2: req.body.SID,
+        Date: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Score: +req.body.score,
+        Opinion: req.body.review,
+        ProID: req.body.ProID,
+    }
+    await commentModel.addComment(comment);
+    res.redirect('/bidder/product/list/won');
+});
+router.get('/product/list/active', async function (req, res) {
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        const limit = 10;
+        const page = req.query.page || 1;
+        const offset = (page - 1) * limit;
+        const BID = res.locals.authUser.ID;
+
+        const total = await productModel.countAllBidderActive(BID);
+        let numPages = Math.floor(total / limit);
+        if (total % limit > 0) numPages++;
+
+        const pageNumbers = [];
+        for (let i = 1; i <= numPages; i++) {
+            pageNumbers.push({
+                value: i,
+                isCurrent: +page === i,
+            });
+        }
+
+        const productList = await productModel.findBidderActivePage(BID, limit, offset);
+        for (const product of productList) {
+            const cat = await categoryModel.findByPro(product.ProID);
+            product.CatName = cat[0].CatName;
+            const highestBid = await productModel.findHighestBID(product.ProID);
+            const currentBid = await productModel.findCurrentBid(BID, product.ProID);
+            product.CurrentBid = currentBid[0].MaxPrice;
+            if (highestBid === null) {
+                product.HighestBid = "None";
+            } else {
+                product.HighestBid = highestBid.Price;
+            }
+            product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
+            product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+        }
+        res.render('vwBidder/active', {
+            layout: 'main',
+            products: productList,
+            pageNumbers,
+            empty: productList.length === 0,
+        });
+    }
 });
 export default router;

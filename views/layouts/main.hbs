@@ -81,9 +81,15 @@
                     </div>
                 </li>
                 <li class="ml-sm-2 nav-item mt-sm-0 mt-3">
-                    <a href="/bidder/request">
-                        <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
-                    </a>
+                     {{#if bidder}}
+                         <a href="/bidder/request">
+                             <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
+                         </a>
+                     {{else}}
+                         <a href="/seller/">
+                             <button type="button" class="btn btn-outline-success btn-lg">Sell</button>
+                         </a>
+                     {{/if}}
                 </li>
             {{else}}
                 <li class="nav-item">

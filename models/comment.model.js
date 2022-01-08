@@ -59,5 +59,9 @@ export default {
     addComment(comment) {
         return db('comment').insert(comment);
     },
+    async isCommented(ID1, ID2, ProID) {
+        const existsComment = await db('comment').where('ID1', ID1).andWhere('ID2', ID2).andWhere('ProID', ProID);
+        return existsComment[0] !== undefined;
+    }
 }
 

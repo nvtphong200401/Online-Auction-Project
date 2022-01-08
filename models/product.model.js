@@ -51,18 +51,37 @@ export default {
             .andWhere('SID', SID)
             .limit(limit).offset(offset);
     },
-    findActivePage(SID, limit, offset) {
+    findBidderActivePage(BID, limit, offset) {
+        return db('bid_system').innerJoin('product', 'bid_system.ProID', 'product.ProID')
+            .where('bid_system.BID', BID).andWhere('product.Status', 0)
+            .limit(limit).offset(offset);
+    },
+    findSellerActivePage(SID, limit, offset) {
         return db('product').where('Status', 0)
             .andWhere('SID', SID)
             .limit(limit).offset(offset);
     },
+    findWonPage(BID, limit, offset) {
+        return db('product').where('Winner', BID).limit(limit).offset(offset);
+    },
+    async countAllWon(BID) {
+        const total = await db('product').where('Winner', BID)
+            .count({count: '*'});
+        return total[0].count;
+    },
     async countAllSold(SID) {
-        const total= await db('product').where('Status', 1)
+        const total = await db('product').where('Status', 1)
             .andWhere('SID', SID)
             .count({count: '*'});
         return total[0].count;
     },
-    async countAllActive(SID) {
+    async countAllBidderActive(BID) {
+        const total = await db('bid_system').innerJoin('product', 'bid_system.ProID', 'product.ProID')
+            .where('bid_system.BID', BID).andWhere('product.Status', 0)
+            .count({count: '*'});
+        return total[0].count;
+    },
+    async countAllSellerActive(SID) {
         const total = await db('product').where('Status', 0)
             .andWhere('SID', SID)
             .count({count: '*'});
@@ -204,5 +223,8 @@ export default {
     },
     setSold(ProID) {
         return db('product').where('ProID', ProID).update('Status', 1);
+    },
+    findCurrentBid(BID, ProID) {
+        return db.select('MaxPrice').from('bid_system').where('ProID', ProID).andWhere('BID', BID);
     }
 }

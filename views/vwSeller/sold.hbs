@@ -48,7 +48,7 @@
                         </div>
                         <div class="ml-auto">
                             {{#if this.isExSeller}}
-                                <a href="/seller/request">
+                                <a href="/bidder/request">
                                     <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
                                         <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                                         Become a seller
@@ -68,7 +68,7 @@
                 {{#if this.empty}}
                     <div class="card-body">
                         <div class="text-center mb-5">
-                            <img src="/public/imgs/picture/no-product-found.png" alt="No active products here">
+                            <img src="/public/imgs/picture/no-product-found.png" alt="No sold products here">
                         </div>
                     </div>
                 {{else}}
@@ -120,7 +120,7 @@
                                                                           </label>
                                                                       </div>
                                                                       <div class='form-check form-check-inline'>
-                                                                          <input class='form-check-input' type='radio' id='dislike' value='-1' name='score' required>
+                                                                          <input class='form-check-input' type='radio' id='dislike' value='0' name='score' required>
                                                                           <label class='form-check-label' for='dislike'>
                                                                             <img class='emoji' src='/public/imgs/emoji/-1.png' alt='' height='50' width='auto'>
                                                                           </label>
