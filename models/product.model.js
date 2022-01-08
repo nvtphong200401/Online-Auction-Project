@@ -193,10 +193,8 @@ export default {
             .join('category', 'product.CatID', 'category.CatID')
             .whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
     },
-    //TODO: Phong pls check if this is your desired result
     getSeller(ProID){
-        return db.select('SID', 'Step_price', 'AutoTime').from('product').where('ProID', ProID);
-        //return db('sale').join('user', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and sale.ProID = ${ProID}`);
+        return db('user').join('product', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and product.ProID = ${ProID}`);
     },
     updateEndTime(ProID, EndDate){
         return db('product').where('ProID', ProID).update('EndDate', EndDate);

@@ -75,11 +75,6 @@ export default {
     editDob(id, dob) {
         return db('user').where('ID', id).update({'DOB': moment(dob, "L").toISOString()});
     },
-    //TODO: Phong pls check if this is your desired result
-    getSellerByPro(id) {
-        return db.select('user.FullName', 'user.ID').from('user').join('product', 'user.ID', 'product.SID').where('ProID', id);
-        //return db.select('FullName').from('user').join('sale', 'user.ID', 'sale.SID').where({'Role': 1, 'ProID': id});
-    },
     checkVerified(username) {
         return db.select('Verified').from('user').where('Username', username);
     },
@@ -119,5 +114,9 @@ export default {
     async isBannedOnProduct(userID, proID) {
         const user = await db('banned_bidder').where('BID', userID).andWhere('ProID', proID);
         return user[0] !== undefined;
+    },
+    async findLastUserID() {
+        const maxUserID = await db('user').max('ID as id').first();
+        return maxUserID.id;
     }
 }
