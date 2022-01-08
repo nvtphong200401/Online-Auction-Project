@@ -2,86 +2,93 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-            <div class="card my-3">
-                <div class="card-header bg-white">
-                    <div class="d-flex flex-row">
-                        <div class="nav-item">
-                            <a class="nav-link text-success font-weight-bold" href="/seller/product/list/active">Active</a>
-                        </div>
-                        <div class="nav-item">
-                            <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
-                        </div>
-                        <div class="ml-auto">
-                            {{#if this.isExSeller}}
-                                <a href="/seller/request">
-                                    <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
-                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                        Become a seller
-                                    </button>
-                                </a>
-                            {{else}}
-                                <a href="/seller/product/add">
-                                    <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                        Add a new product
-                                    </button>
-                                </a>
-                            {{/if}}
-                        </div>
+        <div class="card my-3">
+            <div class="card-header bg-white">
+                <div class="d-flex flex-row">
+                    <div class="nav-item">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/active">Active</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
+                    </div>
+                    <div class="ml-auto">
+                        {{#if this.isExSeller}}
+                            <a href="/seller/request">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    Become a seller
+                                </button>
+                            </a>
+                        {{else}}
+                            <a href="/seller/product/add">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add a new product
+                                </button>
+                            </a>
+                        {{/if}}
                     </div>
                 </div>
-                {{#if this.empty}}
-                    <div class="card-body">
-                        <h2 class="card-title d-flex justify-content-center">No sold products here</h2>
-                    </div>
-                {{else}}
-                    <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-hovered">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Category</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Winner</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {{#each this.products}}
-                                        <tr>
-                                            <td>{{ProID}}</td>
-                                            <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</td>
-                                            <td>{{CatName}}</td>
-                                            <td>{{UploadDate}}</td>
-                                            <td>{{EndDate}}</td>
-                                            <td>{{WinnerName}}</td>
-                                            <td>
-                                                <form method="post">
-                                                    <label for="ProID" hidden>ProID</label>
-                                                    <input type="text" class="form-control" id="ProID" name="ProID" value="{{ProID}}" hidden>
-                                                    <label for="Winner" hidden>Winner</label>
-                                                    <input type="text" class="form-control" id="Winner" name="Winner" value="{{Winner}}" hidden>
-                                                    <label for="SID" hidden>SID</label>
-                                                    <input type="text" class="form-control" id="SID" name="SID" value="{{SID}}" hidden>
-                                                    <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/product/delete">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    {{/each}}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                {{/if}}
             </div>
+            {{#if this.empty}}
+                <div class="card-body">
+                    <!--<h2 class="card-title d-flex justify-content-center">No sold products here</h2>-->
+                    <div class="text-center mb-5">
+                        <img src="/public/imgs/picture/no-product-found.png" alt="No active products here">
+                    </div>
+                </div>
+            {{else}}
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hovered">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Winner</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each this.products}}
+                                <tr>
+                                    <td>{{ProID}}</td>
+                                    <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</td>
+                                    <td>{{CatName}}</td>
+                                    <td>{{UploadDate}}</td>
+                                    <td>{{EndDate}}</td>
+                                    <td>{{WinnerName}}</td>
+                                    <td>
+                                        <form method="post">
+                                            <label for="ProID" hidden>ProID</label>
+                                            <input type="text" class="form-control" id="ProID" name="ProID"
+                                                   value="{{ProID}}" hidden>
+                                            <label for="Winner" hidden>Winner</label>
+                                            <input type="text" class="form-control" id="Winner" name="Winner"
+                                                   value="{{Winner}}" hidden>
+                                            <label for="SID" hidden>SID</label>
+                                            <input type="text" class="form-control" id="SID" name="SID" value="{{SID}}"
+                                                   hidden>
+                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                    formaction="/seller/product/delete">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
         </div>
     </div>
+</div>
 
 <nav aria-label="Page navigation">
     <ul class="pagination justify-content-center">

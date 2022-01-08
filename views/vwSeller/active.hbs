@@ -2,37 +2,40 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-            <div class="card my-3">
-                <div class="card-header bg-white">
-                    <div class="d-flex flex-row">
-                        <div class="nav-item">
-                            <a class="nav-link text-success font-weight-bold" href="/seller/product/list/active">Active</a>
-                        </div>
-                        <div class="nav-item">
-                            <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
-                        </div>
-                        <div class="ml-auto">
-                            {{#if this.isExSeller}}
-                                <a href="/seller/request">
-                                    <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
-                                        <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                                        Become a seller
-                                    </button>
-                                </a>
-                            {{else}}
-                                <a href="/seller/product/add">
-                                    <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                        Add a new product
-                                    </button>
-                                </a>
-                            {{/if}}
-                        </div>
+        <div class="card my-3">
+            <div class="card-header bg-white">
+                <div class="d-flex flex-row">
+                    <div class="nav-item">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/active">Active</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link text-success font-weight-bold" href="/seller/product/list/sold">Sold</a>
+                    </div>
+                    <div class="ml-auto">
+                        {{#if this.isExSeller}}
+                            <a href="/seller/request">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                                    Become a seller
+                                </button>
+                            </a>
+                        {{else}}
+                            <a href="/seller/product/add">
+                                <button class="btn btn-success my-2 my-sm-0 text-white float-right" type="submit">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Add a new product
+                                </button>
+                            </a>
+                        {{/if}}
                     </div>
                 </div>
+            </div>
             {{#if this.empty}}
                 <div class="card-body">
-                    <h2 class="card-title d-flex justify-content-center">No active products here</h2>
+                    <!--<h2 class="card-title d-flex justify-content-center">No active products here</h2>-->
+                    <div class="text-center mb-5">
+                        <img src="/public/imgs/picture/no-product-found.png" alt="No active products here">
+                    </div>
                 </div>
             {{else}}
                 <div class="card-body">
@@ -59,16 +62,17 @@
                                     <td>{{EndDate}}</td>
                                     <td>{{HighestBid}}</td>
                                     <td>
-                                        <a class="btn btn-sm btn-success" href="/seller/product/edit?id={{ProID}}" role="button">
+                                        <a class="btn btn-sm btn-success" href="/seller/product/edit?id={{ProID}}"
+                                        role="button">
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </td>
                                 </tr>
                             {{/each}}
                             </tbody>
                         </table>
-                        </div>
                     </div>
                 </div>
+            </div>
             {{/if}}
         </div>
     </div>

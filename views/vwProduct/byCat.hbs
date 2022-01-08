@@ -86,10 +86,16 @@
                     <div class="card-body">
 
                         {{#if this.empty}}
-                            <h5 class="card-title">No product found</h5>
-                            <p class="card-text">There is no product in this category yet. <br>Please come back later
-                                :(
-                            </p>
+
+                            <div class="text-center mb-5">
+                                <img src="/public/imgs/picture/no-product-found.png" alt="There is no product in this category yet. <br>Please come back later
+                                :(">
+                            </div>
+                            <!--
+                                <h5 class="card-title">No product found</h5>
+                                <p class="card-text">There is no product in this category yet. <br>Please come back later
+                                    :(
+                                </p> -->
                         {{else}}
                             <form action="/watchlist/add" method="post" id="frmAddItem">
                                 <input type="hidden" id="txtProID" name="id">
@@ -111,7 +117,8 @@
                                                     {{#if HighestBID}}
                                                         <span href="#" class="user">
                                                             <div class="user-photo">
-                                                                <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
+                                                                <img alt="Thumb"
+                                                                     src="/public/imgs/avatar/0/avatar1.png">
                                                             </div>
                                                             <div class="name" data-toggle="tooltip" data-placement="top"
                                                                  title="{{{format_name HighestBID.FullName}}}">
