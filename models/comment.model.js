@@ -56,10 +56,8 @@ export default {
         const bad = await this.countBadComment(userId, beingJudged);
         return bad / total * 100;
     },
-    setComment(commenterID, beingCommentedID, comment, score) {
-        return db('comment').where('ID1', commenterID)
-            .andWhere('ID2', beingCommentedID)
-            .update({'Opinion': comment, 'Score': score});
+    addComment(comment) {
+        return db('comment').insert(comment);
     },
 }
 

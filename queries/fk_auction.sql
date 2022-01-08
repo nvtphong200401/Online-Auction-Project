@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 07, 2022 at 10:18 PM
+-- Generation Time: Jan 08, 2022 at 04:10 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.0.13
 
@@ -32,13 +32,6 @@ CREATE TABLE `banned_bidder` (
   `ProID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `banned_bidder`
---
-
-INSERT INTO `banned_bidder` (`BID`, `ProID`) VALUES
-(1, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -57,7 +50,6 @@ CREATE TABLE `bid_history` (
 --
 
 INSERT INTO `bid_history` (`BID`, `ProID`, `Time`, `Price`) VALUES
-(1, 4, '2022-01-08 02:31:36', '42010000'),
 (1, 13, '2022-01-08 02:49:26', '2700000'),
 (1, 14, '2022-01-07 23:28:25', '1510000'),
 (1, 20, '2022-01-08 00:08:07', '1010000'),
@@ -84,7 +76,6 @@ CREATE TABLE `bid_system` (
 --
 
 INSERT INTO `bid_system` (`BID`, `ProID`, `MaxPrice`) VALUES
-(1, 4, '45000000'),
 (1, 13, '3000000'),
 (1, 14, '2000000'),
 (1, 20, '1000000'),
@@ -149,7 +140,6 @@ CREATE TABLE `comment` (
 INSERT INTO `comment` (`ID1`, `ID2`, `Date`, `Score`, `Opinion`, `ProID`) VALUES
 (1, 30, '2021-12-31 10:57:19', 1, 'Người bán hàng quá đẹp trai và tốt bụng', 1),
 (2, 30, '2021-12-31 11:01:42', 0, 'Mua hàng không trả tiền ??? Sống lỗi quá vậy :(', 2),
-(30, 1, '2021-12-31 10:59:35', 1, 'Mua hàng và trả tiền siêu nhanh. Good +1', 1),
 (30, 2, '2021-12-31 11:02:07', 0, 'Thích thì không trả đấy làm gì đươc nhau', 2);
 
 -- --------------------------------------------------------
@@ -206,7 +196,6 @@ INSERT INTO `product` (`ProID`, `ProName`, `CatID`, `SID`, `Winner`, `Status`, `
 (1, 'Freshwater Cultured Pearl', 9, 30, NULL, 1, '1500000', '150000', '5500000', '2021-12-02 22:08:16', '2021-12-04 09:32:16', 'Freshwater Cultured Pearl, Citrine, Peridot & Amethyst Bracelet, 7.5\"', '<UL>\r\n    <LI>Metal stamp: 14k </LI>\r\n    <LI>Metal: yellow-ld</LI>\r\n    <LI>Material Type: amethyst, citrine, ld, pearl, peridot</LI>\r\n    <LI>Gem Type: citrine, peridot, amethyst</LI>\r\n    <LI>Length: 7.5 inches</LI>\r\n    <LI>Clasp Type: filigree-box</LI>\r\n    <LI>Total metal weight: 0.6 Grams</LI>\r\n</UL>\r\n<STRONG>Pearl Information</STRONG><BR>\r\n<UL>\r\n    <LI>Pearl type: freshwater-cultured</LI>\r\n</UL>\r\n<STRONG>Packaging Information</STRONG><BR>\r\n<UL>\r\n    <LI>Package: Regal Blue Sueded-Cloth Pouch</LI>\r\n</UL>', 1, 0),
 (2, 'Pink Sapphire Sterling Silver', 14, 30, NULL, 1, '300000', '100000', '900000', '2021-12-02 08:32:16', '2021-12-15 15:32:16', '14 1/2 Carat Created Pink Sapphire Sterling Silver Bracelet w/ Diamond Accents', '<P><STRONG>Jewelry Information</STRONG></P>\r\n<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n</UL>\r\n', 1, 0),
 (3, 'Torrini KC241', 15, 30, NULL, 0, '160000000', '1000000', NULL, '2021-12-02 08:41:03', '2022-12-02 21:08:00', 'Nhẫn kim cương - vẻ đẹp kiêu sa', '<P>Không chỉ có kiểu dáng truyền thống chỉ có một hạt kim cương ở giữa, các nhà thiết kế đã tạo những những chiếc nhẫn vô cùng độc đáo và tinh tế. Tuy nhiên, giá của đồ trang sức này thì chỉ có dân chơi mới có thể kham được.</P>\r\n<UL>\r\n    <LI>Kiểu sản phẩm: Nhẫn nữ</LI>\r\n    <LI>Loại đá: To paz</LI>\r\n    <LI>Chất liệu: kim cương, nguyên liệu và công nghệ Italy...</LI>\r\n    <LI>Đơn giá: 2,110,250 VND / Chiếc</LI>\r\n</UL>\r\n', 1, 0),
-(4, 'Torrini KC242', 15, 30, NULL, 0, '42000000', '1000000', NULL, '2021-12-02 08:41:03', '2022-03-08 00:23:16', 'tinh xảo và sang trọng', '<P>Để sở hữu một chiếc nhẫn kim cương lấp lánh trên tay, bạn phải là người chịu chi và sành điệu.<BR>\r\nVới sự kết hợp khéo léo và độc đáo giữa kim cương và Saphia, Ruby... những chiếc nhẫn càng trở nên giá trị.</P>\r\n<UL>\r\n    <LI>Kiểu sản phẩm: Nhẫn nam</LI>\r\n    <LI>Loại đá: To paz</LI>\r\n    <LI>Chất liệu: Vàng tây 24K, nguyên liệu và công nghệ Italy...</LI>\r\n</UL>\r\n', 1, 1),
 (5, 'Nokia 7610', 7, 30, NULL, 0, '2900000', '500000', '5900000', '2021-12-02 08:32:16', '2023-09-06 14:29:16', 'Độ phân giải cao, màn hình màu, chụp ảnh xuất sắc.', '<UL>\r\n    <LI>Máy ảnh có độ phân giải 1 megapixel</LI>\r\n    <LI>Màn hình 65.536 màu, rộng 2,1 inch, 176 X 208 pixel với đồ họa sắc nét, độ phân giải cao</LI>\r\n    <LI>Quay phim video lên đến 10 phút với hình ảnh sắc nét hơn</LI>\r\n    <LI>Kinh nghiệm đa phương tiện được tăng cường</LI>\r\n    <LI>Streaming video &amp; âm thanh với RealOne Player (hỗ trợ các dạng thức MP3/AAC).</LI>\r\n    <LI>Nâng cấp cho những đoạn phim cá nhân của bạn bằng các tính năng chỉnh sửa tự động thông minh</LI>\r\n    <LI>In ảnh chất lượng cao từ nhà, văn phòng, kios và qua mạng</LI>\r\n    <LI>Dễ dàng kết nối vớI máy PC để lưu trữ và chia sẻ (bằng cáp USB, PopPort, công nghệ Bluetooth)</LI>\r\n    <LI>48 nhạc chuông đa âm sắc, True tones. Mạng GSM 900 / GSM 1800 / GSM 1900</LI>\r\n    <LI>Kích thước 109 x 53 x 19 mm, 93 cc</LI>\r\n    <LI>Trọng lượng 118 g</LI>\r\n    <LI>Hiển thị: Loại TFT, 65.536 màu</LI>\r\n    <LI>Kích cở: 176 x 208 pixels </LI>\r\n</UL>', 1, 0),
 (6, 'Áo thun nữ', 9, 30, NULL, 0, '180000', '50000', NULL, '2021-12-02 08:41:36', '2022-02-04 09:32:16', 'Màu sắc tươi tắn, kiểu dáng trẻ trung', '<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n    <LI>Xuất xứ: Tp Hồ Chí Minh</LI>\r\n</UL>\r\n', 0, 1),
 (7, 'Simen AP75', 7, 30, NULL, 0, '2800000', '1000000', '8880000', '2021-12-02 08:32:16', '2024-08-07 09:32:16', 'Thiết kế tinh xảo, hiện đại', '<UL>\r\n    <LI>Hình ảnh hoàn hảo, rõ nét ở mọi góc màn hình</LI>\r\n    <LI>Giảm thiểu sự phản chiếu ánh sáng</LI>\r\n    <LI>Menu hiển thị tiếng Việt</LI>\r\n    <LI>Hệ thống hình ảnh thông minh</LI>\r\n    <LI>Âm thanh Hifi Stereo mạnh mẽ</LI>\r\n    <LI>Hệ thống âm lượng thông minh</LI>\r\n    <LI>Bộ nhớ 100 chương trình</LI>\r\n    <LI>Chọn kênh ưa thích</LI>\r\n    <LI>Các kiểu sắp đặt sẵn hình ảnh / âm thanh</LI>\r\n    <LI>Kích thước (rộng x cao x dày): 497 x 458 x 487mm</LI>\r\n    <LI>Trọng lượng: 25kg</LI>\r\n    <LI>Màu: vàng, xanh, bạc </LI>\r\n</UL>\r\n', 1, 0),
@@ -219,7 +208,7 @@ INSERT INTO `product` (`ProID`, `ProName`, `CatID`, `SID`, `Winner`, `Status`, `
 (17, 'Mặt dây chuyền Ruby', 14, 2, NULL, 0, '1820000', '1000000', '5000000', '2021-12-02 08:32:16', '2022-06-19 09:42:16', 'Toả sáng cùng Ruby', '<UL>\r\n    <LI>Kiểu sản phẩm:&nbsp; Mặt dây</LI>\r\n    <LI>Chất liệu: Vàng trắng 14K, nguyên liệu và công nghệ Italy...</LI>\r\n    <LI>Trọng lượng chất liệu: 0.32 Chỉ</LI>\r\n</UL>\r\n', 0, 0),
 (18, '1/2 Carat Pink Sapphire Silver', 15, 2, NULL, 0, '3400000', '100000', NULL, '2021-12-02 08:42:57', '2022-11-24 09:32:25', 'Created Pink Sapphire', '<UL>\r\n    <LI>Brand Name: Ice.com</LI>\r\n    <LI>Material Type: sterling-silver, created-sapphire, diamond</LI>\r\n    <LI>Gem Type: created-sapphire, Diamond</LI>\r\n    <LI>Minimum total gem weight: 14.47 carats</LI>\r\n    <LI>Total metal weight: 15 Grams</LI>\r\n    <LI>Number of stones: 28</LI>\r\n    <LI>Created-sapphire Information</LI>\r\n    <LI>Minimum color: Not Available</LI>\r\n</UL>\r\n', 1, 0),
 (19, 'Netaya', 14, 2, NULL, 1, '1820000', '100000', NULL, '2021-12-02 08:42:57', '2022-01-08 04:17:00', 'Dây chuyền vàng trắng', '<UL>\r\n    <LI>Kiểu sản phẩm:&nbsp; Dây chuyền</LI>\r\n    <LI>Chất liệu: Vàng tây 18K, nguyên liệu và công nghệ Italy...</LI>\r\n    <LI>Trọng lượng chất liệu: 1 Chỉ</LI>\r\n</UL>\r\n', 1, 1),
-(20, 'Giày nam GN16', 8, 1, NULL, 0, '540000', '100000', '9500000', '2021-12-02 08:32:16', '2022-02-08 00:22:58', 'Êm - đẹp - bề', '<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n    <LI>Xuất xứ: Tp Hồ Chí Minh</LI>\r\n    <LI>Giá: 300 000 VNĐ</LI>\r\n</UL>\r\n', 1, 1),
+(20, 'Giày nam GN16', 8, 1, 1, 1, '540000', '100000', '9500000', '2021-12-02 08:32:16', '2022-01-08 00:22:58', 'Êm - đẹp - bề', '<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n    <LI>Xuất xứ: Tp Hồ Chí Minh</LI>\r\n    <LI>Giá: 300 000 VNĐ</LI>\r\n</UL>\r\n', 1, 1),
 (21, 'G3.370A', 8, 1, NULL, 0, '300000', '100000', '1300000', '2021-12-02 08:32:16', '2026-10-07 14:37:19', 'Đen bóng, sang trọng', '<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n    <LI>Xuất xứ: Tp Hồ Chí Minh</LI>\r\n</UL>\r\n', 0, 1),
 (22, 'Giày nữ GN1', 9, 1, NULL, 0, '290000', '100000', NULL, '2021-12-02 08:43:12', '2022-07-08 00:10:11', 'Kiểu dáng thanh thoát', '<UL>\r\n    <LI>Loại hàng: Hàng trong nước</LI>\r\n    <LI>Xuất xứ: Tp Hồ Chí Minh</LI>\r\n</UL>\r\n', 0, 1),
 (23, 'Motorola W377', 7, 1, NULL, 0, '2400000', '1000000', NULL, '2021-12-02 08:43:44', '2023-09-14 20:28:11', 'Nữ tính - trẻ trung', '<UL>\r\n    <LI>General: 2G Network, GSM 900 / 1800 / 1900</LI>\r\n    <LI>Size:&nbsp; 99 x 45 x 18.6 mm, 73 cc</LI>\r\n    <LI>Weight: 95 g</LI>\r\n    <LI>Display: type TFT, 65K colors</LI>\r\n    <LI>Size: 128 x 160 pixels, 28 x 35 mm</LI>\r\n</UL>\r\n', 0, 0);
@@ -241,7 +230,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('tPuhh3Mb5PttnEx9Enh0Jyt4OYh3oEX9', 1641676607, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"flash\":{},\"passport\":{\"user\":{\"provider\":\"google\",\"sub\":\"103173372377099924505\",\"id\":\"103173372377099924505\",\"displayName\":\"Thu Nguyen\",\"name\":{\"givenName\":\"Thu\",\"familyName\":\"Nguyen\"},\"given_name\":\"Thu\",\"family_name\":\"Nguyen\",\"email_verified\":true,\"verified\":true,\"language\":\"en\",\"email\":\"mingqiu1508@gmail.com\",\"emails\":[{\"value\":\"mingqiu1508@gmail.com\",\"type\":\"account\"}],\"photos\":[{\"value\":\"https://lh3.googleusercontent.com/a-/AOh14Gg-krzEYMaFZ-r9VTgE2X2ikkq2w7vxIZqm4ZNcEQ=s96-c\",\"type\":\"default\"}],\"picture\":\"https://lh3.googleusercontent.com/a-/AOh14Gg-krzEYMaFZ-r9VTgE2X2ikkq2w7vxIZqm4ZNcEQ=s96-c\",\"_raw\":\"{\\n  \\\"sub\\\": \\\"103173372377099924505\\\",\\n  \\\"name\\\": \\\"Thu Nguyen\\\",\\n  \\\"given_name\\\": \\\"Thu\\\",\\n  \\\"family_name\\\": \\\"Nguyen\\\",\\n  \\\"picture\\\": \\\"https://lh3.googleusercontent.com/a-/AOh14Gg-krzEYMaFZ-r9VTgE2X2ikkq2w7vxIZqm4ZNcEQ\\\\u003ds96-c\\\",\\n  \\\"email\\\": \\\"mingqiu1508@gmail.com\\\",\\n  \\\"email_verified\\\": true,\\n  \\\"locale\\\": \\\"en\\\"\\n}\",\"_json\":{\"sub\":\"103173372377099924505\",\"name\":\"Thu Nguyen\",\"given_name\":\"Thu\",\"family_name\":\"Nguyen\",\"picture\":\"https://lh3.googleusercontent.com/a-/AOh14Gg-krzEYMaFZ-r9VTgE2X2ikkq2w7vxIZqm4ZNcEQ=s96-c\",\"email\":\"mingqiu1508@gmail.com\",\"email_verified\":true,\"locale\":\"en\"}}},\"authUser\":{\"ID\":1,\"Username\":\"admin\",\"FullName\":\"admin\",\"DOB\":\"2001-04-19T17:00:00.000Z\",\"Email\":\"nvtphong19@clc.fitus.edu.vn\",\"Role\":2,\"Pending\":0,\"Verified\":1,\"isBanned\":0},\"retUrl\":\"/product/4\"}');
+('1OQ0SXDlbbYLqbkiKHpUSyMXmroUw5bb', 1641697207, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"flash\":{},\"authUser\":{\"ID\":1,\"Username\":\"admin\",\"FullName\":\"admin\",\"DOB\":\"2001-04-19T17:00:00.000Z\",\"Email\":\"nvtphong19@clc.fitus.edu.vn\",\"Role\":2,\"Pending\":0,\"Verified\":1,\"isBanned\":0}}');
 
 -- --------------------------------------------------------
 

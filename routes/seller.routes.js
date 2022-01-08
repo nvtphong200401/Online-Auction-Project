@@ -101,8 +101,16 @@ router.get('/product/list/sold', async function (req, res) {
                 if (product.Winner !== null) {
                     const winner = await userModel.findByID(product.Winner);
                     product.WinnerName = winner.Username;
+                    product.hasWinner = true;
+                    if (product.Winner === product.SID) {
+                        product.winnerIsSeller = true;
+                    } else {
+                        product.winnerIsSeller = false;
+                    }
                 } else {
                     product.WinnerName = null;
+                    product.hasWinner = false;
+                    product.winnerIsSeller = false;
                 }
             }
             res.render('vwSeller/sold', {
@@ -116,12 +124,30 @@ router.get('/product/list/sold', async function (req, res) {
     }
 })
 
+router.post('/review', async function (req, res) {
+    const comment = {
+        ID1: req.body.SID,
+        ID2: req.body.Winner,
+        Date: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Score: +req.body.score,
+        Opinion: req.body.review,
+        ProID: req.body.ProID,
+    }
+    await commentModel.addComment(comment);
+    res.redirect('/seller/product/list/sold');
+})
+
 router.post('/product/delete', async function (req, res) {
-    // const proID = req.body.ProID;
-    // const sellerID = req.body.SID;
-    // const winnerID = req.body.Winner;
-    await productModel.del(req.body.ProID);
-    await commentModel.setComment(req.body.SID, req.body.Winner, 'Người thắng không thanh toán', -1);
+    const comment = {
+        ID1: req.body.SID,
+        ID2: req.body.Winner,
+        Date: moment().format('YYYY-MM-DD HH:mm:ss'),
+        Score: -1,
+        Opinion: 'Người thắng không thanh toán',
+        ProID: req.body.ProID,
+    }
+    await productModel.del(comment.ProID);
+    await commentModel.addComment(comment);
     // await bidModel.deleteBidHistory(winnerID, proID);
     // await bidModel.deleteBidSystem(winnerID, proID);
     res.redirect('/seller/product/list/sold');
