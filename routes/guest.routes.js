@@ -61,7 +61,7 @@ router.get('/byCat/:id/:page', async function (req, res) {
             if (c.isActive) chosenCat = c.CatName;
         }
     }
-    console.log(chosenCat)
+
     const nPage = Math.ceil(await productModel.countProductByCat(CatId) / nProduct) || 1;
 
     let PageList = [];
