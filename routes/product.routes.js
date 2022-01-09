@@ -1,13 +1,15 @@
 import express from "express";
+import fs from 'fs';
+import moment from "moment";
+import numeral from "numeral";
+import nodemailer from 'nodemailer';
+
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from '../models/users_model.js';
-import fs from 'fs';
-import auth from "../middleware/auth.mdware.js";
 import bidModel from "../models/bid.model.js";
-import nodemailer from 'nodemailer';
-import moment from "moment";
-import numeral from "numeral";
+import auth from "../middleware/auth.mdware.js";
+
 const router = express.Router();
 
 function sendEmail(email, message, title) {
@@ -170,7 +172,7 @@ router.post('/buy/:id', auth, async (req,res) => {
     return res.redirect('/product/' + req.params.id)
 })
 
-// perform check on expired product for winner and email user if neccessary
+// perform check on expired product for winner and email user if necessary
 setInterval(async () => {
     const now = new Date();
     const products = await productModel.findAll();
