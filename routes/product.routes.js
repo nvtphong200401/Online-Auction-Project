@@ -44,8 +44,10 @@ router.get('/:id', async (req, res) => {
     const img_files = fs.readdirSync(folder);
     img_files.splice(img_files.indexOf('main_thumbs.jpg'));
     var imgs = []
+    let i = 0;
     img_files.forEach((file) => {
-        imgs.push({ file_name: file, ProID: id });
+        imgs.push({ file_name: file, ProID: id , active: i === 0});
+        i++;
     })
 
     const pro = await productModel.findById(id);
