@@ -181,7 +181,7 @@ router.post('/product/delete', async function (req, res) {
         if (err) throw err;
     });
     await productModel.del(comment.ProID);
-    if (comment.ID2 !== '') {
+    if (comment.ID2 !== '' && comment.ID2 !== comment.ID1) {
         await commentModel.addComment(comment);
     }
     res.redirect('/seller/product/list/sold');
