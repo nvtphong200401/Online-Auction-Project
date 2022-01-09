@@ -127,7 +127,7 @@ router.get('/search', async (req, res) => {
     }
     
     await productModel.addDetail(prod);
-    if (filter === "MaxPrice") {
+    if (filter === "Price") {
         function compare(a, b) {
             if(a.Current_bid < b.Current_bid){
                 return -1;

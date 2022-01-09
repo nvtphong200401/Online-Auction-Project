@@ -79,9 +79,9 @@ function sendEmail(email, token, verify) {
   };
   mail.sendMail(mailOptions, function (error, info) {
     if (error) {
-      return 1
+      return 1;
     } else {
-      return 0
+      return 0;
     }
   });
 }
@@ -192,7 +192,9 @@ router.post('/', async (req, res) => {
     const Fullname = form.fullname;
     const Email = form.email;
     const Username = form.username;
+    const ID = await userModel.findLastUserID(); 
     const user = {
+      ID: +ID + 1,
       Username,
       Fullname,
       Password,
@@ -200,17 +202,20 @@ router.post('/', async (req, res) => {
       Email
     };
     const u = await userModel.findByEmail(Email);
-    if (u[0].isBanned === 1) {
-      var type = 'warning';
-      var msg = 'You has been banned before ! Please contact admin to solve the problem !';
-      req.flash(type, msg);
-      return res.redirect('/auth/');
+    if (u.length > 0) {
+      if (u[0].isBanned === 1) {
+        var type = 'warning';
+        var msg = 'You has been banned before ! Please contact admin to solve the problem !';
+        req.flash(type, msg);
+        return res.redirect('/auth/');
+      }
     }
     const token = randToken.generate(20);
     const verification = {
       email: Email,
       token: token,
     }
+
     await userModel.add(user);
     await verifyModel.add(verification);
     const sent = sendEmail(Email, token, true);
@@ -220,11 +225,11 @@ router.post('/', async (req, res) => {
       type = 'success';
       msg = 'The verification link has been sent to your email address';
     } else {
-      type = 'error';
+      type = 'success';
       msg = 'Something goes wrong';
     }
     req.flash(type, msg);
-    res.redirect('/auth/');
+    return res.redirect('/auth/');
   }
   //Login
   else if (form.action === 'Login') {

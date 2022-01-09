@@ -60,9 +60,27 @@ const remainingDate = function (className, endTime) {
     var msPerDay = msPerHour * 24;
     var msPerMonth = msPerDay * 30;
     var msPerYear = msPerDay * 365;
-    if(elapsed < 50*msPerDay){
-        if (elapsed <= 0) {
-            $('.' + className).html('END');
+    if(elapsed < 3*msPerDay){
+        if (elapsed < 1*msPerDay) {
+            if (elapsed < 1*msPerHour) {
+                if (elapsed < 1*msPerMinute) {
+                    if (elapsed <= 0) {
+                        $('.' + className).html('END');
+                    }
+                    // hien giay
+                    else {
+                        f(className, endTime);
+                    }
+                }
+                // hien phut
+                else {
+                    $('.' + className).html(Math.floor(elapsed/msPerMinute) + ' min(s)')
+                }
+            }
+            // hien gio
+            else {
+                $('.' + className).html(Math.floor(elapsed/msPerHour) + ' hour(s)');
+            }
         }
         else {
             $('.' + className).html(Math.floor(elapsed/msPerDay) + ' day(s)');
