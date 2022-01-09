@@ -1,4 +1,5 @@
 import express from "express";
+import fs from 'fs';
 import moment from "moment";
 import multer from "multer";
 import nodemailer from 'nodemailer';
@@ -169,10 +170,20 @@ router.post('/product/delete', async function (req, res) {
         Opinion: 'Người thắng không thanh toán',
         ProID: req.body.ProID,
     }
+    const folder = "./public/imgs/sp/" + comment.ProID + '/';
+    const img_files = fs.readdirSync(folder);
+    img_files.forEach((file) => {
+        fs.unlink(folder + file, (err) => {
+            if (err) throw err;
+        });
+    });
+    fs.rmdir(folder, (err) => {
+        if (err) throw err;
+    });
     await productModel.del(comment.ProID);
-    await commentModel.addComment(comment);
-    // await bidModel.deleteBidHistory(winnerID, proID);
-    // await bidModel.deleteBidSystem(winnerID, proID);
+    if (comment.ID2 !== '') {
+        await commentModel.addComment(comment);
+    }
     res.redirect('/seller/product/list/sold');
 });
 router.post('/product/edit', async function (req, res) {
@@ -214,6 +225,9 @@ router.post('/product/add',async function(req, res) {
     //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
+    fs.mkdir('./public/imgs/sp/' + newProID, { recursive: true }, (err) => {
+        if (err) throw err;
+    });
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, './public/imgs/sp/' + newProID);
