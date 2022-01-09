@@ -448,14 +448,3 @@ footer hr {
     background-color: #28a745;
     border-color: #2baa48;
 }
-
-.container-fluid a {
-    color: #28a745;
-}
-
-.list-group-item-action:focus, .list-group-item-action:hover {
-    z-index: 1;
-    color: #28a745;
-    text-decoration: none;
-    background-color: #f8f9fa;
-}
