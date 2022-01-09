@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 09, 2022 at 04:32 PM
--- Server version: 10.4.21-MariaDB
--- PHP Version: 8.0.12
+-- Generation Time: Jan 09, 2022 at 06:26 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -234,7 +234,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`session_id`, `expires`, `data`) VALUES
-('Ng3AkyApiPPZJ9h07L7kpeNM3c14xvud', 1641828607, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"flash\":{},\"authUser\":{\"ID\":33,\"Username\":\"phongdzvl\",\"FullName\":\"Nguyễn Văn Tấn Phong\",\"DOB\":\"2022-01-04T17:00:00.000Z\",\"Email\":\"19127646@student.hcmus.edu.vn\",\"Role\":0,\"Pending\":0,\"Verified\":1,\"isBanned\":0,\"ExpiredDate\":null},\"passport\":{\"user\":{\"id\":\"2946274515703275\",\"name\":{\"familyName\":\"Nguyễn\",\"givenName\":\"Phong\",\"middleName\":\"Văn Tấn\"},\"emails\":[{\"value\":\"hackkerguy@yahoo.com\"}],\"provider\":\"facebook\",\"_raw\":\"{\\\"id\\\":\\\"2946274515703275\\\",\\\"email\\\":\\\"hackkerguy\\\\u0040yahoo.com\\\",\\\"last_name\\\":\\\"Nguy\\\\u1ec5n\\\",\\\"first_name\\\":\\\"Phong\\\",\\\"middle_name\\\":\\\"V\\\\u0103n T\\\\u1ea5n\\\",\\\"birthday\\\":\\\"04\\\\/20\\\\/2001\\\"}\",\"_json\":{\"id\":\"2946274515703275\",\"email\":\"hackkerguy@yahoo.com\",\"last_name\":\"Nguyễn\",\"first_name\":\"Phong\",\"middle_name\":\"Văn Tấn\",\"birthday\":\"04/20/2001\"}}}}');
+('Ng3AkyApiPPZJ9h07L7kpeNM3c14xvud', 1641828607, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"flash\":{},\"authUser\":{\"ID\":33,\"Username\":\"phongdzvl\",\"FullName\":\"Nguyễn Văn Tấn Phong\",\"DOB\":\"2022-01-04T17:00:00.000Z\",\"Email\":\"19127646@student.hcmus.edu.vn\",\"Role\":0,\"Pending\":0,\"Verified\":1,\"isBanned\":0,\"ExpiredDate\":null},\"passport\":{\"user\":{\"id\":\"2946274515703275\",\"name\":{\"familyName\":\"Nguyễn\",\"givenName\":\"Phong\",\"middleName\":\"Văn Tấn\"},\"emails\":[{\"value\":\"hackkerguy@yahoo.com\"}],\"provider\":\"facebook\",\"_raw\":\"{\\\"id\\\":\\\"2946274515703275\\\",\\\"email\\\":\\\"hackkerguy\\\\u0040yahoo.com\\\",\\\"last_name\\\":\\\"Nguy\\\\u1ec5n\\\",\\\"first_name\\\":\\\"Phong\\\",\\\"middle_name\\\":\\\"V\\\\u0103n T\\\\u1ea5n\\\",\\\"birthday\\\":\\\"04\\\\/20\\\\/2001\\\"}\",\"_json\":{\"id\":\"2946274515703275\",\"email\":\"hackkerguy@yahoo.com\",\"last_name\":\"Nguyễn\",\"first_name\":\"Phong\",\"middle_name\":\"Văn Tấn\",\"birthday\":\"04/20/2001\"}}}}'),
+('jAfpRQFm93_QLtAspPZ2xBDgqy0aj96_', 1641835569, '{\"cookie\":{\"originalMaxAge\":null,\"expires\":null,\"httpOnly\":true,\"path\":\"/\"},\"auth\":true,\"cart\":[],\"flash\":{},\"authUser\":{\"ID\":30,\"Username\":\"phong123\",\"FullName\":\"Phong Nguyen\",\"DOB\":\"2000-12-07T17:00:00.000Z\",\"Email\":\"hackkerguy11@gmail.com\",\"Role\":1,\"Pending\":0,\"Verified\":1,\"isBanned\":0,\"ExpiredDate\":null}}');
 
 -- --------------------------------------------------------
 
@@ -293,8 +294,7 @@ CREATE TABLE `verifications` (
 -- Indexes for table `banned_bidder`
 --
 ALTER TABLE `banned_bidder`
-  ADD PRIMARY KEY (`BID`,`ProID`),
-  ADD KEY `banned_bidder_ibfk_2` (`ProID`);
+  ADD PRIMARY KEY (`BID`,`ProID`);
 
 --
 -- Indexes for table `bid_history`
@@ -315,16 +315,14 @@ ALTER TABLE `bid_system`
 --
 ALTER TABLE `category`
   ADD PRIMARY KEY (`CatID`),
-  ADD UNIQUE KEY `CatName` (`CatName`),
-  ADD KEY `fk_cat_parent` (`CatParent`);
+  ADD UNIQUE KEY `CatName` (`CatName`);
 ALTER TABLE `category` ADD FULLTEXT KEY `CatName_2` (`CatName`);
 
 --
 -- Indexes for table `comment`
 --
 ALTER TABLE `comment`
-  ADD PRIMARY KEY (`ID1`,`ID2`,`ProID`),
-  ADD KEY `fk_product_id` (`ProID`);
+  ADD PRIMARY KEY (`ID1`,`ID2`,`ProID`);
 
 --
 -- Indexes for table `fbuser`
@@ -336,10 +334,7 @@ ALTER TABLE `fbuser`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
-  ADD PRIMARY KEY (`ProID`),
-  ADD KEY `fk_seller_id` (`SID`),
-  ADD KEY `fk_cat_id` (`CatID`),
-  ADD KEY `fk_winner_id` (`Winner`);
+  ADD PRIMARY KEY (`ProID`);
 ALTER TABLE `product` ADD FULLTEXT KEY `FTX_product` (`ProName`,`TinyDesc`,`FullDesc`);
 ALTER TABLE `product` ADD FULLTEXT KEY `ProName` (`ProName`,`TinyDesc`,`FullDesc`);
 ALTER TABLE `product` ADD FULLTEXT KEY `ProName_2` (`ProName`);
@@ -399,41 +394,44 @@ ALTER TABLE `verifications`
 -- Constraints for table `banned_bidder`
 --
 ALTER TABLE `banned_bidder`
-  ADD CONSTRAINT `banned_bidder_ibfk_1` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `banned_bidder_ibfk_2` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_banned_bidder_BID` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_banned_bidder_ProID` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `bid_history`
 --
 ALTER TABLE `bid_history`
-  ADD CONSTRAINT `bid_history_ibfk_1` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `bid_history_ibfk_2` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_bid_history_BID` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_bid_history_ProID` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `bid_system`
 --
 ALTER TABLE `bid_system`
-  ADD CONSTRAINT `bid_system_ibfk_1` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_bidder_id` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_bid_system_BID` FOREIGN KEY (`BID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_bid_system_ProID` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `category`
 --
 ALTER TABLE `category`
-  ADD CONSTRAINT `fk_cat_parent` FOREIGN KEY (`CatParent`) REFERENCES `category` (`CatID`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_category_CatParent` FOREIGN KEY (`CatParent`) REFERENCES `category` (`CatID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `comment`
 --
 ALTER TABLE `comment`
-  ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_comment_ID1` FOREIGN KEY (`ID1`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_comment_ID2` FOREIGN KEY (`ID2`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_comment_ProID` FOREIGN KEY (`ProID`) REFERENCES `product` (`ProID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `product`
 --
 ALTER TABLE `product`
-  ADD CONSTRAINT `fk_seller_id` FOREIGN KEY (`SID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_winner_id` FOREIGN KEY (`Winner`) REFERENCES `user` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_product_CatID` FOREIGN KEY (`CatID`) REFERENCES `category` (`CatID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_product_SID` FOREIGN KEY (`SID`) REFERENCES `user` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_product_Winner` FOREIGN KEY (`Winner`) REFERENCES `user` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 DELIMITER $$
 --
