@@ -81,7 +81,10 @@
                                         {{#if winnerIsSeller}}
                                             <td>{{SellerName}}</td>
                                         {{else}}
-                                            <td>
+                                            {{#if isCommented}}
+                                                    <td>{{SellerName}}</td>
+                                            {{else}}
+                                                <td>
                                                 <a href="#"
                                                    class="editable"
                                                    data-toggle="popover"
@@ -117,6 +120,7 @@
                                                     {{SellerName}}
                                                 </a>
                                             </td>
+                                            {{/if}}
                                         {{/if}}
                                     </tr>
                                 {{/each}}

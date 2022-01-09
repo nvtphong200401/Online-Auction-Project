@@ -104,6 +104,7 @@ router.get('/product/list/sold', async function (req, res) {
                         product.winnerIsSeller = true;
                     } else {
                         product.winnerIsSeller = false;
+                        product.isCommented = await commentModel.isCommented(product.SID, product.Winner, product.ProID);
                     }
                 } else {
                     product.WinnerName = null;

@@ -98,14 +98,17 @@
                                                 {{#if winnerIsSeller}}
                                                     <td>{{WinnerName}}</td>
                                                 {{else}}
-                                                    <td>
-                                                        <a href="#"
-                                                                class="editable"
-                                                                data-toggle="popover"
-                                                                data-container="body"
-                                                                data-placement="auto"
-                                                                data-title="Review user {{WinnerName}}"
-                                                                data-content="
+                                                    {{#if isCommented}}
+                                                        <td>{{WinnerName}}</td>
+                                                    {{else}}
+                                                        <td>
+                                                            <a href="#"
+                                                               class="editable"
+                                                               data-toggle="popover"
+                                                               data-container="body"
+                                                               data-placement="auto"
+                                                               data-title="Review user {{WinnerName}}"
+                                                               data-content="
                                                                   <form method='post'>
                                                                       <label for='ProID' hidden>ProID</label>
                                                                       <input type='text' class='form-control' id='ProID' name='ProID' value='{{ProID}}' hidden>
@@ -131,9 +134,10 @@
                                                                       </div>
                                                                       <input type='submit' class='btn btn-success' formaction='/seller/review'>
                                                                   </form>">
-                                                             {{WinnerName}}
-                                                        </a>
-                                                    </td>
+                                                                {{WinnerName}}
+                                                            </a>
+                                                        </td>
+                                                    {{/if}}
                                                 {{/if}}
                                             {{else}}
                                                 <td>None</td>

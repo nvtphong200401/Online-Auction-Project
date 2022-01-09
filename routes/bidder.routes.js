@@ -203,6 +203,7 @@ router.get('/product/list/won', async function (req, res) {
                 product.winnerIsSeller = true;
             } else {
                 product.winnerIsSeller = false;
+                product.isCommented = await commentModel.isCommented(product.Winner, product.SID, product.ProID);
             }
         }
         res.render('vwBidder/won', {
