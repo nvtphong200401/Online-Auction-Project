@@ -102,12 +102,12 @@ router.put('/user/edit/:id', async (req, res) => {
 })
 router.post('/user/del/:id', async (req, res) => {
     const user = await UserModel.findByID(req.params.id);
-    console.log(sendEmail(user.Email, "You have violated our terms of policy so that we decided to delete your account !", "Admin"));
+    sendEmail(user.Email, "You have violated our terms of policy so that we decided to ban your account !", "Admin");
     await UserModel.del(req.params.id);
 })
 router.post('/user/unban/:id', async (req, res) => {
     const user = await UserModel.findByID(req.params.id);
-    console.log(sendEmail(user.Email, "You have been unbanned ! Thank you for your collaboration", "Admin"));
+    sendEmail(user.Email, "You have been unbanned ! Thank you for your collaboration", "Admin");
     await UserModel.unban(req.params.id);
 })
 
@@ -132,9 +132,8 @@ router.get('/product', async (req, res) => {
     })
 })
 router.post('/product/del/:id', async (req, res) => {
-    const user = await UserModel.findByID(req.params.id);
     const seller = await ProductModel.getSeller(req.params.id);
-    //sendEmail(seller[0].Email, "Your product has violated our terms of policy so that we decided to delete it !", "Admin");
+    sendEmail(seller[0].Email, "Your product has violated our terms of policy so that we decided to delete it !", "Admin");
     await ProductModel.del(req.params.id);
 })
 router.put('/category/edit/:id', async (req, res) => {

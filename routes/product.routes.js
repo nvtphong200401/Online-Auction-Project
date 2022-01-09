@@ -121,49 +121,38 @@ router.post('/:id', auth, async (req, res) => {
     else {
         if (product[0].AllowAll === 0) {
             // calculate the score of user
-            if (userModel.getPercentScore(BID) >= 0.8) {
-                //check if bid in db, update it
-                const b = await bidModel.findBid(BID, ProID);
-                if (b.length > 0) {
-                    await bidModel.updateBid(BID, ProID, MaxPrice);
-                    return res.redirect('/product/' + ProID)
-                }
-
-                // not in db
-                const result = await bidModel.addBid(BID, ProID, MaxPrice);
-                const top = await bidModel.getTop2(ProID);
-                const user1 = await userModel.findByID(top[0].BID);
-                
-                sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
-
-                if (top[1] !== undefined) {
-                    const user2 = await userModel.findByID(top[1].BID);
-                    sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
-                }
-            } else {
+            const score = await userModel.getPercentScore(BID);
+            if (score < 0.8) {
                 err_message = "Your current point is too low to bid this product !";
                 req.flash('success', err_message);
                 return res.redirect('/product/' + ProID)
             }
         }
-        else {
-            // allow all user to buy
-            const b = await bidModel.findBid(BID, ProID);
-            if (b.length > 0) {
-                await bidModel.updateBid(BID, ProID, MaxPrice);
-                return res.redirect('/product/' + ProID)
-            }
-            await bidModel.addBid(BID, ProID, MaxPrice);
-            const top = await bidModel.getTop2(ProID);
-            const user1 = await userModel.findByID(top[0].BID);
-            sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! 
-            See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
-            if (top[1] !== undefined) {
-                const user2 = await userModel.findByID(top[1].BID);
-                sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! 
-                Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
-            }
+        // allow all user to buy or valid user only
+        const b = await bidModel.findBid(BID, ProID);
+        if (b.length > 0) {
+            // if user already bid product
+            await bidModel.updateBid(BID, ProID, MaxPrice);
         }
+        else {
+            // if this is the first time
+            await bidModel.addBid(BID, ProID, MaxPrice);
+        }
+        const top = await bidModel.getTop2(ProID);
+        //send email to current top bid
+        const user1 = await userModel.findByID(top[0].BID);
+        sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! 
+        See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
+        //send email to previous top bid
+        if (top[1] !== undefined) {
+            const user2 = await userModel.findByID(top[1].BID);
+            sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! 
+            Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
+        }
+        //send email to seller
+        const seller = await productModel.getSeller(ProID);
+        sendEmail(seller[0].Email, `Someone has bidden on product ${product[0].ProName} ! Visit <a href="http://localhost:3000/product/${ProID}">here</a> to see `,"Bid system");
+        
         // auto time
         if (product[0].AutoTime === 1) {
             const now = new Date();
@@ -191,14 +180,13 @@ setInterval(async () => {
             const seller = await userModel.findByID(product.SID);
             const winner = await productModel.findHighestBID(product.ProID);
             if (winner === null) {
-                sendEmail(seller.email, `Your product ${product.ProName} has ended but no one seems to bid on it !
+                sendEmail(seller.Email, `Your product ${product.ProName} has ended but no one seems to bid on it !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
             } else {
-                await productModel.setSold(product.ProID);
                 await productModel.addWinner(winner.ID, product.ProID);
-                sendEmail(seller.email, `Your product ${product.ProName} has been sold to ${winner.FullName} !
+                sendEmail(seller.Email, `Your product ${product.ProName} has been sold to ${winner.FullName} !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
-                sendEmail(winner.email, `You have won the bid on ${product.ProName} !
+                sendEmail(winner.Email, `You have won the bid on ${product.ProName} !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
             }
         }
