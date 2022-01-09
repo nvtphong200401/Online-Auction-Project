@@ -3,39 +3,60 @@
     <script crossorigin="anonymous" src="/public/js/time.js"></script>
     <script crossorigin="anonymous" src="/public/js/detail.js"></script>
     <script type="text/javascript">
-        remainingDate('time-left', "{{this.product.EndDate}}");
-        uploadDate('start-day', '{{this.product.UploadDate}}');
-        /*
-    Carousel
-*/
-        $('#carousel-example').on('slide.bs.carousel', function (e) {
-            /*
-                CC 2.0 License Iatek LLC 2018 - Attribution required
-            */
-            var $e = $(e.relatedTarget);
-            var idx = $e.index();
-            var itemsPerSlide = 3;
-            var totalItems = $('.carousel-item').length;
+        $(document).ready(function () {
+            remainingDate('time-left', "{{this.product.EndDate}}");
+            uploadDate('start-day', '{{this.product.UploadDate}}');
 
-            if (idx >= totalItems - (itemsPerSlide - 1)) {
-                var it = itemsPerSlide - (totalItems - idx);
-                for (var i = 0; i < it; i++) {
-                    // append slides to end
-                    if (e.direction === "left") {
-                        $('.carousel-item').eq(i).appendTo('.carousel-inner');
-                    } else {
-                        $('.carousel-item').eq(0).appendTo('.carousel-inner');
+            $('#carousel-example').on('slide.bs.carousel', function (e) {
+                /*
+                    CC 2.0 License Iatek LLC 2018 - Attribution required
+                */
+                var $e = $(e.relatedTarget);
+                var idx = $e.index();
+                var itemsPerSlide = 3;
+                var totalItems = $('.carousel-item').length;
+
+                if (idx >= totalItems - (itemsPerSlide - 1)) {
+                    var it = itemsPerSlide - (totalItems - idx);
+                    for (var i = 0; i < it; i++) {
+                        // append slides to end
+                        if (e.direction === "left") {
+                            $('.carousel-item').eq(i).appendTo('.carousel-inner');
+                        } else {
+                            $('.carousel-item').eq(0).appendTo('.carousel-inner');
+                        }
                     }
                 }
-            }
+            });
+
+            $('#btnBid').click(function (e) {
+                $('.alert').alert('close');
+                $('#modalBid').modal('toggle');
+                $('.bidForm').removeClass('was-validated');
+            });
+
+            $('#btnBidOutside').click(function () {
+                const form = $('.bidForm');
+                form.addClass('was-validated');
+
+                if (form[0].checkValidity()) {
+                    $('#modalBid').modal('toggle');
+                    const bidPrice = $('#bidprice').val();
+                    $('#currentBid').html("<h4 class='ml-2'>" + numeral(bidPrice).format('0,0') + " VND</h4>");
+                }
+            });
+
+            $('#bidprice').on("input", function () {
+                $('#bidprice').val(numeral($('#bidprice').val()).format('0,0'));
+            })
         });
     </script>
 
-{{#each sameCat}}
-<script type="text/javascript">
-    f('time-left-{{ProID}}', "{{EndDate}}");
-</script>
-{{/each}}
+    {{#each sameCat}}
+        <script type="text/javascript">
+            f('time-left-{{ProID}}', "{{EndDate}}");
+        </script>
+    {{/each}}
 {{/section}}
 {{#section 'css'}}
     <link rel="stylesheet" href="/public/css/detail.css">
@@ -45,10 +66,10 @@
             height: 100px;
         }
 
-    .pro-img-list>a>img:hover {
-        transform: scale(1.3);
-    }
-</style>
+        .pro-img-list > a > img:hover {
+            transform: scale(1.3);
+        }
+    </style>
 {{/section}}
 
 <div class="container mt-5">
@@ -58,7 +79,7 @@
                 <div class="col-md-5">
                     <div class="pro-img-details">
                         <img src="../public/imgs/sp/{{this.product.ProID}}/main_thumbs.jpg" alt="test"
-                            style="width: 100%;">
+                             style="width: 100%;">
                     </div>
                     <!-- Top content -->
                     <div class="top-content">
@@ -66,7 +87,8 @@
                             <div id="carousel-example" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                                     {{#each this.imgs}}
-                                        <div class="carousel-item col-12 col-sm-6 col-md-6 col-lg-4 {{#if active}}active{{/if}}">
+                                        <div class="carousel-item col-12 col-sm-6 col-md-6 col-lg-4 {{#if
+                                                active}}active{{/if}}">
                                             <img src="/public/imgs/sp/{{ProID}}/{{file_name}}"
                                                  class="img-fluid mx-auto d-block"
                                                  alt="img_{{ProID}}">
@@ -98,7 +120,8 @@
                             <form action="/watchlist/add" method="post">
                                 <input type="hidden" name="id" value="{{this.product.ProID}}">
                                 <button class="btn btn-outline-danger btn-sm " role="button"><i class="fa fa-heart"
-                                        aria-hidden="true"></i> Add to
+                                                                                                aria-hidden="true"></i>
+                                    Add to
                                     watchlist
                                 </button>
                             </form>
@@ -121,8 +144,8 @@
                         {{{this.product.FullDesc}}}
                     </p>
                     <div class="product_meta">
-                        <span class="posted_in"> <strong>Categories:</strong> <a rel="tag"
-                                href="/byCat/{{this.product.CatID}}">{{category.CatName}}</a></span>
+                        <span class="posted_in"> <strong>Categories:</strong>
+                            <a rel="tag" href="/byCat/{{this.product.CatID}}">{{category.CatName}}</a></span>
 
                     </div>
                     <div class="control-switch btn-group mt-4" data-toggle="buttons" role="group">
@@ -135,9 +158,9 @@
                     </div>
                     <div class="bid mt-3 mb-3">
                         {{#if success}}
-                        <div class="alert alert-warning" role="alert">
-                            {{success}}
-                        </div>
+                            <div class="alert alert-warning" role="alert">
+                                {{success}}
+                            </div>
                         {{/if}}
                         <div class="price mb-4">
                             <h6 style="display: inline;">Highest bid: </h6>
@@ -145,13 +168,52 @@
                         </div>
                         <form method="post" class="bidForm">
                             <div class="form-group">
-                                <input type="text" name="BidPrice" id="bidprice" class="form-control" placeholder=""
-                                    aria-describedby="helpId">
-                                <small id="helpId" class="text-muted">US Dollar</small>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span id="helpId" class="input-group-text">VND</span>
+                                    </div>
+                                    <input type="text" name="BidPrice" id="bidprice" class="form-control"
+                                           placeholder=""
+                                           aria-describedby="helpId" required
+                                           value="{{format_number this.minPrice}}">
+                                </div>
+                                <p class="text-info">Suggest price: {{format_number this.minPrice}}</p>
+                                <div id='invalidUsername' class="invalid-feedback ml-2">
+                                    This field should not be empty
+                                </div>
                             </div>
-                            <button class="btn btn-round btn-danger" type="submit"><i class="fa fa-money"
-                                    aria-hidden="true"></i> Bid
-                            </button>
+                            <a class="btn btn-round btn-danger" id="btnBidOutside">
+                                <i class="fa fa-money" aria-hidden="true"></i> Bid
+                            </a>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="modalBid" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">Confirm bidding</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h6>The maximum price you want to bid for this product</h6>
+                                            <span id="currentBid" class="text-danger"></span>
+                                            <p>Do you want to bid using this price?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-secondary"
+                                                    data-dismiss="modal">No, I will think again!
+                                            </button>
+                                            <button type="submit" class="btn btn-outline-success" id="btnBid">
+                                                Yes, please!
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <div class="buy mt-3" style="display: none;">
@@ -159,16 +221,16 @@
                             <h6 style="display: inline;">Price: </h6>
                             <h5 style="display: inline; color:red">
                                 {{#if this.product.Buy_now}}
-                                <div class="mb-3">
-                                    {{{format_number this.product.Buy_now}}}
-                                </div>
-                                <form class="buyForm" action="./buy/{{this.product.ProID}}" method="post">
-                                    <button class="btn btn-round btn-success" type="submit"><i class="fa fa-cart-plus"
-                                            aria-hidden="true"></i> Buy now
-                                    </button>
-                                </form>
+                                    <div class="mb-3">
+                                        {{{format_number this.product.Buy_now}}}
+                                    </div>
+                                    <form class="buyForm" action="./buy/{{this.product.ProID}}" method="post">
+                                        <button class="btn btn-round btn-success" type="submit">
+                                            <i class="fa fa-cart-plus" aria-hidden="true"></i> Buy now
+                                        </button>
+                                    </form>
                                 {{else}}
-                                Unavailable to buy
+                                    Unavailable to buy
                                 {{/if}}
 
                             </h5>
@@ -183,22 +245,22 @@
             <ul class="nav nav-tabs" id="nav-tab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active show" id="description-tab" data-toggle="tab" href="#description"
-                        role="tab" aria-controls="description" aria-selected="true" style="color: rgb(116, 184, 15);">Mô
+                       role="tab" aria-controls="description" aria-selected="true" style="color: rgb(116, 184, 15);">Mô
                         tả sản phẩm</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
-                        aria-selected="false" style="color: rgb(116, 184, 15);">Thông tin người bán</a>
+                       aria-selected="false" style="color: rgb(116, 184, 15);">Thông tin người bán</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab"
-                        aria-controls="reviews" aria-selected="false" style="color: rgb(116, 184, 15);">Danh sách
+                       aria-controls="reviews" aria-selected="false" style="color: rgb(116, 184, 15);">Danh sách
                         bidder</a>
                 </li>
             </ul>
             <div class="tab-content ml-3" id="nav-tabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel"
-                    aria-labelledby="description-tab">
+                     aria-labelledby="description-tab">
                     <h5 class="mt-3">{{this.product.ProName}}</h5>
                     <p class="pt-1">{{{this.product.FullDesc}}}</p>
                 </div>
@@ -221,17 +283,17 @@
                         <h5 style="color: rgb(187, 82, 82)">Danh sách bidder</h5>
                         <table class="table table-hover">
                             {{#if this.bid_his}}
-                            <thead>
+                                <thead>
                                 <tr>
                                     <th scope="col">Thời điểm</th>
                                     <th scope="col">Người mua</th>
                                     <th scope="col">Giá</th>
                                     <th scope="col" class="text-center">Điểm đánh giá</th>
                                     {{#if this.isSeller}}
-                                    <th scope="col">Từ chối</th>
+                                        <th scope="col">Từ chối</th>
                                     {{/if}}
                                 </tr>
-                            </thead>
+                                </thead>
                             <tbody>
                                 {{#each this.bid_his}}
                                 <tr>
@@ -240,29 +302,30 @@
                                     <td>{{Price}}</td>
                                     <td class="text-center">{{Score}}</td>
                                     {{#if ../isSeller}}
-                                    <td>
-                                        <form method="post">
-                                            <label for="ProID" hidden>ProID</label>
-                                            <input type="text" class="form-control" id="ProID" name="ProID"
-                                                value="{{../product.ProID}}" hidden>
-                                            <label for="BID" hidden>BID</label>
-                                            <input type="text" class="form-control" id="BID" name="BID" value="{{BID}}"
-                                                hidden>
-                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                formaction="/seller/deny_bidder/">
-                                                <i class="fa fa-close" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
-                                    </td>
+                                        <td>
+                                            <form method="post">
+                                                <label for="ProID" hidden>ProID</label>
+                                                <input type="text" class="form-control" id="ProID" name="ProID"
+                                                       value="{{../product.ProID}}" hidden>
+                                                <label for="BID" hidden>BID</label>
+                                                <input type="text" class="form-control" id="BID" name="BID"
+                                                       value="{{BID}}"
+                                                       hidden>
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                        formaction="/seller/deny_bidder/">
+                                                    <i class="fa fa-close" aria-hidden="true"></i>
+                                                </button>
+                                            </form>
+                                        </td>
                                     {{/if}}
                                 </tr>
                                 {{/each}}
-                                {{else}}
-                                <h4 class="d-flex justify-content-center">
-                                    <i>Empty</i>
-                                </h4>
-                                {{/if}}
-                            </tbody>
+                            {{else}}
+                            <h4 class="d-flex justify-content-center">
+                                <i>Empty</i>
+                            </h4>
+                            {{/if}}
+                        </tbody>
                         </table>
                     </div>
                 </div>
@@ -275,103 +338,105 @@
         </div>
         <div class="card-body">
             {{#if this.empty}}
-            <div class="text-center mb-5 mt-5">
-                <img src="/public/imgs/picture/no-product-found.png" alt="There is no product in this category yet. <br>Please come back later
+                <div class="text-center mb-5 mt-5">
+                    <img src="/public/imgs/picture/no-product-found.png" alt="There is no product in this category yet. <br>Please come back later
                                 :(">
-            </div>
+                </div>
             {{else}}
-            <form action="/watchlist/add" method="post" id="frmAddItem">
-                <input type="hidden" id="txtProID" name="id">
-                <input type="hidden" name="quantity" value="1">
-            </form>
-            <div class="row">
-                {{#each this.sameCat}}
-                <div class="col-lg-3 col-md-4 col-12 mb-5">
-                    <div class="card card-small h-100">
-                        <div class="thumbnail">
-                            <img class="card-img-top" src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}"
-                                title="{{ProName}}">
-                            {{#if New}}
-                            <span class="tag-picture bg-info text-white">New</span>
-                            {{/if}}
-                            <div class="details">
-                                {{#if HighestBID}}
-                                <span href="#" class="user">
+                <form action="/watchlist/add" method="post" id="frmAddItem">
+                    <input type="hidden" id="txtProID" name="id">
+                    <input type="hidden" name="quantity" value="1">
+                </form>
+                <div class="row">
+                    {{#each this.sameCat}}
+                        <div class="col-lg-3 col-md-4 col-12 mb-5">
+                            <div class="card card-small h-100">
+                                <div class="thumbnail">
+                                    <img class="card-img-top" src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg"
+                                         alt="{{ProName}}"
+                                         title="{{ProName}}">
+                                    {{#if New}}
+                                        <span class="tag-picture bg-info text-white">New</span>
+                                    {{/if}}
+                                    <div class="details">
+                                        {{#if HighestBID}}
+                                            <span href="#" class="user">
                                     <div class="user-photo">
                                         <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
                                     </div>
                                     <div class="name" data-toggle="tooltip" data-placement="top"
-                                        title="{{{format_name HighestBID.FullName}}}">
+                                         title="{{{format_name HighestBID.FullName}}}">
                                         {{{format_name HighestBID.FullName}}}
                                     </div>
                                 </span>
-                                {{else}}
-                                <div class="user">
-                                    <div class="name">No bidder!</div>
-                                </div>
-                                {{/if}}
+                                        {{else}}
+                                            <div class="user">
+                                                <div class="name">No bidder!</div>
+                                            </div>
+                                        {{/if}}
 
-                                <div class="numbers">
-                                    <b class="views mr-1"><i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-                                        {{BidNumber}}
-                                    </b>
+                                        <div class="numbers">
+                                            <b class="views mr-1"><i class="fa fa-arrow-circle-up"
+                                                                     aria-hidden="true"></i>
+                                                {{BidNumber}}
+                                            </b>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
                                 </div>
-                                <div class="clearfix"></div>
+
+                                <div class="card-body">
+
+                                    <h4 class="card-title">
+                                        <a class="text-dark" href="/product/{{ProID}}">{{ProName}}</a>
+                                    </h4>
+
+                                    <h6 class="card-title text-success">
+                                        <i class="fa fa-money mr-2" aria-hidden="true"></i>Highest
+                                        bid
+                                        <h5 class="text-success">{{{format_number Current_bid}}}</h5>
+                                    </h6>
+
+
+                                    {{#if Buy_now}}
+                                        <h6 class="card-title text-info">
+                                            <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy
+                                            now
+                                            <h5 class="text-info">{{{format_number Buy_now}}}</h5>
+                                        </h6>
+                                    {{/if}}
+
+                                    <div class="card-text">
+                                        <h6 class="card-title">
+                                            <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
+                                            <h5 class="time-left-{{ProID}}"></h5>
+                                        </h6>
+                                    </div>
+
+
+                                </div>
+                                <div class="card-text mr-auto ml-3">
+                                    <a href="/product/{{ProID}}">
+                                        <button type="button" class="btn btn-outline-primary my-2 ">
+                                            <i class="fa fa-list mr-2" aria-hidden="true"></i>View Detail
+                                        </button>
+                                    </a>
+                                    {{#if ../auth}}
+                                        <a data-id="{{ProID}}" class="addItem my-2" href="javascript:">
+                                            <button type="button" class="btn btn-outline-danger my-2">
+                                                <i class="fa fa-heart mr-1" aria-hidden="true"></i>
+                                                Add to Watchlist
+                                            </button>
+                                        </a>
+                                    {{/if}}
+                                </div>
+                                <div class="card-footer text-right mt-4">
+                                    <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="card-body">
-
-                            <h4 class="card-title">
-                                <a class="text-dark" href="/product/{{ProID}}">{{ProName}}</a>
-                            </h4>
-
-                            <h6 class="card-title text-success">
-                                <i class="fa fa-money mr-2" aria-hidden="true"></i>Highest
-                                bid
-                                <h5 class="text-success">{{{format_number Current_bid}}}</h5>
-                            </h6>
-
-
-                            {{#if Buy_now}}
-                            <h6 class="card-title text-info">
-                                <i class="fa fa-shopping-bag mr-2" aria-hidden="true"></i>Buy
-                                now
-                                <h5 class="text-info">{{{format_number Buy_now}}}</h5>
-                            </h6>
-                            {{/if}}
-
-                            <div class="card-text">
-                                <h6 class="card-title">
-                                    <i class="fa fa-clock-o mr-2" aria-hidden="true"></i>Time remain
-                                    <h5 class="time-left-{{ProID}}"></h5>
-                                </h6>
-                            </div>
-
-
-                        </div>
-                        <div class="card-text mr-auto ml-3">
-                            <a href="/product/{{ProID}}">
-                                <button type="button" class="btn btn-outline-primary my-2 ">
-                                    <i class="fa fa-list mr-2" aria-hidden="true"></i>View Detail
-                                </button>
-                            </a>
-                            {{#if ../auth}}
-                            <a data-id="{{ProID}}" class="addItem my-2" href="javascript:">
-                                <button type="button" class="btn btn-outline-danger my-2">
-                                    <i class="fa fa-heart mr-1" aria-hidden="true"></i>
-                                    Add to Watchlist
-                                </button>
-                            </a>
-                            {{/if}}
-                        </div>
-                        <div class="card-footer text-right mt-4">
-                            <small class="text-muted">Uploaded: {{format_date UploadDate}}</small>
-                        </div>
-                    </div>
+                    {{/each}}
                 </div>
-                {{/each}}
-            </div>
             {{/if}}
         </div>
     </div>

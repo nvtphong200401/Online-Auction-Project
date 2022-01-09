@@ -7,6 +7,7 @@ import auth from "../middleware/auth.mdware.js";
 import bidModel from "../models/bid.model.js";
 import nodemailer from 'nodemailer';
 import moment from "moment";
+import numeral from "numeral";
 const router = express.Router();
 
 function sendEmail(email, message, title) {
@@ -69,6 +70,7 @@ router.get('/:id', async (req, res) => {
     if (res.locals.auth === true) {
       isSeller = sellers[0].ID === res.locals.authUser.ID;
     }
+
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
     const highestPrice = await productModel.getCurrentBid(id);
     res.render('vwProduct/detail', {
@@ -81,19 +83,22 @@ router.get('/:id', async (req, res) => {
         sameCat,
         imgs,
         isSeller: isSeller,
-        empty: sameCat.length === 0
+        empty: sameCat.length === 0,
+        minPrice: +highestPrice + +pro[0].Step_price
     })
 })
 router.post('/:id', auth, async (req, res) => {
     const BID = req.session.authUser.ID;
     const ProID = req.params.id;
-    const MaxPrice = req.body.BidPrice;
+    const MaxPrice = numeral(req.body.BidPrice).value();
     const highestPrice = await productModel.getCurrentBid(ProID);
-    if (MaxPrice < highestPrice) {
-        req.flash('success', 'You bid is too low! Please try again with higher bid');
+    const product = await productModel.findById(ProID);
+    const stepPrice = +product[0].Step_price;
+
+    if (+MaxPrice < +highestPrice + stepPrice) {
+        req.flash('success', 'Your bid is too low! Your bid should be at least ' + numeral((+highestPrice + stepPrice)).format('0,0') + ' VND');
         return res.redirect('/product/' + ProID);
     }
-    const product = await productModel.findById(ProID);
 
     const isBannedOnProduct = await userModel.isBannedOnProduct(BID, ProID);
     if (isBannedOnProduct) {
