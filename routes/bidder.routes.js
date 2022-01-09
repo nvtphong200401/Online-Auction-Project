@@ -53,9 +53,9 @@ router.get('/profile', async function (req, res) {
         const nTotal = await commentModel.countComment(id)
         const overall = {
             'good': nGoodComment,
-            'per_good': nTotal !== 0 ? (nGoodComment / nTotal * 100) : 0,
+            'per_good': nTotal !== 0 ? (nGoodComment / nTotal * 100).toFixed(0) : 0,
             'bad': nBadComment,
-            'per_bad': nTotal !== 0 ? (nBadComment / nTotal * 100) : 0,
+            'per_bad': nTotal !== 0 ? (nBadComment / nTotal * 100).toFixed(0) : 0,
         }
         overall.total_per = nTotal !== 0 ? overall.per_good : null;
         overall.accept = overall.per_good > 80;
