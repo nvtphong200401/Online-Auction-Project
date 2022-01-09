@@ -30,8 +30,7 @@ router.get('/', async function (req, res) {
 
 router.post('/add', async function (req, res) {
     const item = {
-        id: +req.body.id,
-        quantity: +req.body.quantity
+        id: +req.body.id
     }
 
     cartModel.add(req.session.cart, item);

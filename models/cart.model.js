@@ -1,5 +1,10 @@
 export default {
   add(cart, item) {
+    for (const i of cart) {
+      if (item.id === i.id) {
+        return;
+      }
+    }
     cart.push(item);
   },
 
@@ -14,5 +19,5 @@ export default {
 
   getNumberOfItems(cart) {
     return cart.length;
-  }
+  },
 }

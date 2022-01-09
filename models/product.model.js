@@ -199,16 +199,16 @@ export default {
             .whereRaw(`MATCH(product.ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST('${catName}')`);
     },
     searchAndFilter(proName, catName, filter){
-        return db('product').join('category', 'category.CatID', 'product.CatID')
-            .join('bid_system', 'product.ProID', 'bid_system.ProID')
-            .whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST '${catName}'`).orderBy(filter);
+        return db('product').distinct('product.ProID', 'product.ProName', 'product.UploadDate', 'product.EndDate', 'product.Buy_now').join('category', 'category.CatID', 'product.CatID')
+            .join('bid_history', 'product.ProID', 'bid_history.ProID')
+            .whereRaw(`MATCH(ProName) AGAINST('${proName}') AND MATCH(CatName) AGAINST ('${catName}')`).orderBy(filter);
     },
     searchOrFilter(query, filter){
         if (filter === "EndDate"){
             return db('product').join('category', 'product.CatID', 'category.CatID')
                 .whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter ,'desc');
         }
-        return db('bid_system').rightJoin('product', 'product.ProID', 'bid_system.ProID')
+        return db('bid_history').distinct('product.ProID', 'product.ProName', 'product.UploadDate', 'product.EndDate', 'product.Buy_now').rightJoin('product', 'product.ProID', 'bid_history.ProID')
             .join('category', 'product.CatID', 'category.CatID')
             .whereRaw(`MATCH(ProName) AGAINST('${query}') OR MATCH(CatName) AGAINST('${query}')`).orderBy(filter);
     },
