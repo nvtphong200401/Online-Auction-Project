@@ -78,7 +78,8 @@ router.get('/:id', async (req, res) => {
         bid_his: bid_his || 0,
         sameCat,
         imgs,
-        isSeller: isSeller
+        isSeller: isSeller,
+        empty: sameCat.length === 0
     })
 })
 router.post('/:id', auth, async (req, res) => {
