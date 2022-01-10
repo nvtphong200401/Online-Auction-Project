@@ -8,6 +8,7 @@ import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from '../models/users_model.js';
 import bidModel from "../models/bid.model.js";
+import commentModel from "../models/comment.model.js";
 import auth from "../middleware/auth.mdware.js";
 
 const router = express.Router();
@@ -122,7 +123,7 @@ router.post('/:id', auth, async (req, res) => {
     } else {
         if (product[0].AllowAll === 0) {
             // calculate the score of user
-            const score = await userModel.getPercentScore(BID);
+            const score = await commentModel.percentGoodComment(BID);
             if (score < 0.8) {
                 err_message = "Your current point is too low to bid this product !";
                 req.flash('success', err_message);
