@@ -1,31 +1,29 @@
 .login-card {
-    margin-top: 100px;
+    margin-top: 150px;
     margin-bottom: auto;
-    background: #daa857;
+    background: white;
     position: relative;
     display: flex;
     justify-content: center;
     flex-direction: column;
     padding: 50px;
-    box-shadow: 2px 2px 2px 2px #888888;
     border-radius: 5px;
-
+    border: 1px solid darkgreen;
 }
 .logo-container {
     position: absolute;
-    height: 170px;
-    width: 170px;
-    top: -75px;
-    border-radius: 50%;
-    background: #5db6d6;
-    padding: 10px;
-    
-}
-.logo {
     height: 150px;
     width: 150px;
+    top: -75px;
     border-radius: 50%;
-    border: 2px solid white;
+    border: 1px solid darkgreen;
+    background: white;
+    padding: 10px;
+}
+.logo {
+    height: 130px;
+    width: 130px;
+    border-radius: 100%;
 }
 .form-container {
     margin-top: 75px;
