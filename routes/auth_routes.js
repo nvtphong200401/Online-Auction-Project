@@ -299,6 +299,12 @@ router.get('/google/login', passport.authenticate('google', { failureRedirect: '
       rs = await userModel.findByEmail(user.Email);
     }
     user = rs[0];
+    if (user.isBanned === 1) {
+      return res.render('auth/login', {
+        layout: 'auth',
+        err_message: 'Your account has been banned, please contact admin to solve the problem'
+      });
+    }
     req.session.auth = true;
     req.session.authUser = user;
     const url = req.session.retUrl || '/';
@@ -325,6 +331,12 @@ async (req, res) => {
     user = rs[0];
   }
   user = rs[0];
+  if (user.isBanned === 1) {
+    return res.render('auth/login', {
+      layout: 'auth',
+      err_message: 'Your account has been banned, please contact admin to solve the problem'
+    });
+  }
   req.session.auth = true;
   req.session.authUser = user;
   const url = req.session.retUrl || '/';
