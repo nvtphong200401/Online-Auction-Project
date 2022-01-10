@@ -35,7 +35,8 @@ async function autoUpdate(ProID) {
             await db('bid_history').insert({
                 'BID': top2[1].BID,
                 'Price': parseInt(top2[1].MaxPrice),
-                'ProID': ProID
+                'ProID': ProID,
+                'Time': today
             })
         } catch (error) {
             await db('bid_history').where({
@@ -47,7 +48,8 @@ async function autoUpdate(ProID) {
             await db('bid_history').insert({
                 'BID': top2[0].BID,
                 'Price': parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price) > top2[0].MaxPrice ? top2[0].MaxPrice : parseInt(top2[1].MaxPrice) + parseInt(step[0].Step_price),
-                'ProID': ProID
+                'ProID': ProID,
+                'Time': today
             })
         } catch (error) {
             await db('bid_history').where({
@@ -57,15 +59,17 @@ async function autoUpdate(ProID) {
         }
         const top2_history_curr = await db('bid_history').where('ProID', ProID).orderBy('Price', 'desc').limit(2);
         // something changed
-        if (top2_history_old[1].BID  !== top2_history_curr[1].BID && top2_history_old[1].Price  !== top2_history_curr[1].Price) {
-            await db('bid_history').where({
-                'BID': top2[0].BID,
-                'ProID': ProID
-            }).update('Time', today);
-            await db('bid_history').where({
-                'BID': top2[1].BID,
-                'ProID': ProID
-            }).update('Time', today);
+        if (top2_history_old.length > 1) {
+            if (top2_history_old[1].BID  !== top2_history_curr[1].BID && top2_history_old[1].Price  !== top2_history_curr[1].Price) {
+                await db('bid_history').where({
+                    'BID': top2[0].BID,
+                    'ProID': ProID
+                }).update('Time', today);
+                await db('bid_history').where({
+                    'BID': top2[1].BID,
+                    'ProID': ProID
+                }).update('Time', today);
+            }
         }
 }
 export default {
