@@ -35,5 +35,8 @@ export default {
     },
     add(CatName){
         return db('category').insert({CatName});
+    },
+    addSub(id, CatName){
+        return db('category').insert({CatName, 'CatParent': id});
     }
 }

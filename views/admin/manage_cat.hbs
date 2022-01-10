@@ -18,6 +18,7 @@
                     </div>
                     <div class="modal-body">
                         <form id="formAdd" method="post" action="./category/add">
+                        <p><a href="./category/add">test</a></p>
                             <div class="form-group">
                                 <input type="text" name="CatName" class="form-control" placeholder="Category name"
                                     aria-describedby="helpId">
@@ -85,7 +86,7 @@
                         {{#if CatParent}}
                         {{CatName}}
                         {{else}}
-                        <a href="./category/{{CatID}}">{{CatName}}</a>
+                        <a href="./category/{{CatID}}/">{{CatName}}</a>
                         {{/if}}
                     </td>
                     <td class="text-right">
@@ -96,7 +97,7 @@
 
                         {{else}}
 
-                        <button onclick="Delete(this, {{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
+                        <button onclick="DeleteCat(this, {{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
                             role="button"><i class="fa fa-trash" aria-hidden="true"></i>
                             Delete</a>
                             {{/if}}

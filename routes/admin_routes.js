@@ -3,6 +3,7 @@ import CatModel from '../models/category.model.js';
 import UserModel from '../models/users_model.js';
 import ProductModel from '../models/product.model.js';
 import categoryModel from '../models/category.model.js';
+import fs from 'fs';
 import moment from 'moment';
 import nodemailer from 'nodemailer';
 const router = express.Router();
@@ -66,6 +67,10 @@ router.get('/category/:id', async (req, res) => {
 })
 
 router.post('/category/del/:id', async (req, res) => {
+    const subCat = await CatModel.findSubCat(req.params.id);
+    for (const s of subCat) {
+        await CatModel.del(s.CatID);
+    }
     await CatModel.del(req.params.id);
 })
 
@@ -134,6 +139,17 @@ router.get('/product', async (req, res) => {
 router.post('/product/del/:id', async (req, res) => {
     const seller = await ProductModel.getSeller(req.params.id);
     sendEmail(seller[0].Email, "Your product has violated our terms of policy so that we decided to delete it !", "Admin");
+    //remove folder and files
+    const folder = "./public/imgs/sp/" + req.params.id + '/';
+    const img_files = fs.readdirSync(folder);
+    img_files.forEach((file) => {
+        fs.unlink(folder + file, (err) => {
+            if (err) throw err;
+        });
+    });
+    fs.rmdir(folder, (err) => {
+        if (err) throw err;
+    });
     await ProductModel.del(req.params.id);
 })
 router.put('/category/edit/:id', async (req, res) => {
@@ -142,6 +158,10 @@ router.put('/category/edit/:id', async (req, res) => {
 router.post('/category/add', async (req,res) => {
     await categoryModel.add(req.body.CatName);
     return res.redirect('/admin/category');
+});
+router.post('/category/:id/category/add', async (req,res) => {
+    await categoryModel.addSub(req.params.id, req.body.CatName);
+    return res.redirect('/admin/category/' + req.params.id + '/');
 })
 router.post('/pending/del/:id', async (req, res) => {
     const user = await UserModel.findByID(req.params.id);
