@@ -90,8 +90,8 @@ const remainingDate = function (className, endTime) {
         f(className, endTime);
     }
 }
-let countDown = function (className, endTime) {
 
+const f = function (className, endTime) {
     let myfunc = function (className, time) {
 
         let countDownDate = new Date(time).getTime();
@@ -131,17 +131,13 @@ let countDown = function (className, endTime) {
 
         // If the count down is over, write some text
         if (distance < 0) {
-            clearInterval(x);
             $('.' + className).html("Ended");
             $('.' + className).addClass('text-danger');
+            clearInterval(x);
         }
-        console.log("Running")
+        console.log('Running')
     }
-
+    myfunc(className, endTime);
     // Update the count down every 1 second
     let x = setInterval(myfunc, 1000, className, endTime);
-}
-
-const f = function (className, endDate) {
-    countDown(className, endDate);
 }

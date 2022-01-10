@@ -1,17 +1,18 @@
 {{#section 'js'}}
+
     <script crossorigin="anonymous" src="/public/js/time.js"></script>
-
-    {{#each product}}
-        <script type="text/javascript">
-            f('time-left-{{ProID}}', "{{EndDate}}");
-        </script>
-    {{/each}}
-
     <script>
-        $('.addItem').on('click', function (e) {
-            const id = $(this).data('id');
-            $('#txtProID').val(id);
-            $('#frmAddItem').submit();
+        $(document).ready(function () {
+
+            {{#each product}}
+                f('time-left-{{ProID}}', "{{EndDate}}");
+            {{/each}}
+
+            $('.addItem').on('click', function (e) {
+                const id = $(this).data('id');
+                $('#txtProID').val(id);
+                $('#frmAddItem').submit();
+            });
         });
     </script>
 {{/section}}
