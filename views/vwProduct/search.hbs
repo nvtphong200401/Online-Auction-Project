@@ -93,20 +93,31 @@
                     <h4 class="card-header">
                         <div class="card-title d-flex justify-content-between mb-auto">
                             <div>
-                                <h5 class="mt-2">We found<span class="ml-2 mr-2 text-success">{{nPro}}</span>result for your
+                                <h5 class="mt-2">We found<span class="ml-2 mr-2 text-success">{{nPro}}</span>result for
+                                    your
                                     keywords</h5>
                             </div>
                             <div>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label class="btn btn-success"> <i class="fa fa-arrow-up mr-1" aria-hidden="true"></i>
-                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=Price"><input
-                                                type="radio" name="options" id="price" autocomplete="off">Giá</a>
-                                    </label>
-                                    <label class="btn btn-success"> <i class="fa fa-arrow-down mr-1" aria-hidden="true"></i>
-                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=EndDate"><input
-                                                onclick="submitForm(this)" type="radio" name="options" id="time"
-                                                autocomplete="off">Thời gian</a>
-                                    </label>
+                                    <button class="btn btn-outline-secondary {{#if sortByPrice}}
+                                        active
+                                    {{/if}}">
+                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=Price">
+                                        <i class="fa fa-arrow-up mr-1"
+                                           aria-hidden="true"><span name="options" id="price"> Giá</span></i>
+
+                                        </a>
+                                    </button>
+                                    <button class="btn btn-outline-secondary {{#if sortByDate}}
+                                        active
+                                    {{/if}}">
+                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=EndDate">
+                                        <i class="fa fa-arrow-down mr-1"
+                                           aria-hidden="true">
+                                            <span onclick="submitForm(this)" name="options"
+                                                  id="time"> Thời gian</span></i>
+                                        </a>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -137,14 +148,15 @@
                                                 <div class="details">
                                                     {{#if HighestBID}}
                                                         <a href="/user/{{HighestBID.ID}}" class="user">
-                                                <div class="user-photo">
-                                                    <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
-                                                </div>
-                                                <div class="name" data-toggle="tooltip" data-placement="top"
-                                                     title="{{{format_name HighestBID.FullName}}}">
-                                                    {{{format_name HighestBID.FullName}}}
-                                                </div>
-                                            </a>
+                                                            <div class="user-photo">
+                                                                <img alt="Thumb"
+                                                                     src="/public/imgs/avatar/0/avatar1.png">
+                                                            </div>
+                                                            <div class="name" data-toggle="tooltip" data-placement="top"
+                                                                 title="{{{format_name HighestBID.FullName}}}">
+                                                                {{{format_name HighestBID.FullName}}}
+                                                            </div>
+                                                        </a>
                                                     {{else}}
                                                         <div class="user">
                                                             <div class="name">No bidder!</div>
@@ -219,20 +231,20 @@
                             <ul class="pagination justify-content-center">
                                 {{#with prev}}
                                     <li class="page-item {{#if disable}} disabled {{/if}}">
-                                        <a class="page-link" href="./{{index}}">
-                                            <span aria-hidden="true">&laquo;</span>
+                                        <a class="page-link" href="./search?q={{../this.q}}{{#if ../this.CatName}}&CatName={{../this.CatName}}{{/if}}{{#if ../this.filter}}&filter={{../this.filter}}{{/if}}&page={{index}}">
+                                        <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 {{/with}}
                                 {{#each this.page}}
                                     <li class="page-item {{#if active}} active {{/if}}"><a class="page-link"
-                                                                                           href="./{{index}}">{{index}}</a>
+                                                                                           href="./search?q={{../this.q}}{{#if../this.CatName}}&CatName={{../this.CatName}}{{/if}}{{#if ../this.filter}}&filter={{../this.filter}}{{/if}}&page={{index}}">{{index}}</a>
                                     </li>
                                 {{/each}}
                                 {{#with next}}
                                     <li class="page-item {{#if disable}} disabled {{/if}}">
-                                        <a class="page-link" href="./{{index}}">
-                                            <span aria-hidden="true">&raquo;</span>
+                                        <a class="page-link" href="./search?q={{../this.q}}{{#if ../this.CatName}}&CatName={{../this.CatName}}{{/if}}{{#if ../this.filter}}&filter={{../this.filter}}{{/if}}&page={{index}}">
+                                        <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
                                 {{/with}}

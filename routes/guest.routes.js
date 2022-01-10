@@ -40,7 +40,7 @@ router.get('/byCat/:id', function (req, res) {
 
 router.get('/byCat/:id/:page', async function (req, res) {
     const CatId = req.params.id || 1;
-    let PageNow = req.params.page || 1;
+    let PageNow = req.params.page || "1";
     const CatList = await categoryModel.findAllMain() || 0;
     for (let c of CatList) {
         c.SubCat = await categoryModel.findSubCat(c.CatID);
@@ -130,7 +130,7 @@ router.get('/search', async (req, res) => {
     const q = req.query.q;
     const f =  () => {
         if(req.query.filter === undefined){
-            return ""
+            return "";
         }
         return req.query.filter;
     }
@@ -142,7 +142,7 @@ router.get('/search', async (req, res) => {
     }
     const filter = f();
     const CatName = c();
-    var prod;
+    let prod;
     if (CatName.length > 0) {
         if(filter.length > 0){
             prod = await productModel.searchAndFilter(q, CatName, filter);
@@ -171,34 +171,31 @@ router.get('/search', async (req, res) => {
         }
         prod.sort(compare);
     }
-    const CatId = req.query.CatID || 1;
-    const nPage = Math.ceil(prod.length / 8) || 1;
-    let PageNow = req.query.page || 1;
+    let PageNow = req.query.page || "1";
+    const nProduct = 8;
+    const ProductList = prod.slice(nProduct * (+PageNow - 1), (nProduct * (+PageNow - 1)) + nProduct);
+
+    const nPage = Math.ceil(prod.length / nProduct) || 1;
     let PageList = [];
 
     const prev = ({index: (+PageNow-1).toString(), disable: +PageNow === 1});
     for (let i = 1; i <= nPage; ++i) {
         PageList.push({index: i.toString(), active: (i.toString() === PageNow)})
     }
-    const CatList = await categoryModel.findAllMain() || 0;
-    for (let c of CatList) {
-        c.SubCat = await categoryModel.findSubCat(c.CatID);
-    }
+
     const next = ({index: (+PageNow+1).toString(), disable: +PageNow === nPage});
-    for (const c of res.locals.lcCategories) {
-        c.isActive = c.CatID === CatId;
-    }
     res.render('vwProduct/search', {
         layout: 'main',
-        category: CatList,
-        related: prod,
+        related: ProductList,
         nPro: prod.length,
         page: PageList,
         prev: prev,
         next: next,
         q,
-        filter,
-        CatName
+        filter: filter.trim(),
+        sortByPrice: filter === "Price",
+        sortByDate: filter === "EndDate",
+        CatName: CatName.trim()
     })
 })
 
