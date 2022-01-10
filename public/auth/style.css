@@ -1,7 +1,7 @@
 .login-card {
     margin-top: 150px;
     margin-bottom: auto;
-    background: white;
+    background: whitesmoke;
     position: relative;
     display: flex;
     justify-content: center;
@@ -17,7 +17,7 @@
     top: -75px;
     border-radius: 50%;
     border: 1px solid darkgreen;
-    background: white;
+    background: whitesmoke;
     padding: 10px;
 }
 .logo {
@@ -41,6 +41,6 @@
     margin-bottom: 3px;
   }
 body {
-    background-image: url('../img/background.jpg');
+    background-color: #eff5e9;
     background-size: 100%;
 }
