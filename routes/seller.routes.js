@@ -1,6 +1,8 @@
 import express from "express";
+import fs from 'fs';
 import moment from "moment";
 import multer from "multer";
+import nodemailer from 'nodemailer';
 
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
@@ -9,6 +11,31 @@ import commentModel from "../models/comment.model.js";
 import bidModel from "../models/bid.model.js";
 
 const router = express.Router();
+
+function sendEmail(email, message, title) {
+    var email = email;
+    var mail = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: 'dragonslayers248@gmail.com',
+            pass: 'matkhauvip'
+        }
+    });
+    var mailOptions = {
+        from: 'dragonslayers248@gmail.com',
+        to: email,
+        subject: title + ' - onlineauction.com',
+        html: '<p>'+message+'</p>'
+
+    };
+    mail.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            return 1
+        } else {
+            return 0
+        }
+    });
+}
 
 router.get('/', function (req, res) {
     res.redirect('/seller/product/list/active');
@@ -143,10 +170,20 @@ router.post('/product/delete', async function (req, res) {
         Opinion: 'Người thắng không thanh toán',
         ProID: req.body.ProID,
     }
+    const folder = "./public/imgs/sp/" + comment.ProID + '/';
+    const img_files = fs.readdirSync(folder);
+    img_files.forEach((file) => {
+        fs.unlink(folder + file, (err) => {
+            if (err) throw err;
+        });
+    });
+    fs.rmdir(folder, (err) => {
+        if (err) throw err;
+    });
     await productModel.del(comment.ProID);
-    await commentModel.addComment(comment);
-    // await bidModel.deleteBidHistory(winnerID, proID);
-    // await bidModel.deleteBidSystem(winnerID, proID);
+    if (comment.ID2 !== '' && comment.ID2 !== comment.ID1) {
+        await commentModel.addComment(comment);
+    }
     res.redirect('/seller/product/list/sold');
 });
 router.post('/product/edit', async function (req, res) {
@@ -188,6 +225,9 @@ router.post('/product/add',async function(req, res) {
     //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
+    fs.mkdir('./public/imgs/sp/' + newProID, { recursive: true }, (err) => {
+        if (err) throw err;
+    });
     const storage = multer.diskStorage({
         destination: function (req, file, cb) {
             cb(null, './public/imgs/sp/' + newProID);
@@ -246,12 +286,16 @@ router.get('/product/add', async function(req, res) {
     }
 });
 router.post('/deny_bidder', async function (req, res) {
-    //TODO: send email to the banned user and pass the product to the 2nd highest bidder
     const BID = req.body.BID;
     const ProID = req.body.ProID;
+    const seller = await productModel.getSeller(ProID);
+    const bidder = await userModel.findByID(BID);
+    const product = await productModel.findById(ProID);
     await userModel.denyUserOnProduct(BID, ProID);
     await bidModel.deleteBidHistory(BID, ProID);
     await bidModel.deleteBidSystem(BID, ProID);
+    sendEmail(bidder.Email, `Seller ${seller.FullName} has banned you on product ${product[0].ProName} !
+                Go to <a href="http://localhost:3000/product/${product[0].ProID}">here</a> for more information!`, "Bid system")
     res.redirect('/product/' + ProID);
 });
 export default router;

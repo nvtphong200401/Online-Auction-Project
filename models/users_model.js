@@ -48,13 +48,17 @@ export default {
     reject(id) {
         return db('user').where('ID', id).update('Pending', 0)
     },
-    approve(id) {
-        return db('user').where('ID', id).update({'Pending': 0, 'Role': 1})
+    async approve(id) {
+        await this.toSeller(id);
+        return db('user').where('ID', id).update({'Pending': 0});
     },
     toBidder(id) {
-        return db('user').where('ID', id).update('Role', 0);
+        return db('user').where('ID', id).update('Role', 3);
     },
-    toSeller(id) {
+    async toSeller(id) {
+        const expired = new Date(new Date().getTime() + (7*24*60*60*1000));
+        const date = moment(expired).format('YYYY-MM-DD');
+        await db('user').where('ID', id).update('ExpiredDate', date);
         return db('user').where('ID', id).update('Role', 1);
     },
     getRole(id) {
@@ -94,8 +98,8 @@ export default {
     getAllScore(id) {
         return db('user').join('comment', 'user.ID', 'comment.ID2').sum('comment.Score as score').where('ID', id);
     },
-    getPercentScore(id){
-      const sum = this.getAllScore(id);
+    async getPercentScore(id){
+      const sum = await this.getAllScore(id);
       const total = commentModel.countComment(id);
       return (total - (total-sum)/2)/total;
     },

@@ -50,7 +50,7 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-function sendEmail(email, token, verify) {
+async function sendEmail(email, token, verify) {
   var email = email;
   var token = token;
   var mail = nodemailer.createTransport({
@@ -77,13 +77,8 @@ function sendEmail(email, token, verify) {
     html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> ' + purpose + '</p>'
 
   };
-  mail.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
+  const info = await mail.sendMail(mailOptions);
+  return 0;
 }
 
 router.post('/sendverify', async (req, res) => {
@@ -218,10 +213,10 @@ router.post('/', async (req, res) => {
 
     await userModel.add(user);
     await verifyModel.add(verification);
-    const sent = sendEmail(Email, token, true);
+    const sent = await sendEmail(Email, token, true);
     var type = 'success';
     var msg = 'Email already verified';
-    if (sent == 0) {
+    if (sent === 0) {
       type = 'success';
       msg = 'The verification link has been sent to your email address';
     } else {

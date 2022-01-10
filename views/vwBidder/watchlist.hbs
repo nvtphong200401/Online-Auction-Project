@@ -24,6 +24,8 @@
                     <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i><span>Watchlist</span></a>
                 <a href="/bidder/profile/edit" class="list-group-item list-group-item-action">
                     <i class="fa fa-fw fa-cog mr-1"></i><span>Settings</span></a>
+                <a href="/bidder/product/list/active" class="list-group-item list-group-item-action">
+                    <i class="fa fa-fw fa-history mr-1"></i><span>History</span></a>
             </div>
         </div>
 
@@ -109,11 +111,11 @@
                                                                 <tr>
                                                                     <td>
                                                                         <div class="product-item">
-                                                                            <a class="product-thumb" href="#"><img
+                                                                            <a class="product-thumb" href="http://localhost:3000/product/{{ProID}}"><img
                                                                                     src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                                                                     alt="Product"></a>
                                                                             <div class="product-info">
-                                                                                <h4 class="product-title"><a href="#">
+                                                                                <h4 class="product-title"><a href="http://localhost:3000/product/{{ProID}}">
                                                                                     {{ProName}}
                                                                                 </a></h4>
                                                                                 <span>{{TinyDesc}}</span>
