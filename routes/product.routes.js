@@ -53,7 +53,6 @@ router.get('/:id', async (req, res) => {
         imgs.push({file_name: file, ProID: id, active: i === 0});
         i++;
     })
-    console.log(folder)
 
     const pro = await productModel.findById(id);
     if (!pro[0])
