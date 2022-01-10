@@ -1,13 +1,17 @@
 import express from "express";
+import moment from "moment";
+import numeral from "numeral";
+import fs from 'fs';
+import nodemailer from 'nodemailer';
+
+import auth from "../middleware/auth.mdware.js";
+
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from '../models/users_model.js';
-import fs from 'fs';
-import auth from "../middleware/auth.mdware.js";
+import commentModel from "../models/comment.model.js";
 import bidModel from "../models/bid.model.js";
-import nodemailer from 'nodemailer';
-import moment from "moment";
-import numeral from "numeral";
+
 const router = express.Router();
 
 function sendEmail(email, message, title) {
@@ -23,7 +27,7 @@ function sendEmail(email, message, title) {
         from: 'dragonslayers248@gmail.com',
         to: email,
         subject: title + ' - onlineauction.com',
-        html: '<p>'+message+'</p>'
+        html: '<p>' + message + '</p>'
 
     };
     mail.sendMail(mailOptions, function (error, info) {
@@ -36,7 +40,7 @@ function sendEmail(email, message, title) {
 }
 
 router.get('/detail', (req, res) => {
-    res.render('vwProduct/detail', { layout: 'main' })
+    res.render('vwProduct/detail', {layout: 'main'})
 })
 
 router.get('/:id', async (req, res) => {
@@ -47,7 +51,7 @@ router.get('/:id', async (req, res) => {
     var imgs = []
     let i = 0;
     img_files.forEach((file) => {
-        imgs.push({ file_name: file, ProID: id , active: i === 0});
+        imgs.push({file_name: file, ProID: id, active: i === 0});
         i++;
     })
 
@@ -68,7 +72,7 @@ router.get('/:id', async (req, res) => {
     }
     var isSeller = false;
     if (res.locals.auth === true) {
-      isSeller = sellers[0].ID === res.locals.authUser.ID;
+        isSeller = sellers[0].ID === res.locals.authUser.ID;
     }
 
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
@@ -109,7 +113,7 @@ router.post('/:id', auth, async (req, res) => {
     var err_message = null;
     const t = await bidModel.getTop2(ProID);
     if (t.length > 0) {
-        if (t[0].BID == BID) {
+        if (t[0].BID === BID) {
             await bidModel.updateBid(BID, ProID, MaxPrice);
             err_message = 'You are at top bid now ! Stay chill until someone get over !';
         }
@@ -117,11 +121,12 @@ router.post('/:id', auth, async (req, res) => {
     if (err_message) {
         req.flash('success', err_message);
         return res.redirect('/product/' + ProID)
-    }
-    else {
+    } else {
         if (product[0].AllowAll === 0) {
             // calculate the score of user
-            if (userModel.getPercentScore(BID) >= 0.8) {
+            const score = await commentModel.percentGoodComment(BID);
+            console.log(score);
+            if (score >= 0.8) {
                 //check if bid in db, update it
                 const b = await bidModel.findBid(BID, ProID);
                 if (b.length > 0) {
@@ -133,20 +138,19 @@ router.post('/:id', auth, async (req, res) => {
                 const result = await bidModel.addBid(BID, ProID, MaxPrice);
                 const top = await bidModel.getTop2(ProID);
                 const user1 = await userModel.findByID(top[0].BID);
-                
-                sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
+
+                sendEmail(user1.Email, `You are now on the top bidder of product ${product[0].ProName} ! See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
 
                 if (top[1] !== undefined) {
                     const user2 = await userModel.findByID(top[1].BID);
-                    sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
+                    sendEmail(user2.Email, `Someone has got over you in product ${product[0].ProName} ! Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
                 }
             } else {
                 err_message = "Your current point is too low to bid this product !";
                 req.flash('success', err_message);
                 return res.redirect('/product/' + ProID)
             }
-        }
-        else {
+        } else {
             // allow all user to buy
             const b = await bidModel.findBid(BID, ProID);
             if (b.length > 0) {
@@ -156,11 +160,11 @@ router.post('/:id', auth, async (req, res) => {
             await bidModel.addBid(BID, ProID, MaxPrice);
             const top = await bidModel.getTop2(ProID);
             const user1 = await userModel.findByID(top[0].BID);
-            sendEmail(user1.Email,`You are now on the top bidder of product ${product[0].ProName} ! 
+            sendEmail(user1.Email, `You are now on the top bidder of product ${product[0].ProName} ! 
             See detail in this <a href="http://localhost:3000/product/${ProID}">Link</a>`, "Bid system");
             if (top[1] !== undefined) {
                 const user2 = await userModel.findByID(top[1].BID);
-                sendEmail(user2.Email,`Someone has got over you in product ${product[0].ProName} ! 
+                sendEmail(user2.Email, `Someone has got over you in product ${product[0].ProName} ! 
                 Go <a href="http://localhost:3000/product/${ProID}">here</a> to bid a new price now !`, "Bid system");
             }
         }
@@ -168,7 +172,7 @@ router.post('/:id', auth, async (req, res) => {
         if (product[0].AutoTime === 1) {
             const now = new Date();
             const EndDate = product[0].EndDate;
-            const minLeft = parseInt((Math.abs(EndDate.getTime() - now.getTime())/1000)/60);
+            const minLeft = parseInt((Math.abs(EndDate.getTime() - now.getTime()) / 1000) / 60);
             if (minLeft <= 5) {
                 EndDate.setMinutes(EndDate.getMinutes() + 10);
                 await productModel.updateEndTime(ProID, EndDate);
@@ -177,7 +181,7 @@ router.post('/:id', auth, async (req, res) => {
         return res.redirect('/product/' + ProID);
     }
 })
-router.post('/buy/:id', auth, async (req,res) => {
+router.post('/buy/:id', auth, async (req, res) => {
     return res.redirect('/product/' + req.params.id)
 })
 

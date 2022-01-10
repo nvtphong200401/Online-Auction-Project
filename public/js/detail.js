@@ -15,7 +15,7 @@ $(document).ready(function () {
             $('.price').append('<div class="alert alert-danger" role="alert">Your bid is lower than the highest price! Please make a higher bid</div>')
             e.preventDefault();
         }
-        else if (currentBid > buyPrice){
+        else if (buyPrice && buyPrice !== 0 && currentBid > buyPrice){
             $('.price').append('<div class="alert alert-warning" role="alert">You can buy now with that amount of money! Please click Buy now button</div>')
             e.preventDefault();
         }
