@@ -74,7 +74,7 @@ async function autoUpdate(ProID) {
 }
 export default {
     getHistoryByPro(id) {
-        return db('bid_history').join('user', 'ID', 'bid_history.BID').where('ProID', id);
+        return db('bid_history').join('user', 'ID', 'bid_history.BID').where('ProID', id).orderBy('Price', 'desc');
     },
     async addBid(BID, ProID, MaxPrice) {
         //add to bid system

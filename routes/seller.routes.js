@@ -25,7 +25,7 @@ function sendEmail(email, message, title) {
         from: 'dragonslayers248@gmail.com',
         to: email,
         subject: title + ' - onlineauction.com',
-        html: '<p>'+message+'</p>'
+        html: '<p>' + message + '</p>'
 
     };
     mail.sendMail(mailOptions, function (error, info) {
@@ -40,7 +40,7 @@ function sendEmail(email, message, title) {
 router.get('/', function (req, res) {
     res.redirect('/seller/product/list/active');
 });
-router.get('/product/list/active', async function(req, res) {
+router.get('/product/list/active', async function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
     }
@@ -81,6 +81,7 @@ router.get('/product/list/active', async function(req, res) {
                 product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
             }
             res.render('vwSeller/active', {
+                err_message: req.flash('add_fail'),
                 layout: 'main',
                 products: productList,
                 pageNumbers,
@@ -221,11 +222,11 @@ router.get('/product/edit', async function (req, res) {
         }
     }
 });
-router.post('/product/add',async function(req, res) {
+router.post('/product/add', async function (req, res) {
     //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
-    fs.mkdir('./public/imgs/sp/' + newProID, { recursive: true }, (err) => {
+    fs.mkdir('./public/imgs/sp/' + newProID, {recursive: true}, (err) => {
         if (err) throw err;
     });
     const storage = multer.diskStorage({
@@ -267,12 +268,16 @@ router.post('/product/add',async function(req, res) {
         }
     })
 });
-router.get('/product/add', async function(req, res) {
+router.get('/product/add', async function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
     }
     if (req.session.auth === false) {
         res.redirect('/auth');
+    } else if (req.session.authUser.Role !== (await userModel.getRole(req.session.authUser.ID))[0].Role) {
+        req.session.authUser.Role = (await userModel.getRole(req.session.authUser.ID))[0].Role;
+        req.flash("add_fail", "Your seller account has expired")
+        res.redirect('/seller/');
     } else {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');

@@ -17,8 +17,8 @@
                 var totalItems = $('.carousel-item').length;
 
                 if (idx >= totalItems - (itemsPerSlide - 1)) {
-                    var it = itemsPerSlide - (totalItems - idx);
-                    for (var i = 0; i < it; i++) {
+                    let it = itemsPerSlide - (totalItems - idx);
+                    for (let i = 0; i < it; i++) {
                         // append slides to end
                         if (e.direction === "left") {
                             $('.carousel-item').eq(i).appendTo('.carousel-inner');
@@ -87,7 +87,7 @@
                             <div id="carousel-example" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner row w-100 mx-auto" role="listbox">
                                     {{#each this.imgs}}
-                                        <div class="carousel-item col-12 col-sm-6 col-md-6 col-lg-4 {{#if
+                                        <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-4 {{#if
                                                 active}}active{{/if}}">
                                             <img src="/public/imgs/sp/{{ProID}}/{{file_name}}"
                                                  class="img-fluid mx-auto d-block"

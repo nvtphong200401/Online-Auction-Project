@@ -46,15 +46,18 @@ router.get('/:id', async (req, res) => {
     const id = req.params.id;
     const folder = "./public/imgs/sp/" + id + '/';
     const img_files = fs.readdirSync(folder);
-    img_files.splice(img_files.indexOf('main_thumbs.jpg'));
+
     var imgs = []
     let i = 0;
     img_files.forEach((file) => {
         imgs.push({file_name: file, ProID: id, active: i === 0});
         i++;
     })
+    console.log(folder)
 
     const pro = await productModel.findById(id);
+    if (!pro[0])
+        return res.redirect("/unknown");
     const categories = await categoryModel.findByPro(id);
     const sellers = await productModel.getSeller(id);
     for (const seller of sellers) {
@@ -71,9 +74,8 @@ router.get('/:id', async (req, res) => {
     }
     var isSeller = false;
     if (res.locals.auth === true) {
-        isSeller = sellers[0].ID === res.locals.authUser.ID;
+        isSeller = sellers.length !== 0 && sellers[0].ID === res.locals.authUser.ID;
     }
-
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
     const highestPrice = await productModel.getCurrentBid(id);
     res.render('vwProduct/detail', {
