@@ -1,0 +1,170 @@
+{{#section 'css'}}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+          integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css"
+          integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous"/>
+{{/section}}
+
+<div class="content mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-4">
+                <!-- Personal-Information -->
+                <div class="card-box text-center">
+
+                    {{#with authUser}}
+                        <img src="/public/imgs/avatar/0/avatar1.png" class="rounded-circle avatar-xl img-thumbnail"
+                             alt="profile-image">
+
+                        <div>
+                            <h4 class="mb-0">{{FullName}}</h4>
+
+                        </div>
+                        <p class="text-muted">@{{Username}}</p>
+
+                        <a href="/watchlist" type="button"
+                           class="btn btn-outline-danger btn-xs waves-effect mb-2 waves-light">
+                            <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Watchlist
+                        </a>
+
+                        <br>
+
+                        <a href="/bidder/product/list/active" type="button"
+                           class="btn btn-outline-success btn-xs waves-effect mb-2 waves-light">
+                            <i class="fa fa-history mr-2" aria-hidden="true"></i>History
+                        </a>
+
+                        <hr>
+                        <div class="text-left mt-3">
+                            <div>
+                                <h6 class="font-20 text-uppercase d-inline mr-1">Your information
+                                    <a href="profile/edit" class="badge badge-primary mb-2">Edit</a>
+                                </h6>
+
+                            </div>
+
+                            <p class="text-muted mb-2 font-13"><strong>Username :</strong> <span
+                                    class="ml-2">{{Username}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span
+                                    class="ml-2">{{FullName}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>DOB :</strong> <span class="ml-2">{{format_date
+                                    DOB}}</span></p>
+
+                            <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span
+                                    class="ml-2 ">{{Email}}</span></p>
+
+                            <p class="text-muted mb-1 font-13"><strong>Permission :</strong>
+                                <span class="ml-2">{{#if Role}}
+                                    Bidder/Seller
+                                {{else}}
+                                    Bidder
+                                {{/if}}</span></p>
+                        </div>
+                    {{/with}}
+                </div> <!-- end card-box -->
+
+
+            </div>
+            <div class="col-xl-8">
+                <div class="row">
+                    {{#with overall}}
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-layers float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Likes</h6>
+                                <h2 class="">+{{good}}<img class="emoji" src="/public/imgs/emoji/+1.png" alt=""></h2>
+                                <span
+                                        class="badge badge-custom">{{per_good}}% </span><span
+                                        class="text-muted"> People likes you</span>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-paypal float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Dislikes</h6>
+                                <h2 class="">-{{bad}}<img class="emoji" src="/public/imgs/emoji/-1.png" alt=""></h2>
+                                <span
+                                        class="badge badge-danger">{{per_bad}}% </span><span
+                                        class="text-muted"> People hates you</span>
+                            </div>
+                        </div>
+                        <!-- end col -->
+                        <div class="col-sm-4">
+                            <div class="card-box tilebox-one"><i class="icon-rocket float-right text-muted"></i>
+                                <h6 class="text-muted text-uppercase mt-0">Overall</h6>
+                                {{#if total_per}}
+                                    <h2 class="" data-plugin="counterup">
+                                        {{total_per}}%
+                                    </h2>
+                                    {{#if accept}}
+                                        <span class="badge badge-success">> 80% </span><span
+                                            class="ml-2 text-muted">OK!</span>
+                                    {{else}}
+                                        <span class="badge badge-warning"><= 80% </span><span class="ml-2 text-muted">Too low!</span>
+                                    {{/if}}
+                                {{else}}
+                                    <h2 class="" data-plugin="counterup">
+                                        --
+                                    </h2>
+                                    <span class="badge badge-secondary">0% </span>
+                                    <span class="ml-2 text-muted">No comment yet!</span>
+                                {{/if}}
+
+
+                            </div>
+                        </div>
+                        <!-- end col -->
+                    {{/with}}
+
+                </div>
+                <!-- end row -->
+                <div class="card-box">
+
+                    <h4 class="header-title mt-0 mb-3">Comments</h4>
+                    <hr>
+
+                    <div class="">
+                        {{#if commentList}}
+                            <div></div>
+                        {{/if}}
+                        {{#each commentList}}
+                            <div class="">
+                                <h5 class="text-custom">@{{Username}}
+                                    {{#if Score}}
+                                        <img class="emoji" src="/public/imgs/emoji/+1.png" alt="">
+                                    {{else}}
+                                        <img class="emoji" src="/public/imgs/emoji/-1.png" alt="">
+                                    {{/if}}
+                                </h5>
+                                <p><b>{{format_date_calendar Date}}</b></p>
+                                <p class="mb-0">{{ProName}}</p>
+                                <p class="text-muted font-13 mb-0">{{Opinion}}</p>
+                            </div>
+                            <hr>
+                        {{/each}}
+                        <div aria-label="Page navigation example ">
+                            <ul class="pagination justify-content-center mt-5">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container -->
+</div>

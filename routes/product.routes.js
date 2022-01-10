@@ -14,15 +14,14 @@ import auth from "../middleware/auth.mdware.js";
 const router = express.Router();
 
 function sendEmail(email, message, title) {
-    var email = email;
-    var mail = nodemailer.createTransport({
+    let mail = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: 'dragonslayers248@gmail.com',
             pass: 'matkhauvip'
         }
     });
-    var mailOptions = {
+    let mailOptions = {
         from: 'dragonslayers248@gmail.com',
         to: email,
         subject: title + ' - onlineauction.com',
@@ -47,7 +46,7 @@ router.get('/:id', async (req, res) => {
     const folder = "./public/imgs/sp/" + id + '/';
     const img_files = fs.readdirSync(folder);
 
-    var imgs = []
+    let imgs = []
     let i = 0;
     img_files.forEach((file) => {
         imgs.push({file_name: file, ProID: id, active: i === 0});
@@ -71,7 +70,7 @@ router.get('/:id', async (req, res) => {
         his.Score = s[0].score || 0;
         his.Time = moment(his.Time).format('DD/MM/YYYY hh:mm:ss')
     }
-    var isSeller = false;
+    let isSeller = false;
     if (res.locals.auth === true) {
         isSeller = sellers.length !== 0 && sellers[0].ID === res.locals.authUser.ID;
     }
@@ -88,7 +87,8 @@ router.get('/:id', async (req, res) => {
         imgs,
         isSeller: isSeller,
         empty: sameCat.length === 0,
-        minPrice: +highestPrice + +pro[0].Step_price
+        minPrice: +highestPrice + +pro[0].Step_price,
+        err_message: req.flash("bid_success")
     })
 })
 router.post('/:id', auth, async (req, res) => {
@@ -110,7 +110,7 @@ router.post('/:id', auth, async (req, res) => {
         return res.redirect('/product/' + ProID);
     }
 
-    var err_message = null;
+    let err_message = null;
     const t = await bidModel.getTop2(ProID);
     if (t.length > 0) {
         if (t[0].BID === BID) {
@@ -166,6 +166,7 @@ router.post('/:id', auth, async (req, res) => {
                 await productModel.updateEndTime(ProID, EndDate);
             }
         }
+        req.flash("bid_success", "You have bid this product successfully!")
         return res.redirect('/product/' + ProID);
     }
 })

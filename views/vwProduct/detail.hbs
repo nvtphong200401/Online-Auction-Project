@@ -6,7 +6,9 @@
         $(document).ready(function () {
             remainingDate('time-left', "{{this.product.EndDate}}");
             uploadDate('start-day', '{{this.product.UploadDate}}');
-
+            {{#if err_message}}
+                alert("{{err_message}}");
+            {{/if}}
             $('#carousel-example').on('slide.bs.carousel', function (e) {
                 /*
                     CC 2.0 License Iatek LLC 2018 - Attribution required
