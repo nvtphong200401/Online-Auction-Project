@@ -13,55 +13,28 @@
                 <!-- Personal-Information -->
                 <div class="card-box text-center">
 
-                    {{#with authUser}}
+                    {{#with userInfo}}
                         <img src="/public/imgs/avatar/0/avatar1.png" class="rounded-circle avatar-xl img-thumbnail"
                              alt="profile-image">
 
                         <div>
-                            <h4 class="mb-0">{{FullName}}</h4>
+                            <h4 class="mb-0">{{format_name FullName}}</h4>
 
                         </div>
-                        <p class="text-muted">@{{Username}}</p>
-
-                        <a href="/watchlist" type="button"
-                           class="btn btn-outline-danger btn-xs waves-effect mb-2 waves-light">
-                            <i class="fa fa-shopping-cart mr-2" aria-hidden="true"></i>Watchlist
-                        </a>
-
-                        <br>
-
-                        <a href="/bidder/product/list/active" type="button"
-                           class="btn btn-outline-success btn-xs waves-effect mb-2 waves-light">
-                            <i class="fa fa-history mr-2" aria-hidden="true"></i>History
-                        </a>
+                        <p class="text-muted">@{{format_username Username}}</p>
 
                         <hr>
                         <div class="text-left mt-3">
                             <div>
-                                <h6 class="font-20 text-uppercase d-inline mr-1">Your information
-                                    <a href="profile/edit" class="badge badge-primary mb-2">Edit</a>
-                                </h6>
+                                <h6 class="font-20 text-uppercase d-inline mr-1">User information </h6>
 
                             </div>
 
-                            <p class="text-muted mb-2 font-13"><strong>Username :</strong> <span
-                                    class="ml-2">{{Username}}</span></p>
+                            <p class="text-muted mb-2 font-13 mt-2"><strong>Username :</strong> <span
+                                    class="ml-2">{{format_username Username}}</span></p>
 
                             <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span
-                                    class="ml-2">{{FullName}}</span></p>
-
-                            <p class="text-muted mb-2 font-13"><strong>DOB :</strong> <span class="ml-2">{{format_date
-                                    DOB}}</span></p>
-
-                            <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span
-                                    class="ml-2 ">{{Email}}</span></p>
-
-                            <p class="text-muted mb-1 font-13"><strong>Permission :</strong>
-                                <span class="ml-2">{{#if Role}}
-                                    Bidder/Seller
-                                {{else}}
-                                    Bidder
-                                {{/if}}</span></p>
+                                    class="ml-2">{{format_name FullName}}</span></p>
                         </div>
                     {{/with}}
                 </div> <!-- end card-box -->
@@ -77,7 +50,7 @@
                                 <h2 class="">+{{good}}<img class="emoji" src="/public/imgs/emoji/+1.png" alt=""></h2>
                                 <span
                                         class="badge badge-custom">{{per_good}}% </span><span
-                                        class="text-muted"> People likes you</span>
+                                        class="text-muted"> People likes user</span>
                             </div>
                         </div>
                         <!-- end col -->
@@ -87,7 +60,7 @@
                                 <h2 class="">-{{bad}}<img class="emoji" src="/public/imgs/emoji/-1.png" alt=""></h2>
                                 <span
                                         class="badge badge-danger">{{per_bad}}% </span><span
-                                        class="text-muted"> People hates you</span>
+                                        class="text-muted"> People hates user</span>
                             </div>
                         </div>
                         <!-- end col -->
@@ -131,7 +104,7 @@
                         {{/if}}
                         {{#each commentList}}
                             <div class="">
-                                <h5 class="text-custom">@{{Username}}
+                                <h5 class="text-custom">@{{format_username Username}}
                                     {{#if Score}}
                                         <img class="emoji" src="/public/imgs/emoji/+1.png" alt="">
                                     {{else}}
@@ -139,7 +112,6 @@
                                     {{/if}}
                                 </h5>
                                 <p><b>{{format_date_calendar Date}}</b></p>
-                                <p class="mb-0">{{ProName}}</p>
                                 <p class="text-muted font-13 mb-0">{{Opinion}}</p>
                             </div>
                             <hr>

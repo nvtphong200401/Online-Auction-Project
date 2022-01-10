@@ -3,6 +3,7 @@ import express, { query } from "express";
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from "../models/users_model.js";
+import commentModel from "../models/comment.model.js";
 
 
 const router = express.Router();
@@ -84,14 +85,45 @@ router.get('/byCat/:id/:page', async function (req, res) {
     });
 });
 
-router.get('/user/:id', function (req, res) {
-    const userId = req.params.id || 0;
-    const userInfo = userModel.findById(userId);
+router.get('/user/:id', async function (req, res) {
 
-    res.render('vwBidder/info', {
-        layout: 'main',
-        userInfo: userInfo
-    });
+    if (typeof (req.session.auth) === 'undefined') {
+        req.session.auth = false;
+    }
+    if (req.session.auth === false) {
+        res.redirect('/auth');
+    } else {
+        // get comment
+        const id = req.params.id || 0;
+
+        if (+id === req.session.authUser.ID) {
+            return res.redirect('/bidder/profile');
+        }
+        const userInfo = await userModel.findByID(id) || null;
+
+        if (userInfo.length === null)
+            return res.redirect('/unknown');
+        const commentList = await commentModel.findComment(id, true, 1, 5)
+
+        const nGoodComment = await commentModel.countGoodComment(id)
+        const nBadComment = await commentModel.countBadComment(id)
+        const nTotal = await commentModel.countComment(id)
+        const overall = {
+            'good': nGoodComment,
+            'per_good': nTotal !== 0 ? (nGoodComment / nTotal * 100).toFixed(0) : 0,
+            'bad': nBadComment,
+            'per_bad': nTotal !== 0 ? (nBadComment / nTotal * 100).toFixed(0) : 0,
+        }
+        overall.total_per = nTotal !== 0 ? overall.per_good : null;
+        overall.accept = overall.per_good > 80;
+
+        res.render('vwBidder/profile_guest', {
+            layout: 'main',
+            userInfo,
+            overall,
+            commentList
+        });
+    }
 });
 
 router.get('/search', async (req, res) => {

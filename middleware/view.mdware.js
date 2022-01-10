@@ -25,6 +25,10 @@ export default function (app) {
                 const n = str.length;
                 return '****' + str[n-1];
             },
+            format_username(username) {
+                const split = username.length / 2;
+                return username.replace(username.slice(0, split), "***");
+            },
             section: hbs_sections()
         }
     }));
