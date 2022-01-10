@@ -191,8 +191,8 @@ export default {
         return list;
     },
     searchOr(query){
-        return db('product').join('category', 'product.CatID', 'category.CatID')
-            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(category.CatName) AGAINST(N'${query}')`);
+        return db('product').distinct('product.ProID', 'product.ProName', 'product.UploadDate', 'product.EndDate', 'product.Buy_now').join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
+            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')`);
     },
     searchAnd(proName, catName){
         return db('product').join('category', 'product.CatID', 'category.CatID')
