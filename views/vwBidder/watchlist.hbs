@@ -83,7 +83,8 @@
                                                             class="img-fluid mb-4 mr-3">
                                                         <h3><strong>Your Cart is Empty</strong></h3>
                                                         <h4>Add something to make me happy :)</h4>
-                                                        <a href="/" class="btn btn-outline-success cart-btn-transform m-3"
+                                                        <a href="/"
+                                                           class="btn btn-outline-success cart-btn-transform m-3"
                                                            data-abc="true">
                                                             Continue shopping</a>
                                                     </div>
@@ -101,9 +102,7 @@
                                                                 <th>Product Name</th>
                                                                 <th class="text-center">Highest bid</th>
                                                                 <th class="text-center">Buy now</th>
-                                                                <th class="text-center"><a
-                                                                        class="btn btn-sm btn-outline-danger" href="#">Clear
-                                                                    Cart</a></th>
+                                                                <th class="text-center">Delete</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -111,33 +110,36 @@
                                                                 <tr>
                                                                     <td>
                                                                         <div class="product-item">
-                                                                            <a class="product-thumb" href="http://localhost:3000/product/{{ProID}}"><img
+                                                                            <a class="product-thumb"
+                                                                               href="http://localhost:3000/product/{{ProID}}"><img
                                                                                     src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg"
                                                                                     alt="Product"></a>
                                                                             <div class="product-info">
-                                                                                <h4 class="product-title"><a href="http://localhost:3000/product/{{ProID}}">
+                                                                                <h4 class="product-title"><a
+                                                                                        href="http://localhost:3000/product/{{ProID}}">
                                                                                     {{ProName}}
                                                                                 </a></h4>
-                                                                                <span>{{TinyDesc}}</span>
-                                                                                <span>End date: <em>{{format_date_calendar
-                                                                                        EndDate}}</em></span>
+                                                                                <span class="text-muted">{{TinyDesc}}</span>
+                                                                                <span class="text-muted">End date: <strong>{{format_date_calendar
+                                                                                        EndDate}}</strong></span>
                                                                             </div>
                                                                         </div>
                                                                     </td>
-                                                                    <td class="text-center text-medium">{{format_number
-                                                                            Current_bid}}
+                                                                    <td class="text-center text-success">
+                                                                        <strong>{{format_number
+                                                                                Current_bid}}</strong>
                                                                     </td>
                                                                     {{#if Buy_now}}
-                                                                        <td class="text-center text-lg text-medium">
-                                                                            {{format_number Buy_now}}
+                                                                        <td class="text-center text-info">
+                                                                            <strong>{{format_number Buy_now}}</strong>
                                                                         </td>
                                                                     {{else}}
-                                                                        <td class="text-center">—</td>
+                                                                        <td class="text-center text-info">—</td>
                                                                     {{/if}}
 
                                                                     <td class="text-center">
                                                                         <a data-id="{{ProID}}"
-                                                                           class="remove-from-cart delItem"
+                                                                           class="btn btn-light remove-from-cart delItem"
                                                                            href="javascript:"
                                                                            data-toggle="tooltip"
                                                                            title=""

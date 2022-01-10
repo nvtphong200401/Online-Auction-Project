@@ -7,7 +7,7 @@
             remainingDate('time-left', "{{this.product.EndDate}}");
             uploadDate('start-day', '{{this.product.UploadDate}}');
             {{#if err_message}}
-                alert("{{err_message}}");
+                $('#successModal').modal('toggle');
             {{/if}}
             $('#carousel-example').on('slide.bs.carousel', function (e) {
                 /*
@@ -51,6 +51,13 @@
             $('#bidprice').on("input", function () {
                 $('#bidprice').val(numeral($('#bidprice').val()).format('0,0'));
             })
+
+
+            $('.addItem').on('click', function (e) {
+                const id = $(this).data('id');
+                $('#txtProID').val(id);
+                $('#frmAddItem').submit();
+            });
         });
     </script>
 
@@ -212,6 +219,18 @@
                                             <button type="submit" class="btn btn-outline-success" id="btnBid">
                                                 Yes, please!
                                             </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Congratulation Modal -->
+                            <div class="modal fade" id="successModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="card">
+                                        <div class="card-body text-center"> <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">
+                                            <h4>CONGRATULATIONS!</h4>
+                                            <p>{{err_message}}!</p> <button class="btn btn-info">CONTINUE</button>
                                         </div>
                                     </div>
                                 </div>

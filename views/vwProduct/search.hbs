@@ -99,25 +99,22 @@
                             </div>
                             <div>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <button class="btn btn-outline-secondary {{#if sortByPrice}}
+                                    <a class="btn btn-outline-secondary {{#if sortByPrice}}
                                         active
-                                    {{/if}}">
-                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=Price">
+                                    {{/if}}"
+                                        href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=Price">
                                         <i class="fa fa-arrow-up mr-1"
                                            aria-hidden="true"><span name="options" id="price"> Giá</span></i>
-
-                                        </a>
-                                    </button>
-                                    <button class="btn btn-outline-secondary {{#if sortByDate}}
+                                    </a>
+                                    <a class="btn btn-outline-secondary {{#if sortByDate}}
                                         active
-                                    {{/if}}">
-                                        <a href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=EndDate">
+                                    {{/if}}"
+                                       href="./search?q={{this.q}}&CatName={{this.CatName}}&filter=EndDate">
                                         <i class="fa fa-arrow-down mr-1"
                                            aria-hidden="true">
                                             <span onclick="submitForm(this)" name="options"
                                                   id="time"> Thời gian</span></i>
-                                        </a>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
