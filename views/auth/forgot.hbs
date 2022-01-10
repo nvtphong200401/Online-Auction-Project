@@ -1,11 +1,5 @@
 <form class="Forgot" method="post" action="./getNewPassword">
-  <a href="./getNewPassword">test</a>
-  <div class="form-group input-group">
-    <div class="input-group-prepend">
-      <span class="input-group-text"><i class="fa fa-envelope" aria-hidden="true"></i></span>
-    </div>
-    <input type="email" class="form-control" value="{{email}}" name="Email" readonly>
-  </div>
+  <input type="hidden" name="token" value="{{token}}">
   <div class="form-group input-group">
     <div class="input-group-prepend">
       <span class="input-group-text"><i class="fa fa-key" aria-hidden="true"></i></span>

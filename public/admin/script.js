@@ -26,15 +26,25 @@ function Edit(button) {
     
     $('#formEdit').attr('action', './category/edit/' + CatID);
 }
-function EditUser(button) {
-    const Username = $(button).parent().parent().find('.Username').html();
-    const UserID = $(button).parent().parent().find('.UserID').html();
+function ResetPassword(button) {
+    // const Username = $(button).parent().parent().find('.Username').html();
+    // const UserID = $(button).parent().parent().find('.UserID').html();
     const Email = $(button).parent().parent().find('.Email').html();
-    $('#editUser').modal();
-    $('#EditUserID').val(UserID);
-    $('#EditUsername').val(Username);
-    $('#EditEmail').val(Email);
-    $('#formEdit').attr('action', './user/edit/' + UserID);
+    fetch("http://localhost:3000/auth/requestNewPassword", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            "Email": Email
+        })
+    });
+    $('#resetUser').modal();
+    // $('#editUser').modal();
+    // $('#EditUserID').val(UserID);
+    // $('#EditUsername').val(Username);
+    // $('#EditEmail').val(Email);
+    // $('#formEdit').attr('action', './user/edit/' + UserID);
 }
 
 function DeleteCat(button, ID) {

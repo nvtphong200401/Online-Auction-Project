@@ -74,7 +74,7 @@ async function sendEmail(email, token, verify) {
     from: 'dragonslayers248@gmail.com',
     to: email,
     subject: 'Email verification - onlineauction.com',
-    html: '<p>You requested for email verification, kindly use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> ' + purpose + '</p>'
+    html: '<p>Please use this <a href="http://localhost:3000/auth/' + link + '?token=' + token + '">link</a> ' + purpose + '</p>'
 
   };
   const info = await mail.sendMail(mailOptions);
@@ -129,19 +129,30 @@ router.get('/getNewPassword', async (req, res) => {
   const result = await verifyModel.verify_email(req.query.token);
   if (result.length > 0) {
     await verifyModel.removeToken(result[0].email)
+    //create new token
+    const newToken = randToken.generate(20);
+      const verification = {
+        email: req.body.Email,
+        token: newToken,
+      }
+      await verifyModel.add(verification);
     return res.render('auth/forgot', {
-      email: result[0].email,
+      token: newToken,
       layout: 'auth'
     });
   }
   res.redirect('/auth')
 })
 router.post('/getNewPassword', async (req, res) => {
-  const email = req.body.Email;
+  const token = req.body.token;
+  const rs = await verifyModel.verify_email(token);
+  const email = rs[0].email;
+
   const rawPassword = req.body.Password;
   const salt = bcrypt.genSaltSync(10);
   const newPassword = bcrypt.hashSync(rawPassword, salt);
   await userModel.setNewPassword(email, newPassword);
+  verifyModel.removeToken(email);
   req.flash("success", "Please use new password to continue");
   res.redirect('/auth')
 })
@@ -323,12 +334,21 @@ async (req, res) => {
 
 router.get('/is-available', async function (req, res) {
   const username = req.query.user;
-  const user = await userModel.findByUsername(username);
-  if (user === null) {
-    return res.json(true);
+  if (username !== undefined) {
+    const user = await userModel.findByUsername(username);
+    if (user !== null) {
+      return res.json(false);
+    }
+  }
+  const email = req.query.email;
+  if (email !== undefined) {
+    const e = await userModel.findByEmail(email);
+    if (e.length > 0) {
+      return res.json(false);
+    }
   }
 
-  res.json(false);
+  res.json(true);
 });
 
 router.post('/logout', async function (req, res) {

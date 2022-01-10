@@ -448,3 +448,7 @@ footer hr {
     background-color: #28a745;
     border-color: #2baa48;
 }
+
+nav {
+    background-image: url('../img/background.jpg');
+}

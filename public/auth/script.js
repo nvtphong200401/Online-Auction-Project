@@ -41,14 +41,13 @@ $(document).ready(function () {
     const username = $('#txtUsername').val();
     const password = $('#txtPassword').val();
     const rePassword = $('#txtRePassword').val();
-    // var eighteenYearsAgo = moment().subtract(18, "years");
-    // const dob = $('#txtDOB').val();
-    // console.log(eighteenYearsAgo);
-    // console.log(dob);
-    // if(!eighteenYearsAgo.isAfter(dob)){
-    //   alert("Sorry you cannot join with us");
-    //   return;
-    // }
+    const email = $('#txtEmail').val();
+    var eighteenYearsAgo = moment().subtract(18, "years");
+    const dob = $('#txtDOB').val();
+    if(!eighteenYearsAgo.isAfter(moment(dob))){
+      alert("Sorry you cannot join with us");
+      return;
+    }
     if (username.length === 0) {
       alert('Invalid data!');
       return;
@@ -67,6 +66,13 @@ $(document).ready(function () {
     $.getJSON(`/auth/is-available?user=${username}`, function (data) {
       if (data === false) {
         alert('Invalid username ! Please choose another username');
+      } else {
+        $('.show3').off('submit').submit();
+      }
+    });
+    $.getJSON(`/auth/is-available?email=${email}`, function (data) {
+      if (data === false) {
+        alert('This email has already use ! Please choose another email');
       } else {
         $('.show3').off('submit').submit();
       }

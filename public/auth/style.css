@@ -40,3 +40,7 @@
     color: white;
     margin-bottom: 3px;
   }
+body {
+    background-image: url('../img/background.jpg');
+    background-size: 100%;
+}
