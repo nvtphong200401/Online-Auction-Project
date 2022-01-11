@@ -71,8 +71,10 @@ router.get('/:id', async (req, res) => {
         his.Time = moment(his.Time).format('DD/MM/YYYY hh:mm:ss')
     }
     let isSeller = false;
+    let isUser = false;
     if (res.locals.auth === true) {
-        isSeller = sellers.length !== 0 && sellers[0].ID === res.locals.authUser.ID;
+        isUser = true;
+        isSeller = (sellers.length !== 0) && (sellers[0].ID === res.locals.authUser.ID);
     }
     const sameCat = await productModel.proSameCat(pro[0].CatID, id);
     const highestPrice = await productModel.getCurrentBid(id);
@@ -85,7 +87,8 @@ router.get('/:id', async (req, res) => {
         bid_his: bid_his || 0,
         sameCat,
         imgs,
-        isSeller: isSeller,
+        isSeller,
+        isUser,
         empty: sameCat.length === 0,
         minPrice: +highestPrice + +pro[0].Step_price,
         err_message: req.flash("bid_success")
