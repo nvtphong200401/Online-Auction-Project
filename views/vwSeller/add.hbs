@@ -6,43 +6,60 @@
     <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
+            max_chars: 801,
+            setup: function(ed) {
+                var allowedKeys = [8, 37, 38, 39, 40, 46]; // backspace, delete and cursor keys
+                ed.on('keydown', function (e) {
+                    if (allowedKeys.indexOf(e.keyCode) != -1) return true;
+                    if (tinymce_getContentLength() + 1 > this.settings.max_chars) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                    return true;
+                });
+                ed.on('keyup', function () {
+                    tinymce_updateCharCounter(this, tinymce_getContentLength());
+                });
+            },
+            init_instance_callback: function () { // initialize counter div
+                $('#rchars_full').text(tinymce.get(tinymce.activeEditor.id).settings.max_chars);
+                tinymce_updateCharCounter(this, tinymce_getContentLength());
+            },
+            paste_preprocess: function (plugin, args) {
+                var editor = tinymce.get(tinymce.activeEditor.id);
+                var len = editor.contentDocument.body.innerText.length;
+                var text = $(args.content).text();
+                if (len + text.length > editor.settings.max_chars) {
+                    alert('Pasting this exceeds the maximum allowed number of characters');
+                    args.content = '';
+                } else {
+                    tinymce_updateCharCounter(editor, len + text.length);
+                }
+            },
             selector: '#FullDesc',
             plugins: 'paste image link autolink lists table media',
             menubar: false,
             toolbar: ['undo redo | bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link media'],
         });
 
+        function tinymce_updateCharCounter(el, len) {
+            $('#rchars_full').text(el.settings.max_chars - len);
+        }
+
+        function tinymce_getContentLength() {
+            return tinymce.get(tinymce.activeEditor.id).contentDocument.body.innerText.length;
+        }
+
         $(function() {
             var $form = $('#addForm'),
-                    $start_date = $('#UploadDate', $form),
                     $end_date = $('#EndDate', $form),
                     $button = $('.submit', $form);
             $button.prop('disabled', 'disabled');
 
-            $start_date.on('change', function () {
-                var startDate = new Date($(this).val());
-                var endDate = new Date($end_date.val());
-                if (startDate >= endDate) {
-                    alert(`Start date must be before End date`);
-                    $(this).val('');
-                    $button.prop('disabled', 'disabled');
-                } else if (startDate < Date.now()) {
-                    alert(`Start date must be after the moment`);
-                    $(this).val('');
-                    $button.prop('disabled', 'disabled');
-                } else {
-                    $button.prop('disabled', false);
-                }
-            });
-
             $end_date.on('change', function () {
-                var startDate = new Date($start_date.val());
                 var endDate = new Date($(this).val());
-                if (endDate <= startDate) {
-                    alert(`End date must be after Start date`);
-                    $(this).val('');
-                    $button.prop('disabled', 'disabled');
-                } else if (endDate < Date.now()) {
+                if (endDate < Date.now()) {
                     alert(`End date must be after the moment`);
                     $(this).val('');
                     $button.prop('disabled', 'disabled');
@@ -63,7 +80,7 @@
             $file_upload.on('change', function () {
                 var number_of_images = $(this)[0].files.length;
                 if (number_of_images > max_file_number) {
-                    alert(`You can upload maximum ${max_file_number} product images files.`);
+                    alert(`You can upload maximum ${max_file_number} product images files`);
                     $(this).val('');
                     $button.prop('disabled', 'disabled');
                 } else if (number_of_images < min_file_number) {
@@ -77,31 +94,14 @@
         });
 
         $(function () {
-            var $form = $('#addForm'),
-                    $full_desc = $('#FullDesc', $form),
-                    $button = $('.submit', $form);
-            $button.prop('disabled', 'disabled');
-
-            $full_desc.on('change', function() {
-                var body = tinymce.get('FullDesc').getBody(),
-                        text = tinymce.trim(body.innerText || body.textContent);
-                var chars = text.length;
-                console.log(chars);
-                if (chars < 200) {
-                    alert("You need to enter 200 characters or more");
-                    $(this).val('');
-                    $button.prop('disabled', 'disabled');
-                } else if (chars > 1000) {
-                    alert("You need to enter less than 1000 characters");
-                    $(this).val('');
-                    $button.prop('disabled', 'disabled');
-                } else {
-                    $button.prop('disabled', false);
-                }
+            var maxLength = 150;
+            $('#TinyDesc').keyup(function() {
+                var textlen = maxLength - $(this).val().length;
+                $('#rchars_tiny').text(textlen);
             });
         });
 
-        (function() {
+        $(function() {
             'use strict';
             window.addEventListener('load', function() {
                 var forms = document.getElementsByClassName('needs-validation');
@@ -148,6 +148,12 @@
                                         {{/each}}
                                     </select>
                                 </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="EndDate">End date</label>
+                                    <input type="datetime-local" class="form-control" id="EndDate" name="EndDate"
+                                           required>
+                                    <div class="invalid-feedback">You must not leave this field blank</div>
+                                </div>
                             </div>
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
@@ -169,33 +175,21 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="UploadDate">Start date</label>
-                                    <input type="datetime-local" class="form-control" id="UploadDate" name="UploadDate"
-                                           required>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="EndDate">End date</label>
-                                    <input type="datetime-local" class="form-control" id="EndDate" name="EndDate"
-                                           required>
-                                    <div class="invalid-feedback">You must not leave this field blank</div>
-                                </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="TinyDesc">Brief description</label>
                                     <textarea rows="3" type="text" maxlength="150" class="form-control" id="TinyDesc" name="TinyDesc"
                                               placeholder="Write an overview of your product" required></textarea>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
+                                    <div class="small text-success"><span id="rchars_tiny">150</span> character(s) remaining</div>
                                 </div>
                             </div>
                             <div class="form-row">
                                 <div class="col mb-3">
                                     <label for="FullDesc">Full description</label>
-                                    <textarea rows="10" type="text" minlength="200" maxlength="1000" class="form-control" id="FullDesc" name="FullDesc"
+                                    <textarea rows="10" type="text" class="form-control" id="FullDesc" name="FullDesc"
                                               placeholder="Write in detail to describe your product" required></textarea>
                                     <div class="invalid-feedback">You must not leave this field blank</div>
+                                    <div class="small text-success"><span id="rchars_full"></span> character(s) remaining</div>
                                 </div>
                             </div>
                             <div class="form-row">
@@ -204,11 +198,13 @@
                                     <input type="file" id="thumbnail" name="thumbnail"
                                            required>
                                 </div>
+                                <div class="invalid-feedback">You must provide product's main thumbnail</div>
                                 <div class="col-md-4 mb-3">
                                     <label for="subImages">Product images</label>
                                     <input type="file" id="subImages" name="subImages"
                                            required multiple>
                                 </div>
+                                <div class="invalid-feedback">You must provide at least 3 sub images for the product</div>
                             </div>
                             <div class="form-group">
                                 <div class="form-check text-left">

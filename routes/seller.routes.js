@@ -251,6 +251,7 @@ router.post('/product/add', async function (req, res) {
         product.CatID = await categoryModel.findByCatName(product.CatName);
         product.ProID = newProID;
         product.Status = 0;
+        product.UploadDate = moment().format('YYYY-MM-DD HH:mm:ss');
         delete product.CatName;
 
         if (product.AutoTime === undefined) {
