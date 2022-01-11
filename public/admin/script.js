@@ -1,4 +1,3 @@
-
 var table;
 var editor;
 $(document).ready(function () {

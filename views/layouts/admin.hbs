@@ -27,22 +27,17 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light">
-        <a class="navbar-brand" href="http://localhost:3000/admin/" style="font-size: 1.5rem;">Home</a>
+    <nav class="navbar navbar-expand-sm navbar-light mb-0 d-flex justify-content-between">
+        <a class="navbar-brand font-weight-bolder ml-md-3 mr-md-5" href="http://localhost:3000/admin/" style="font-size: 1.5rem;">Admin Panel</a>
         <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
             aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation"></button>
-        <div class="collapse navbar-collapse" id="collapsibleNavId">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                
-            </ul>
-        </div>
         <div class="dropdown open">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="triggerId" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
                 <i class="fa fa-cog" aria-hidden="true"></i>
             </button>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="triggerId">
-                <a class="dropdown-item" href="/"><i class="fa fa-sign-out" aria-hidden="true"></i>Return
+                <a class="dropdown-item" href="/"><i class="fa fa-sign-out" aria-hidden="true"></i> Return
                     to user role</a>
             </div>
         </div>
@@ -51,14 +46,13 @@
         <div class="row mt-4 mb-5">
             <div class="col-sm-2">
                 <ul class="list-group">
-
-                    <li id="man_category" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/category"><i
-                                class="fa fa-list" aria-hidden="true"></i> Category management</a></li>
-                    <li id="man_product" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/product"><i
+                    <li id="man_category" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/category" class="text-success"><i
+                                class="fa fa-list te" aria-hidden="true"></i> Category management</a></li>
+                    <li id="man_product" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/product" class="text-success"><i
                                 class="fa fa-product-hunt" aria-hidden="true"></i> Product management</a></li>
-                    <li id="man_user" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/user"><i
+                    <li id="man_user" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/user" class="text-success"><i
                                 class="fa fa-user" aria-hidden="true"></i> User management</a></li>
-                    <li id="man_pending" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/pending"><i
+                    <li id="man_pending" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/pending" class="text-success"><i
                                 class="fa fa-spinner" aria-hidden="true"></i> Waiting for approval</a></li>
                 </ul>
             </div>

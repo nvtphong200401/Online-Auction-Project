@@ -3,20 +3,16 @@
     console.log($('#man_category').addClass('list-group-item-primary'))
 </script>
 {{/section}}
-<div class="card border-primary">
-    <div class="card-header p-4" style="background-color: #2fbdd3;">
+<div class="card border-success">
+    <div class="card-header p-4" style="background-color: #eff5e9;">
         <div class="d-flex justify-content-between">
-            <div>
-        <i class="fa fa-desktop" aria-hidden="true"></i> Category management
-
+            <div><i class="fa fa-list" aria-hidden="true"></i> Category management</div>
+            <div><a class="btn btn-sm btn-success" onclick="toggleModal()" href="javascript:;"
+                    role="button">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    Add category
+                </a>
             </div>
-
-        <div ><a class="btn btn-sm btn-success" onclick="toggleModal()" href="javascript:;"
-                role="button">
-                <i class="fa fa-plus" aria-hidden="true"></i>
-                Add Category
-            </a>
-        </div>
         </div>
         <div class="modal fade" id="addCat" role="dialog">
             <div class="modal-dialog">
@@ -29,7 +25,6 @@
                     </div>
                     <div class="modal-body">
                         <form id="formAdd" method="post" action="./category/add">
-                        <p><a href="./category/add">test</a></p>
                             <div class="form-group">
                                 <input type="text" name="CatName" class="form-control" placeholder="Category name"
                                     aria-describedby="helpId">
@@ -64,7 +59,7 @@
                             </div>
                             <div class="form-group input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Category Name</span>
+                                    <span class="input-group-text">Category name</span>
                                 </div>    
                                 <input id="EditCatName" class="form-control" type="text" name="CatName" class="form-control"
                                     aria-describedby="helpId">
@@ -85,7 +80,7 @@
             <thead>
                 <tr>
                     <th scope="col" class="w-25 text-center">ID</th>
-                    <th scope="col" class="w-50">CateName</th>
+                    <th scope="col" class="w-50">Category name</th>
                     <th scope="col" class="w-10 text-center">Edit</th>
                     <th scope="col" class="w-10 text-center">Delete</th>
                 </tr>
@@ -93,12 +88,12 @@
             <tbody>
                 {{#each this.cates}}
                 <tr class="row-{{CatID}}">
-                    <th scope="row">{{CatID}}</th>
+                    <th scope="row" class="text-center">{{CatID}}</th>
                     <td class="CatName">
                         {{#if CatParent}}
                         {{CatName}}
                         {{else}}
-                        <a href="./category/{{CatID}}/">{{CatName}}</a>
+                        <a href="./category/{{CatID}}/" class="text-success">{{CatName}}</a>
                         {{/if}}
                     </td>
                     <td class="text-center">
@@ -147,7 +142,7 @@
     </div>
     <span class="card-footer">
         {{#if this.has_pre}}
-        <button onclick="history.back()" class="btn btn-primary float-left" role="button">Go back</button>
+        <button onclick="history.back()" class="btn btn-success float-left" role="button">Go back</button>
         {{/if}}
 
 

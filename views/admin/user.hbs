@@ -3,24 +3,24 @@
     console.log($('#man_user').addClass('list-group-item-primary'))
 </script>
 {{/section}}
-<div class="card border-primary">
-    <div class="card-header p-4" style="background-color: #2fbdd3;">
+<div class="card border-success">
+    <div class="card-header p-4" style="background-color: #eff5e9;">
         <i class="fa fa-user" aria-hidden="true"></i> User management
         <span class="float-right">
             <div class="dropdown">
-                <button class="btn btn-success dropdown-toggle" type="button" data-toggle="dropdown"><i
+                <button class="btn btn-success dropdown-toggle small" type="button" data-toggle="dropdown"><i
                         class="fa fa-filter" aria-hidden="true"></i> Filter
                 </button>
                 <ul class="dropdown-menu text-center">
                     <li>
-                        <a href="http://localhost:3000/admin/user/?filter=All"> <i class="fa fa-user"
+                        <a href="http://localhost:3000/admin/user/?filter=All" class="text-success"> <i class="fa fa-user"
                                                                                    aria-hidden="true"></i> All</a>
                     </li>
                     <li>
-                        <a href="http://localhost:3000/admin/user/?filter=Bidder"><i class="fa fa-gavel"
+                        <a href="http://localhost:3000/admin/user/?filter=Bidder" class="text-success"><i class="fa fa-gavel"
                                                                                      aria-hidden="true"></i> Bidder</a>
                     </li>
-                    <li><a href="http://localhost:3000/admin/user/?filter=Seller"><i class="fa fa-user-secret"
+                    <li><a href="http://localhost:3000/admin/user/?filter=Seller" class="text-success"><i class="fa fa-user-secret"
                                                                                      aria-hidden="true"></i> Seller</a></li>
                 </ul>
             </div>

@@ -3,50 +3,17 @@
     console.log($('#man_pending').addClass('list-group-item-primary'))
 </script>
 {{/section}}
-{{!-- <div class="card border-primary shadow">
-    <div class="card-header p-4" style="background-color: #2fbdd3;">
-        <i class="fa fa-spinner" aria-hidden="true"></i> Pending Seller 
-    </div>
-    <div class="card-body">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#each this.users}}
-                <tr>
-                    <th scope="row">{{ID}}</th>
-                    <td>{{Username}}</td>
-                    <td>{{Email}}</td>
-                    <td class="text-right">
-                        <a onclick="Delete(this, {{ID}})" class="btn btn-danger btn-sm shadow" role="button"><i class="fa fa-times"
-                                aria-hidden="true"></i>
-                            Reject</a>
-                        <a onclick="Approve(this, {{ID}})" class="btn btn-success btn-sm shadow" role="button"><i class="fa fa-check"
-                                aria-hidden="true"></i>
-                            Approve</a>
-                    </td>
-                </tr>
-                {{/each}}
-            </tbody>
-        </table>
-    </div>
-</div> --}}
 
-<div class="card border-primary">
-    <div class="card-header p-4" style="background-color: #2fbdd3;">
+<div class="card border-success">
+    <div class="card-header p-4" style="background-color: #eff5e9;">
         <i class="fa fa-spinner" aria-hidden="true"></i> Pending user
     </div>
     <div class="card-body">
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
+                    <th scope="col" class="text-center">ID</th>
+                    <th scope="col">Full name</th>
                     <th scope="col">Email</th>
                     <th class="text-right"></th>
                 </tr>
@@ -54,7 +21,7 @@
             <tbody>
                 {{#each this.users}}
                 <tr>
-                    <th scope="row">{{ID}}</th>
+                    <th scope="row" class="text-center">{{ID}}</th>
                     <td>{{Username}}</td>
                     <td>{{Email}}</td>
                     <td class="text-right">

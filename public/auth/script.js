@@ -36,7 +36,6 @@ $(document).ready(function () {
 
   $('.show3').on('submit', function (e) {
     e.preventDefault();
-    
 
     const username = $('#txtUsername').val();
     const password = $('#txtPassword').val();
