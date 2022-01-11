@@ -51,25 +51,29 @@
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
+                                    <th>#</th>
+                                    <th>Product name</th>
                                     <th>Category</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th>Highest bid</th>
-                                    <th>Edit</th>
+                                    <th class="text-center">Highest bid</th>
+                                    <th class="text-center">Edit</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     {{#each this.products}}
                                         <tr>
-                                            <td>{{ProID}}</td>
+                                            <td>{{ID}}</td>
                                             <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</a></td>
                                             <td>{{CatName}}</td>
-                                            <td>{{UploadDate}}</td>
-                                            <td>{{EndDate}}</td>
-                                            <td>{{HighestBid}}</td>
-                                            <td>
+                                            <td>{{format_date_ddmmyy UploadDate}}</td>
+                                            <td>{{format_date_ddmmyy EndDate}}</td>
+                                            {{#if hasBid}}
+                                                <td class="text-center">{{format_number HighestBid}}</td>
+                                            {{else}}
+                                                <td class="text-center">{{HighestBid}}</td>
+                                            {{/if}}
+                                            <td class="text-center">
                                                 <a class="btn btn-sm btn-success" href="/seller/product/edit?id={{ProID}}"
                                                 role="button">
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>

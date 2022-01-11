@@ -77,31 +77,31 @@
                             <table class="table table-hovered">
                                 <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
+                                    <th>#</th>
+                                    <th>Product name</th>
                                     <th>Category</th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
-                                    <th>Winner</th>
-                                    <th>Delete</th>
+                                    <th class="text-center">Winner</th>
+                                    <th class="text-center">Cancel</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                     {{#each this.products}}
                                         <tr>
-                                            <td>{{ProID}}</td>
+                                            <td>{{ID}}</td>
                                             <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</a></td>
                                             <td>{{CatName}}</td>
-                                            <td>{{UploadDate}}</td>
-                                            <td>{{EndDate}}</td>
+                                            <td>{{format_date_ddmmyy UploadDate}}</td>
+                                            <td>{{format_date_ddmmyy EndDate}}</td>
                                             {{#if hasWinner}}
                                                 {{#if winnerIsSeller}}
-                                                    <td>{{WinnerName}}</td>
+                                                    <td class="text-center">{{WinnerName}}</td>
                                                 {{else}}
                                                     {{#if isCommented}}
-                                                        <td>{{WinnerName}}</td>
+                                                        <td class="text-center">{{WinnerName}}</td>
                                                     {{else}}
-                                                        <td>
+                                                        <td class="text-center">
                                                             <a href="#"
                                                                class="editable"
                                                                data-toggle="popover"
@@ -142,10 +142,9 @@
                                                     {{/if}}
                                                 {{/if}}
                                             {{else}}
-                                                <td>None</td>
+                                                <td class="text-center">None</td>
                                             {{/if}}
-
-                                            <td>
+                                            <td class="text-center">
                                                 <form method="post">
                                                     <label for="ProID" hidden>ProID</label>
                                                     <input type="text" class="form-control" id="ProID" name="ProID" value="{{ProID}}" hidden>
@@ -154,7 +153,7 @@
                                                     <label for="SID" hidden>SID</label>
                                                     <input type="text" class="form-control" id="SID" name="SID" value="{{SID}}" hidden>
                                                     <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/product/delete">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        <i class="fa fa-close" aria-hidden="true"></i>
                                                     </button>
                                                 </form>
                                             </td>
