@@ -228,9 +228,12 @@ export default {
         return db.select('MaxPrice').from('bid_system').where('ProID', ProID).andWhere('BID', BID);
     },
     getWinner(ProID){
-        return db('user').join('product', 'user.ID', 'product.winner').where('ProID', ProID);
+        return db('user').join('product', 'user.ID', 'product.Winner').where('ProID', ProID);
     },
     buyNow(ProID, BID){
         return db('product').where('ProID', ProID).update({'EndDate': moment().format('YYYY-MM-DD HH:mm:ss'), 'Winner' : BID});
+    },
+    cancelTransaction(ProID) {
+        return db('product').where('ProID', ProID).update('Winner', null);
     }
 }

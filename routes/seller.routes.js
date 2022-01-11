@@ -181,7 +181,7 @@ router.post('/product/delete', async function (req, res) {
     fs.rmdir(folder, (err) => {
         if (err) throw err;
     });
-    await productModel.del(comment.ProID);
+    await productModel.cancelTransaction(comment.ProID);
     if (comment.ID2 !== '' && comment.ID2 !== comment.ID1) {
         await commentModel.addComment(comment);
     }
