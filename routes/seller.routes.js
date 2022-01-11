@@ -13,15 +13,14 @@ import bidModel from "../models/bid.model.js";
 const router = express.Router();
 
 function sendEmail(email, message, title) {
-    var email = email;
-    var mail = nodemailer.createTransport({
+    let mail = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: 'dragonslayers248@gmail.com',
             pass: 'matkhauvip'
         }
     });
-    var mailOptions = {
+    let mailOptions = {
         from: 'dragonslayers248@gmail.com',
         to: email,
         subject: title + ' - onlineauction.com',

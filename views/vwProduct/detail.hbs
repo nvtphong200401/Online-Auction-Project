@@ -253,7 +253,6 @@
                                 {{else}}
                                     Unavailable to buy
                                 {{/if}}
-
                             </h5>
                         </div>
                     </div>
@@ -288,7 +287,11 @@
                 <div class="tab-pane fade" id="info" role="tabpanel" aria-labelledby="info-tab">
                     <div class="row mt-3">
                         <div class="col-sm-4">
-                            <h5 class="text-center">{{this.seller.FullName}}</h5>
+                            {{#if isUser}}
+                                <h5 class="text-center"><a href="/user/{{this.seller.ID}}" class="text-success">{{this.seller.Username}}</a></h5>
+                            {{else}}
+                                <h5 class="text-center">{{this.seller.Username}}</h5>
+                            {{/if}}
                         </div>
                         <div class="col-sm-1">
                             <div class="vl"></div>
@@ -311,7 +314,10 @@
                                     <th scope="col">Giá</th>
                                     <th scope="col" class="text-center">Điểm đánh giá</th>
                                     {{#if this.isSeller}}
-                                        <th scope="col">Từ chối</th>
+                                        {{#if this.product.Status}}
+                                        {{else}}
+                                            <th scope="col">Từ chối</th>
+                                        {{/if}}
                                     {{/if}}
                                 </tr>
                                 </thead>
@@ -319,25 +325,32 @@
                                 {{#each this.bid_his}}
                                 <tr>
                                     <td>{{Time}}</td>
-                                    <td>{{{format_name FullName}}}</td>
+                                    {{#if ../isSeller}}
+                                        <td><a href="/user/{{BID}}" class="text-success">{{format_name FullName}}</a></td>
+                                    {{else}}
+                                        <td>{{{format_name FullName}}}</td>
+                                    {{/if}}
                                     <td>{{Price}}</td>
                                     <td class="text-center">{{Score}}</td>
                                     {{#if ../isSeller}}
-                                        <td>
-                                            <form method="post">
-                                                <label for="ProID" hidden>ProID</label>
-                                                <input type="text" class="form-control" id="ProID" name="ProID"
-                                                       value="{{../product.ProID}}" hidden>
-                                                <label for="BID" hidden>BID</label>
-                                                <input type="text" class="form-control" id="BID" name="BID"
-                                                       value="{{BID}}"
-                                                       hidden>
-                                                <button type="submit" class="btn btn-sm btn-danger"
-                                                        formaction="/seller/deny_bidder/">
-                                                    <i class="fa fa-close" aria-hidden="true"></i>
-                                                </button>
-                                            </form>
-                                        </td>
+                                        {{#if ../product.Status}}
+                                        {{else}}
+                                            <td>
+                                                <form method="post">
+                                                    <label for="ProID" hidden>ProID</label>
+                                                    <input type="text" class="form-control" id="ProID" name="ProID"
+                                                           value="{{../product.ProID}}" hidden>
+                                                    <label for="BID" hidden>BID</label>
+                                                    <input type="text" class="form-control" id="BID" name="BID"
+                                                           value="{{BID}}"
+                                                           hidden>
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                            formaction="/seller/deny_bidder/">
+                                                        <i class="fa fa-close" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        {{/if}}
                                     {{/if}}
                                 </tr>
                                 {{/each}}
