@@ -162,7 +162,7 @@ router.post('/review', async function (req, res) {
     await commentModel.addComment(comment);
     res.redirect('/seller/product/list/sold');
 });
-router.post('/product/delete', async function (req, res) {
+router.post('/product/cancel', async function (req, res) {
     const comment = {
         ID1: req.body.SID,
         ID2: req.body.Winner,
