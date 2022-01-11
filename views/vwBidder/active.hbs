@@ -41,11 +41,12 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th class="text-left">Category</th>
-                                                <th class="text-left">End Date</th>
+                                                <th>Product name</th>
+                                                <th>Category</th>
+                                                <th>Start date</th>
+                                                <th>End date</th>
                                                 <th class="text-center">Highest bid</th>
-                                                <th class="text-center">Current bid</th>
+                                                <th class="text-center">Your bid</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -53,10 +54,11 @@
                                                 <tr {{#if active}}class="bg-warning"{{/if}}>
                                                     <td>{{ID}}</td>
                                                     <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</a></td>
-                                                    <td class="text-left">{{CatName}}</td>
-                                                    <td class="text-left">{{format_date_ddmmyy EndDate}}</td>
-                                                    <td class="text-center">{{HighestBid}}</td>
-                                                    <td class="text-center">{{CurrentBid}}</td>
+                                                    <td>{{CatName}}</td>
+                                                    <td>{{format_date_ddmmyy UploadDate}}</td>
+                                                    <td>{{format_date_ddmmyy EndDate}}</td>
+                                                    <td class="text-center">{{format_number HighestBid}}</td>
+                                                    <td class="text-center">{{format_number CurrentBid}}</td>
                                                 </tr>
                                             {{/each}}
                                             </tbody>

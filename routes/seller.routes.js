@@ -67,17 +67,18 @@ router.get('/product/list/active', async function (req, res) {
             }
 
             const productList = await productModel.findSellerActivePage(SID, limit, offset);
+            let i = 1;
             for (const product of productList) {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;
+                product.ID = i++;
                 const highestBid = await productModel.findHighestBID(product.ProID);
                 if (highestBid === null) {
                     product.HighestBid = "None";
                 } else {
                     product.HighestBid = highestBid.Price;
+                    product.hasBid = true;
                 }
-                product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
-                product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
             }
             res.render('vwSeller/active', {
                 err_message: req.flash('add_fail'),
@@ -85,7 +86,7 @@ router.get('/product/list/active', async function (req, res) {
                 products: productList,
                 pageNumbers,
                 empty: productList.length === 0,
-                isExSeller: res.locals.exSeller
+                isExSeller: res.locals.exSeller,
             });
         }
     }
@@ -118,11 +119,11 @@ router.get('/product/list/sold', async function (req, res) {
             }
 
             const productList = await productModel.findSoldPage(SID, limit, offset);
+            let i = 1;
             for (const product of productList) {
                 const cat = await categoryModel.findByPro(product.ProID);
                 product.CatName = cat[0].CatName;
-                product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
-                product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+                product.ID = i++;
                 if (product.Winner !== null) {
                     const winner = await userModel.findByID(product.Winner);
                     product.WinnerName = winner.Username;
@@ -187,7 +188,6 @@ router.post('/product/delete', async function (req, res) {
     res.redirect('/seller/product/list/sold');
 });
 router.post('/product/edit', async function (req, res) {
-    //TODO: add maxLength js validation later
     const ProID = req.body.ProID;
     const product = await productModel.findById(ProID);
     var FullDesc = product[0].FullDesc;
@@ -222,7 +222,6 @@ router.get('/product/edit', async function (req, res) {
     }
 });
 router.post('/product/add', async function (req, res) {
-    //TODO: add maxLength js validation later
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
     fs.mkdir('./public/imgs/sp/' + newProID, {recursive: true}, (err) => {

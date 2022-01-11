@@ -191,11 +191,11 @@ router.get('/product/list/won', async function (req, res) {
         }
 
         const productList = await productModel.findWonPage(BID, limit, offset);
+        let i = 1;
         for (const product of productList) {
             const cat = await categoryModel.findByPro(product.ProID);
             product.CatName = cat[0].CatName;
-            product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
-            product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+            product.ID = i++;
             const seller = await userModel.findByID(product.SID);
             const price = await productModel.findHighestBID(product.ProID);
             product.Price = price.Price;
@@ -256,6 +256,7 @@ router.get('/product/list/active', async function (req, res) {
         for (const product of productList) {
             const cat = await categoryModel.findByPro(product.ProID);
             product.CatName = cat[0].CatName;
+            product.ID = i++;
             const highestBid = await productModel.findHighestBID(product.ProID);
             const currentBid = await productModel.findCurrentBid(BID, product.ProID);
             product.CurrentBid = currentBid[0].MaxPrice;
@@ -264,9 +265,6 @@ router.get('/product/list/active', async function (req, res) {
             } else {
                 product.HighestBid = highestBid.Price;
             }
-            product.ID = i++;
-            product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
-            product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
             product.active = +highestBid.BID === +req.session.authUser.ID
         }
         res.render('vwBidder/active', {
