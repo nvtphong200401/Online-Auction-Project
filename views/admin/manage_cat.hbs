@@ -1,3 +1,8 @@
+{{#section 'js'}}
+<script>
+    console.log($('#man_category').addClass('list-group-item-primary'))
+</script>
+{{/section}}
 <div class="card border-primary">
     <div class="card-header p-4" style="background-color: #2fbdd3;">
         <div class="d-flex justify-content-between">
@@ -79,9 +84,10 @@
         <table id="catTable" class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">CateName</th>
-                    <th class="text-right"></th>
+                    <th scope="col" class="w-25 text-center">ID</th>
+                    <th scope="col" class="w-50">CateName</th>
+                    <th scope="col" class="w-10 text-center">Edit</th>
+                    <th scope="col" class="w-10 text-center">Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -95,17 +101,19 @@
                         <a href="./category/{{CatID}}/">{{CatName}}</a>
                         {{/if}}
                     </td>
-                    <td class="text-right">
+                    <td class="text-center">
                         <a onclick="Edit(this)" class="edit btn btn-warning btn-sm shadow" href="#"
                             role="button"><i class="fa fa-pencil" aria-hidden="true"></i>
-                            Edit</a>
+                            </a>
+                    </td>
+                    <td class="text-center">
                         {{#if deletable}}
 
                         {{else}}
 
                         <button onclick="DeleteCat(this, {{CatID}})" class="delete btn btn-danger btn-sm shadow" href="#"
                             role="button"><i class="fa fa-trash" aria-hidden="true"></i>
-                            Delete</a>
+                            </a>
                             {{/if}}
                     </td>
                 </tr>

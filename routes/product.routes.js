@@ -174,7 +174,8 @@ router.post('/:id', auth, async (req, res) => {
     }
 })
 router.post('/buy/:id', auth, async (req, res) => {
-    return res.redirect('/product/' + req.params.id)
+    await productModel.buyNow(req.params.id, req.session.authUser.ID);
+    return res.redirect('/product/' + req.params.id);
 })
 
 // perform check on expired product for winner and email user if necessary
@@ -185,11 +186,12 @@ setInterval(async () => {
         if (product.EndDate < now && product.Status === 0) {
             await productModel.setSold(product.ProID);
             const seller = await userModel.findByID(product.SID);
-            const winner = await productModel.findHighestBID(product.ProID);
+            const winner = await productModel.getWinner(product.ProID) || await productModel.findHighestBID(product.ProID);
             if (winner === null) {
                 sendEmail(seller.Email, `Your product ${product.ProName} has ended but no one seems to bid on it !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
             } else {
+                console.log(winner);
                 await productModel.addWinner(winner.ID, product.ProID);
                 sendEmail(seller.Email, `Your product ${product.ProName} has been sold to ${winner.FullName} !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");

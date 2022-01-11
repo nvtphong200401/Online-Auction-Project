@@ -192,25 +192,25 @@ export default {
     },
     searchOr(query){
         return db('product').join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
-            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')`);
+            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}') AND product.EndDate > NOW()`);
     },
     searchAnd(query, catName){
         return db('product').join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
-            .whereRaw(`(MATCH(product.ProName) AGAINST('${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')) AND (c1.CatName = '${catName}' OR c2.CatName = '${catName}')`);
+            .whereRaw(`(MATCH(product.ProName) AGAINST('${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')) AND (c1.CatName = '${catName}' OR c2.CatName = '${catName}') product.EndDate > NOW()`);
     },
     searchAndFilter(query, catName, filter){
         return db('product').distinct('product.ProID', 'product.ProName', 'product.UploadDate', 'product.EndDate', 'product.Buy_now').join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
             .join('bid_history', 'product.ProID', 'bid_history.ProID')
-            .whereRaw(`(MATCH(product.ProName) AGAINST('${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')) AND (c1.CatName = '${catName}' OR c2.CatName = '${catName}')`).orderBy(filter);
+            .whereRaw(`(MATCH(product.ProName) AGAINST('${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')) AND (c1.CatName = '${catName}' OR c2.CatName = '${catName}') product.EndDate > NOW()`).orderBy(filter);
     },
     searchOrFilter(query, filter){
         if (filter === "EndDate"){
             return db('product').join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
-                .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')`).orderBy(filter ,'asc');
+                .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}') product.EndDate > NOW()`).orderBy(filter ,'asc');
         }
         return db('bid_history').distinct('product.ProID', 'product.ProName', 'product.UploadDate', 'product.EndDate', 'product.Buy_now').rightJoin('product', 'product.ProID', 'bid_history.ProID')
         .join('category as c1', 'product.CatID', 'c1.CatID').join('category as c2', 'c2.CatID', 'c1.CatParent')
-            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}')`).orderBy(filter);
+            .whereRaw(`MATCH(product.ProName) AGAINST(N'${query}') OR MATCH(c1.CatName) AGAINST(N'${query}') OR MATCH(c2.CatName) AGAINST(N'${query}') product.EndDate > NOW()`).orderBy(filter);
     },
     getSeller(ProID){
         return db('user').join('product', 'product.SID', 'user.ID').whereRaw(`user.Role > 0 and product.ProID = ${ProID}`);
@@ -226,5 +226,11 @@ export default {
     },
     findCurrentBid(BID, ProID) {
         return db.select('MaxPrice').from('bid_system').where('ProID', ProID).andWhere('BID', BID);
+    },
+    getWinner(ProID){
+        return db('user').join('product', 'user.ID', 'product.winner').where('ProID', ProID);
+    },
+    buyNow(ProID, BID){
+        return db('product').where('ProID', ProID).update({'EndDate': moment().format('YYYY-MM-DD HH:mm:ss'), 'Winner' : BID});
     }
 }

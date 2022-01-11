@@ -1,3 +1,8 @@
+{{#section 'js'}}
+<script>
+    console.log($('#man_product').addClass('list-group-item-primary'))
+</script>
+{{/section}}
 <div class="card border-primary">
     <div class="card-header p-4" style="background-color: #2fbdd3;">
         <i class="fa fa-desktop" aria-hidden="true"></i> Product management
@@ -11,26 +16,23 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Upload date</th>
-                    <th scope="col">End date</th>
-                    <th class="text-right"></th>
+                    <th scope="col" class="w-25 text-center">ID</th>
+                    <th scope="col" class="w-25">Product Name</th>
+                    <th scope="col" class="w-25">Upload date</th>
+                    <th scope="col" class="w-25">End date</th>
+                    <th class="text-center w-25">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each this.products}}
                 <tr class="row-{{ProID}}">
-                    <th scope="row">{{ProID}}</th>
+                    <th scope="row" class="text-center">{{ProID}}</th>
                     <td>{{ProName}}</td>
-                    <td>{{CatID}}</td>
                     <td>{{UploadDate}}</td>
                     <td>{{EndDate}}</td>
-                    <td class="text-right">
-                        
+                    <td class="text-center">
                         <button onclick="Delete(this, {{ProID}})" class="delete btn btn-danger btn-sm shadow" type="submit"><i class="fa fa-trash" aria-hidden="true"></i>
-                            delete</button>
+                        </button>
                     </td>
                 </tr>
                 {{/each}}
