@@ -228,9 +228,11 @@
                             <div class="modal fade" id="successModal" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="card">
-                                        <div class="card-body text-center"> <img src="https://img.icons8.com/bubbles/200/000000/trophy.png">
+                                        <div class="card-body text-center"><img
+                                                src="https://img.icons8.com/bubbles/200/000000/trophy.png">
                                             <h4>CONGRATULATIONS!</h4>
-                                            <p>{{err_message}}!</p> <button class="btn btn-info">CONTINUE</button>
+                                            <p>{{err_message}}!</p>
+                                            <button class="btn btn-info">CONTINUE</button>
                                         </div>
                                     </div>
                                 </div>
@@ -288,7 +290,8 @@
                     <div class="row mt-3">
                         <div class="col-sm-4">
                             {{#if isUser}}
-                                <h5 class="text-center"><a href="/user/{{this.seller.ID}}" class="text-success">{{this.seller.Username}}</a></h5>
+                                <h5 class="text-center"><a href="/user/{{this.seller.ID}}"
+                                                           class="text-success">{{this.seller.Username}}</a></h5>
                             {{else}}
                                 <h5 class="text-center">{{this.seller.Username}}</h5>
                             {{/if}}
@@ -304,9 +307,9 @@
                 </div>
                 <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <div class="bidder mt-3">
-                        <h5 style="color: rgb(187, 82, 82)">Danh sách bidder</h5>
-                        <table class="table table-hover">
-                            {{#if this.bid_his}}
+                        {{#if this.bid_his}}
+                            <h5 style="color: rgb(187, 82, 82)">Danh sách bidder</h5>
+                            <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th scope="col">Thời điểm</th>
@@ -321,46 +324,58 @@
                                     {{/if}}
                                 </tr>
                                 </thead>
-                            <tbody>
+                                <tbody>
                                 {{#each this.bid_his}}
-                                <tr>
-                                    <td>{{Time}}</td>
-                                    {{#if ../isSeller}}
-                                        <td><a href="/user/{{BID}}" class="text-success">{{format_name FullName}}</a></td>
-                                    {{else}}
-                                        <td>{{{format_name FullName}}}</td>
-                                    {{/if}}
-                                    <td>{{Price}}</td>
-                                    <td class="text-center">{{Score}}</td>
-                                    {{#if ../isSeller}}
-                                        {{#if ../product.Status}}
-                                        {{else}}
-                                            <td>
-                                                <form method="post">
-                                                    <label for="ProID" hidden>ProID</label>
-                                                    <input type="text" class="form-control" id="ProID" name="ProID"
-                                                           value="{{../product.ProID}}" hidden>
-                                                    <label for="BID" hidden>BID</label>
-                                                    <input type="text" class="form-control" id="BID" name="BID"
-                                                           value="{{BID}}"
-                                                           hidden>
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                            formaction="/seller/deny_bidder/">
-                                                        <i class="fa fa-close" aria-hidden="true"></i>
-                                                    </button>
-                                                </form>
+                                    <tr>
+                                        <td>{{Time}}</td>
+                                        {{#if ../isSeller}}
+                                            <td><a href="/user/{{BID}}" class="text-success">{{format_name
+                                                    FullName}}</a>
                                             </td>
+                                        {{else}}
+                                            <td>{{{format_name FullName}}}</td>
                                         {{/if}}
-                                    {{/if}}
-                                </tr>
+                                        <td>{{Price}}</td>
+                                        <td class="text-center">{{Score}}</td>
+                                        {{#if ../isSeller}}
+                                            {{#if ../product.Status}}
+                                            {{else}}
+                                                <td>
+                                                    <form method="post">
+                                                        <label for="ProID" hidden>ProID</label>
+                                                        <input type="text" class="form-control" id="ProID" name="ProID"
+                                                               value="{{../product.ProID}}" hidden>
+                                                        <label for="BID" hidden>BID</label>
+                                                        <input type="text" class="form-control" id="BID" name="BID"
+                                                               value="{{BID}}"
+                                                               hidden>
+                                                        <button type="submit" class="btn btn-sm btn-danger"
+                                                                formaction="/seller/deny_bidder/">
+                                                            <i class="fa fa-close" aria-hidden="true"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            {{/if}}
+                                        {{/if}}
+                                    </tr>
                                 {{/each}}
-                            {{else}}
+                                </tbody>
+                            </table>
+                        {{else}}
                             <h4 class="d-flex justify-content-center">
-                                <i>Empty</i>
+                                <div class="text-center mb-1">
+                                    <img src="/public/imgs/picture/no-bid.png" alt="No comments here"
+                                         style="width: 60%; height: auto">
+                                </div>
+                                <h4 class="text-center">Welcome to AuctionX</h4>
+                                <div class="text-center text-secondary mt-2">
+                                    <em>There is no one bidding this product yet.</em>
+                                </div>
+                                <div class="text-center mt-4 text-dark">
+                                    <strong>Time to be the first bidder!</strong>
+                                </div>
                             </h4>
-                            {{/if}}
-                        </tbody>
-                        </table>
+                        {{/if}}
                     </div>
                 </div>
             </div>
@@ -395,14 +410,14 @@
                                     <div class="details">
                                         {{#if HighestBID}}
                                             <a href="/user/{{HighestBID.ID}}" class="user">
-                                    <div class="user-photo">
-                                        <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
-                                    </div>
-                                    <div class="name" data-toggle="tooltip" data-placement="top"
-                                         title="{{{format_name HighestBID.FullName}}}">
-                                        {{{format_name HighestBID.FullName}}}
-                                    </div>
-                                </a>
+                                                <div class="user-photo">
+                                                    <img alt="Thumb" src="/public/imgs/avatar/0/avatar1.png">
+                                                </div>
+                                                <div class="name" data-toggle="tooltip" data-placement="top"
+                                                     title="{{{format_name HighestBID.FullName}}}">
+                                                    {{{format_name HighestBID.FullName}}}
+                                                </div>
+                                            </a>
                                         {{else}}
                                             <div class="user">
                                                 <div class="name">No bidder!</div>

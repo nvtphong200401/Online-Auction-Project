@@ -122,10 +122,9 @@
 
                     <div class="card-body">
                         {{#if this.empty}}
-                            <h5 class="card-title">No product found</h5>
-                            <p class="card-text">There is no product in this category yet. <br>Please come back later
-                                :(
-                            </p>
+                            <div class="text-center mb-5">
+                                <img src="https://i.pinimg.com/originals/20/d3/8b/20d38b1d0d3304dd80adc2e4029278ac.png" alt="No active products here" style="width: 100%; height: auto">
+                            </div>
                         {{else}}
                             <form action="/watchlist/add" method="post" id="frmAddItem">
                                 <input type="hidden" id="txtProID" name="id">

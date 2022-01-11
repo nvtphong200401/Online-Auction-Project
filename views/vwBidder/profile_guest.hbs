@@ -21,7 +21,7 @@
                             <h4 class="mb-0">{{format_name FullName}}</h4>
 
                         </div>
-                        <p class="text-muted">@{{format_username Username}}</p>
+                        <p class="text-muted">@{{Username}}</p>
 
                         <hr>
                         <div class="text-left mt-3">
@@ -31,7 +31,7 @@
                             </div>
 
                             <p class="text-muted mb-2 font-13 mt-2"><strong>Username :</strong> <span
-                                    class="ml-2">{{format_username Username}}</span></p>
+                                    class="ml-2">{{Username}}</span></p>
 
                             <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span
                                     class="ml-2">{{format_name FullName}}</span></p>
@@ -99,12 +99,14 @@
                     <hr>
 
                     <div class="">
-                        {{#if commentList}}
-                            <div></div>
+                        {{#if empty}}
+                            <div class="text-center mb-1">
+                                <img src="/public/imgs/picture/no-message.png" alt="No comments here" style="width: 80%; height: auto">
+                            </div>
                         {{/if}}
                         {{#each commentList}}
                             <div class="">
-                                <h5 class="text-custom">@{{format_username Username}}
+                                <h5 class="text-custom">@{{Username}}
                                     {{#if Score}}
                                         <img class="emoji" src="/public/imgs/emoji/+1.png" alt="">
                                     {{else}}

@@ -121,7 +121,8 @@ router.get('/user/:id', async function (req, res) {
             layout: 'main',
             userInfo,
             overall,
-            commentList
+            commentList,
+            empty: commentList.length === 0
         });
     }
 });
@@ -195,7 +196,8 @@ router.get('/search', async (req, res) => {
         filter: filter.trim(),
         sortByPrice: filter === "Price",
         sortByDate: filter === "EndDate",
-        CatName: CatName.trim()
+        CatName: CatName.trim(),
+        empty: prod.length === 0
     })
 })
 

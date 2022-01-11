@@ -63,7 +63,8 @@ router.get('/profile', async function (req, res) {
         res.render('vwBidder/profile', {
             layout: 'main',
             overall,
-            commentList
+            commentList,
+            empty: commentList.length === 0
         });
     }
 });

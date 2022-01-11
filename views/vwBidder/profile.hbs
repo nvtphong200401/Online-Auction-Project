@@ -126,8 +126,10 @@
                     <hr>
 
                     <div class="">
-                        {{#if commentList}}
-                            <div></div>
+                        {{#if empty}}
+                            <div class="text-center mb-1">
+                                <img src="/public/imgs/picture/no-message.png" alt="No comments here" style="width: 80%; height: auto">
+                            </div>
                         {{/if}}
                         {{#each commentList}}
                             <div class="">
