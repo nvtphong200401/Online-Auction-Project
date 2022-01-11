@@ -171,19 +171,14 @@ router.post('/product/delete', async function (req, res) {
         Opinion: 'Người thắng không thanh toán',
         ProID: req.body.ProID,
     }
-    const folder = "./public/imgs/sp/" + comment.ProID + '/';
-    const img_files = fs.readdirSync(folder);
-    img_files.forEach((file) => {
-        fs.unlink(folder + file, (err) => {
-            if (err) throw err;
-        });
-    });
-    fs.rmdir(folder, (err) => {
-        if (err) throw err;
-    });
     await productModel.cancelTransaction(comment.ProID);
     if (comment.ID2 !== '' && comment.ID2 !== comment.ID1) {
-        await commentModel.addComment(comment);
+        const isCommented = await commentModel.isCommented(comment.ID1, comment.ID2, comment.ProID);
+        if (isCommented) {
+            await commentModel.updateComment(comment.ID1, comment.ID2, comment.ProID, comment.Opinion, comment.Score);
+        } else {
+            await commentModel.addComment(comment);
+        }
     }
     res.redirect('/seller/product/list/sold');
 });

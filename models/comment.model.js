@@ -62,6 +62,10 @@ export default {
     async isCommented(ID1, ID2, ProID) {
         const existsComment = await db('comment').where('ID1', ID1).andWhere('ID2', ID2).andWhere('ProID', ProID);
         return existsComment[0] !== undefined;
+    },
+    updateComment(ID1, ID2, ProID, Opinion, Score) {
+        return db('comment').where('ID1', ID1).andWhere('ID2', ID2).andWhere('ProID', ProID)
+            .update({'Opinion': Opinion, 'Score': Score});
     }
 }
 
