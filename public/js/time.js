@@ -8,9 +8,6 @@ $(document).ready(function () {
         $('.bid').show('500');
         $('.buy').hide('500');
     });
-    if ($('.time-left').html() === 'END') {
-        $('.bidForm').html('<h5 style="display: inline; color:red">Unavailable to bid</h5>')
-    }
 });
 function timeDifference(current, previous) {
 
@@ -66,6 +63,8 @@ const remainingDate = function (className, endTime) {
                 if (elapsed < 1*msPerMinute) {
                     if (elapsed <= 0) {
                         $('.' + className).html('END');
+                        $('.bidForm').html('<h5 style="display: inline; color:red">Unavailable to bid</h5>')
+                        $('.buyForm').html('<h5 style="display: inline; color:red">Unavailable to bid</h5>')
                     }
                     // hien giay
                     else {
@@ -132,6 +131,7 @@ const f = function (className, endTime) {
         // If the count down is over, write some text
         if (distance < 0) {
             $('.' + className).html("Ended");
+            console.log($('.bidForm'))
             $('.' + className).addClass('text-danger');
             clearInterval(x);
         }

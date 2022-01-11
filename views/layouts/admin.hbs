@@ -22,6 +22,8 @@
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
     <script src="/public/admin/script.js"></script>
+    {{{_sections.css}}}
+    
 </head>
 
 <body>
@@ -50,13 +52,13 @@
             <div class="col-sm-2">
                 <ul class="list-group">
 
-                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/category"><i
+                    <li id="man_category" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/category"><i
                                 class="fa fa-list" aria-hidden="true"></i> Category management</a></li>
-                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/product"><i
+                    <li id="man_product" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/product"><i
                                 class="fa fa-product-hunt" aria-hidden="true"></i> Product management</a></li>
-                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/user"><i
+                    <li id="man_user" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/user"><i
                                 class="fa fa-user" aria-hidden="true"></i> User management</a></li>
-                    <li class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/pending"><i
+                    <li id="man_pending" class="list-group-item list-group-item-action"><a href="http://localhost:3000/admin/pending"><i
                                 class="fa fa-spinner" aria-hidden="true"></i> Waiting for approval</a></li>
                 </ul>
             </div>
@@ -66,5 +68,5 @@
         </div>
     </div>
 </body>
-
+{{{_sections.js}}}
 </html>
