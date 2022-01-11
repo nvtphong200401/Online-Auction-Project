@@ -91,7 +91,8 @@ router.get('/:id', async (req, res) => {
         isUser,
         empty: sameCat.length === 0,
         minPrice: +highestPrice + +pro[0].Step_price,
-        err_message: req.flash("bid_success")
+        err_message: req.flash("bid_success"),
+
     })
 })
 router.post('/:id', auth, async (req, res) => {

@@ -40,25 +40,23 @@
                                         <table class="table table-hover">
                                             <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>#</th>
                                                 <th>Name</th>
-                                                <th>Category</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
-                                                <th>Highest bid</th>
-                                                <th>Current bid</th>
+                                                <th class="text-left">Category</th>
+                                                <th class="text-left">End Date</th>
+                                                <th class="text-center">Highest bid</th>
+                                                <th class="text-center">Current bid</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             {{#each this.products}}
-                                                <tr>
-                                                    <td>{{ProID}}</td>
+                                                <tr {{#if active}}class="bg-warning"{{/if}}>
+                                                    <td>{{ID}}</td>
                                                     <td><a href="/product/{{ProID}}" class="text-success">{{ProName}}</a></td>
-                                                    <td>{{CatName}}</td>
-                                                    <td>{{UploadDate}}</td>
-                                                    <td>{{EndDate}}</td>
-                                                    <td>{{HighestBid}}</td>
-                                                    <td>{{CurrentBid}}</td>
+                                                    <td class="text-left">{{CatName}}</td>
+                                                    <td class="text-left">{{format_date_ddmmyy EndDate}}</td>
+                                                    <td class="text-center">{{HighestBid}}</td>
+                                                    <td class="text-center">{{CurrentBid}}</td>
                                                 </tr>
                                             {{/each}}
                                             </tbody>

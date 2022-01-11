@@ -252,6 +252,7 @@ router.get('/product/list/active', async function (req, res) {
         }
 
         const productList = await productModel.findBidderActivePage(BID, limit, offset);
+        let i = 1;
         for (const product of productList) {
             const cat = await categoryModel.findByPro(product.ProID);
             product.CatName = cat[0].CatName;
@@ -263,8 +264,10 @@ router.get('/product/list/active', async function (req, res) {
             } else {
                 product.HighestBid = highestBid.Price;
             }
+            product.ID = i++;
             product.UploadDate = moment(product.UploadDate).format("DD/MM/YYYY HH:mm:ss");
             product.EndDate = moment(product.EndDate).format("DD/MM/YYYY HH:mm:ss");
+            product.active = +highestBid.BID === +req.session.authUser.ID
         }
         res.render('vwBidder/active', {
             layout: 'main',
