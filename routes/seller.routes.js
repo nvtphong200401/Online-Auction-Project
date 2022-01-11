@@ -259,6 +259,9 @@ router.post('/product/add', async function (req, res) {
         if (product.AllowAll === undefined) {
             product.AllowAll = 0;
         }
+        if (product.Buy_now === '') {
+            product.Buy_now = null;
+        }
         await productModel.addProduct(product);
         if (err) {
             console.log(err);
