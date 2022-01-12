@@ -145,19 +145,23 @@
                                                 <td class="text-center">None</td>
                                             {{/if}}
                                             {{#if hasWinner}}
-                                                <td class="text-center">
-                                                    <form method="post">
-                                                        <label for="ProID" hidden>ProID</label>
-                                                        <input type="text" class="form-control" id="ProID" name="ProID" value="{{ProID}}" hidden>
-                                                        <label for="Winner" hidden>Winner</label>
-                                                        <input type="text" class="form-control" id="Winner" name="Winner" value="{{Winner}}" hidden>
-                                                        <label for="SID" hidden>SID</label>
-                                                        <input type="text" class="form-control" id="SID" name="SID" value="{{SID}}" hidden>
-                                                        <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/product/cancel">
-                                                            <i class="fa fa-close" aria-hidden="true"></i>
-                                                        </button>
-                                                    </form>
-                                                </td>
+                                                {{#if winnerIsSeller}}
+                                                    <td class="text-center">None</td>
+                                                {{else}}
+                                                    <td class="text-center">
+                                                        <form method="post">
+                                                            <label for="ProID" hidden>ProID</label>
+                                                            <input type="text" class="form-control" id="ProID" name="ProID" value="{{ProID}}" hidden>
+                                                            <label for="Winner" hidden>Winner</label>
+                                                            <input type="text" class="form-control" id="Winner" name="Winner" value="{{Winner}}" hidden>
+                                                            <label for="SID" hidden>SID</label>
+                                                            <input type="text" class="form-control" id="SID" name="SID" value="{{SID}}" hidden>
+                                                            <button type="submit" class="btn btn-sm btn-danger" formaction="/seller/product/cancel">
+                                                                <i class="fa fa-close" aria-hidden="true"></i>
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                {{/if}}
                                             {{else}}
                                                 <td class="text-center">None</td>
                                             {{/if}}
