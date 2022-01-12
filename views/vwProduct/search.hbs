@@ -10,12 +10,6 @@
         function submitForm(button) {
             $(button).parent('form').submit();
         }
-
-        $('.addItem').on('click', function (e) {
-            const id = $(this).data('id');
-            $('#txtProID').val(id);
-            $('#frmAddItem').submit();
-        });
     </script>
 {{/section}}
 {{#section 'css'}}
@@ -126,10 +120,6 @@
                                 <img src="https://i.pinimg.com/originals/20/d3/8b/20d38b1d0d3304dd80adc2e4029278ac.png" alt="No active products here" style="width: 100%; height: auto">
                             </div>
                         {{else}}
-                            <form action="/watchlist/add" method="post" id="frmAddItem">
-                                <input type="hidden" id="txtProID" name="id">
-                                <input type="hidden" name="quantity" value="1">
-                            </form>
                             <div class="row">
                                 {{#each this.related}}
                                     <div class="col-lg-3 col-md-4 col-12 mb-5">

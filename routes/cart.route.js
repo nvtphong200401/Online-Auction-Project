@@ -28,16 +28,15 @@ router.get('/', async function (req, res) {
 
 });
 
-router.post('/add', async function (req, res) {
+router.put('/add', async function (req, res) {
     const item = {
         id: +req.body.id
     }
-
     cartModel.add(req.session.cart, item);
     res.redirect(req.headers.referer);
 });
 
-router.post('/del', async function (req, res) {
+router.put('/del', async function (req, res) {
     cartModel.del(req.session.cart, +req.body.id);
     res.redirect(req.headers.referer);
 });

@@ -51,13 +51,6 @@
             $('#bidprice').on("input", function () {
                 $('#bidprice').val(numeral($('#bidprice').val()).format('0,0'));
             })
-
-
-            $('.addItem').on('click', function (e) {
-                const id = $(this).data('id');
-                $('#txtProID').val(id);
-                $('#frmAddItem').submit();
-            });
         });
     </script>
 
@@ -126,15 +119,12 @@
                             {{this.product.ProName}}
                         </h4>
                         <div>
-                            <form action="/watchlist/add" method="post">
-                                <input type="hidden" name="id" value="{{this.product.ProID}}">
-                                <button class="btn btn-outline-danger btn-sm " role="button"><i class="fa fa-heart"
-                                                                                                aria-hidden="true"></i>
-                                    Add to
-                                    watchlist
+                            <a data-id="{{this.product.ProID}}" class="addItem my-2" href="javascript:">
+                                <button type="button" class="btn btn-outline-danger my-2">
+                                    <i class="fa fa-heart mr-1" aria-hidden="true"></i>
+                                    Add to Watchlist
                                 </button>
-                            </form>
-
+                            </a>
                         </div>
                     </div>
 
@@ -392,10 +382,6 @@
                                 :(">
                 </div>
             {{else}}
-                <form action="/watchlist/add" method="post" id="frmAddItem">
-                    <input type="hidden" id="txtProID" name="id">
-                    <input type="hidden" name="quantity" value="1">
-                </form>
                 <div class="row">
                     {{#each this.sameCat}}
                         <div class="col-lg-3 col-md-4 col-12 mb-5">

@@ -7,8 +7,14 @@
     <script>
         $('.delItem').on('click', function (e) {
             const id = $(this).data('id');
-            $('#txtDelProID').val(id);
-            $('#frmDelItem').submit();
+            deleteCart(id);
+
+            // fade out
+            $(this).closest('tr').find('td').fadeOut('slow',
+                    function(here){
+                        $(here).parents('tr:first').remove();
+                    });
+            return false;
         });
     </script>
 {{/section}}
@@ -90,10 +96,7 @@
                                                     </div>
                                                 </div>
                                             {{else}}
-                                                <form action="/watchlist/del" method="post" id="frmDelItem">
-                                                    <input type="hidden" id="txtDelProID" name="id">
-                                                </form>
-                                                <div class="container padding-bottom-3x mb-1">
+                                                 <div class="container padding-bottom-3x mb-1">
                                                     <!-- Shopping Cart-->
                                                     <div class="table-responsive shopping-cart">
                                                         <table class="table">
@@ -107,7 +110,7 @@
                                                             </thead>
                                                             <tbody>
                                                             {{#each this.items}}
-                                                                <tr>
+                                                                <tr class=".section-cart">
                                                                     <td>
                                                                         <div class="product-item">
                                                                             <a class="product-thumb"
@@ -140,6 +143,7 @@
                                                                     <td class="text-center">
                                                                         <a data-id="{{ProID}}"
                                                                            class="btn btn-light remove-from-cart delItem"
+                                                                           id="section-cart__delete"
                                                                            href="javascript:"
                                                                            data-toggle="tooltip"
                                                                            title=""

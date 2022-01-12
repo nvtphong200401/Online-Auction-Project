@@ -1,5 +1,4 @@
 {{#section 'js'}}
-
     <script crossorigin="anonymous" src="/public/js/time.js"></script>
     <script>
         $(document).ready(function () {
@@ -8,11 +7,6 @@
                 f('time-left-{{ProID}}', "{{EndDate}}");
             {{/each}}
 
-            $('.addItem').on('click', function (e) {
-                const id = $(this).data('id');
-                $('#txtProID').val(id);
-                $('#frmAddItem').submit();
-            });
         });
     </script>
 {{/section}}
@@ -100,10 +94,6 @@
                                     :(
                                 </p> -->
                         {{else}}
-                            <form action="/watchlist/add" method="post" id="frmAddItem">
-                                <input type="hidden" id="txtProID" name="id">
-                                <input type="hidden" name="quantity" value="1">
-                            </form>
                             <div class="row">
                                 {{#each this.product}}
                                     <div class="col-lg-3 col-md-4 col-12 mb-5">
