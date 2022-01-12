@@ -66,7 +66,7 @@ function Delete(button, ID) {
 }
 function Ban(button, ID) {
     //table.row($(button).parents("tr")).remove().draw(false);
-    $(button).attr('class', 'btn btn-success btn-sm shadow').attr('onclick', `Unban(this,${ID})`).html('<i class="fa fa-check" aria-hidden="true"></i> Unban');
+    $(button).attr('class', 'btn btn-success btn-sm shadow').attr('onclick', `Unban(this,${ID})`).html('<i class="fa fa-check" aria-hidden="true"></i>');
     const url = window.location.href + '/del/' + ID;
     console.log(url);
     fetch(url, {
@@ -74,7 +74,7 @@ function Ban(button, ID) {
     })
 }
 function Unban(button, ID) {
-    $(button).attr('class', 'btn btn-danger btn-sm shadow').attr('onclick', `Ban(this,${ID})`).html('<i class="fa fa-trash" aria-hidden="true"></i> Ban');
+    $(button).attr('class', 'btn btn-danger btn-sm shadow').attr('onclick', `Ban(this,${ID})`).html('<i class="fa fa-ban" aria-hidden="true"></i>');
     const url = window.location.href + '/unban/' + ID;
     console.log(url);
     fetch(url, {
@@ -121,7 +121,7 @@ function Cancel(CatID) {
     $(`.row-${CatID}`).toggle();
 }
 function toBidder(button, ID) {
-    $(button).addClass('btn-secondary').removeClass('btn-info').html('<i class="fa fa-arrow-down" aria-hidden="true"></i> To Seller')
+    $(button).addClass('btn-info').attr('onclick', `toSeller(this,${ID})`).removeClass('btn-secondary').html('<i class="fa fa-arrow-up mr-1" aria-hidden="true"></i> Sell')
     const url = window.location.href + '/toBidder/' + ID;
     console.log(url);
     fetch(url, {
@@ -129,7 +129,7 @@ function toBidder(button, ID) {
     })
 }
 function toSeller(button, ID) {
-    $(button).addClass('btn-secondary').removeClass('btn-info').html('<i class="fa fa-arrow-down" aria-hidden="true"></i> To Bidder')
+    $(button).addClass('btn-secondary').attr('onclick', `toBidder(this,${ID})`).removeClass('btn-info').html('<i class="fa fa-arrow-down mr-1" aria-hidden="true"></i> Bid')
     const url = window.location.href + '/toSeller/' + ID;
     console.log(url);
     fetch(url, {
