@@ -360,7 +360,7 @@ router.get('/is-available', async function (req, res) {
     }
   }
 
-  res.json(true);
+  return res.json(true);
 });
 
 router.post('/logout', async function (req, res) {

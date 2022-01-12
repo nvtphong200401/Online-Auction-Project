@@ -59,23 +59,24 @@ $(document).ready(function () {
       alert("Password and Re-Password do not match !");
       return;
     }
-    console.log($('#txtDOB').val());
-    console.log(typeof($('#txtDOB').val()));
 
     $.getJSON(`/auth/is-available?user=${username}`, function (data) {
       if (data === false) {
         alert('Invalid username ! Please choose another username');
-      } else {
-        $('.show3').off('submit').submit();
+        return false;
       }
     });
     $.getJSON(`/auth/is-available?email=${email}`, function (data) {
       if (data === false) {
         alert('This email has already use ! Please choose another email');
-      } else {
+        return false;
+      }
+      else {
         $('.show3').off('submit').submit();
       }
     });
+
+    return false;
   });
 
   $('#txtDOB').datetimepicker({
