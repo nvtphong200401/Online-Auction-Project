@@ -176,6 +176,7 @@ router.post('/:id', auth, async (req, res) => {
 })
 router.post('/buy/:id', auth, async (req, res) => {
     const product = await productModel.findById(req.params.id);
+    var err_message = "";
     if (product[0].AllowAll === 0) {
         // calculate the score of user
         const score = await commentModel.percentGoodComment(req.session.authUser.ID);

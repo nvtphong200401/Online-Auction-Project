@@ -69,7 +69,7 @@ router.get('/product/list/active',auth, async function (req, res) {
                 product.CatName = cat[0].CatName;
                 product.ID = i++;
                 const highestBid = await productModel.findHighestBID(product.ProID);
-                if (highestBid === null) {
+                if (highestBid === undefined) {
                     product.HighestBid = "None";
                 } else {
                     product.HighestBid = highestBid.Price;
@@ -175,7 +175,7 @@ router.post('/product/edit', async function (req, res) {
     const product = await productModel.findById(ProID);
     var FullDesc = product[0].FullDesc;
     const today = moment().format('DD-MM-YYYY');
-    FullDesc += today + '<br>' + req.body.FullDesc;
+    FullDesc += today + '<br>' + req.body.NewDesc;
     await productModel.appendDescription(ProID, FullDesc);
     res.redirect('/seller/product/list/active');
 });
@@ -276,7 +276,7 @@ router.post('/deny_bidder', async function (req, res) {
     await userModel.denyUserOnProduct(BID, ProID);
     await bidModel.deleteBidHistory(BID, ProID);
     await bidModel.deleteBidSystem(BID, ProID);
-    sendEmail(bidder.Email, `Seller ${seller.FullName} has banned you on product ${product[0].ProName} !
+    sendEmail(bidder.Email, `Seller ${seller[0].FullName} has banned you on product ${product[0].ProName} !
                 Go to <a href="http://localhost:3000/product/${product[0].ProID}">here</a> for more information!`, "Bid system")
     res.redirect('/product/' + ProID);
 });

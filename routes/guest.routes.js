@@ -156,10 +156,10 @@ router.get('/search', async (req, res) => {
     await productModel.addDetail(prod);
     if (filter === "Price") {
         function compare(a, b) {
-            if(a.Current_bid < b.Current_bid){
+            if(+a.Current_bid < +b.Current_bid){
                 return -1;
             }
-            else if (a.Current_bid > b.Current_bid) {
+            else if (+a.Current_bid > +b.Current_bid) {
                 return 1;
             }
             return 0;

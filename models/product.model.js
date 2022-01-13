@@ -136,9 +136,20 @@ export default {
         }
         return current_bid;
     },
+    async getBuyBID(ProID){
+        const list = await db('user').join('product', 'user.ID', 'product.Winner').where('ProID', ProID);
+        if (list[0] !== undefined) {
+            list[0].Price = list[0].Buy_now;
+        }
+        return list[0];
+    },
     async findHighestBID(ProID) {
         const list = await this.findBidHistory(ProID);
-        return list[0] || null;
+        const winner = await this.getBuyBID(ProID);
+        if (winner === undefined) {
+            return list[0];
+        }
+        return winner;
     },
 
     async findTopEnd() {
