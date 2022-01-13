@@ -46,18 +46,13 @@
             }
             removeSlide();
 
-            $('#next-1').hover(function () {
+            $('#next-1, #prev-1, #next-2, #prev-2').on("mouseover", function () {
                 $(this).addClass("bg-secondary");
             });
-            $('#prev-1').hover(function () {
-                $(this).addClass("bg-secondary");
-            })
-            $('#next-2').hover(function () {
-                $(this).addClass("bg-secondary");
-            })
-            $('#prev-2').hover(function () {
-                $(this).addClass("bg-secondary");
-            })
+            $('#next-1, #prev-1, #next-2, #prev-2').on("mouseleave", function () {
+                $(this).removeClass("bg-secondary");
+        });
+
 
 
             $('#carousel-example2').on('slide.bs.carousel', function (e) {
