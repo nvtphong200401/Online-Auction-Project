@@ -98,7 +98,6 @@ router.post('/profile/edit', async function (req, res) {
     }
     if (username !== res.locals.authUser.Username) {
         const data = await userModel.findByUsername(username);
-        console.log(data)
         if (data === null) {
             await userModel.editUsername(user.ID, username);
             res.locals.authUser.Username = username;

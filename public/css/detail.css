@@ -204,3 +204,7 @@
         display: block;
     }
 }
+#reviews {
+    height:300px;
+    overflow-y:scroll;
+}

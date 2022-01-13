@@ -3,6 +3,7 @@
 {{/section}}
 
 {{#section 'js'}}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
     <script src="https://cdn.tiny.cloud/1/azrztam7agu8ui1d0jp84lr1lrzyuyayx0nsz6pk99l551lw/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
         tinymce.init({
@@ -92,6 +93,17 @@
                 }
             });
         });
+        $(document).ready(() => {
+            $('#Start_price').on("input", function () {
+                        $('#Start_price').val(numeral($('#Start_price').val()).format('0,0'));
+                    });
+            $('#Step_price').on("input", function () {
+                        $('#Step_price').val(numeral($('#Step_price').val()).format('0,0'));
+                    });
+            $('#Buy_now').on("input", function () {
+                    $('#Buy_now').val(numeral($('#Buy_now').val()).format('0,0'));
+                })
+        })
 
         $(function () {
             var maxLength = 150;
@@ -158,19 +170,19 @@
                             <div class="form-row">
                                 <div class="col-md-4 mb-3">
                                     <label for="Start_price">Start price</label>
-                                    <input type="number" min="0" class="form-control" id="Start_price" name="Start_price" placeholder="VND"
+                                    <input type="text" min="0" class="form-control" id="Start_price" name="Start_price" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="Step_price">Step price</label>
-                                    <input type="number" min="0" class="form-control" id="Step_price" name="Step_price" placeholder="VND"
+                                    <input type="text" min="0" class="form-control" id="Step_price" name="Step_price" placeholder="VND"
                                            required>
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="Buy_now">Buy now price</label>
-                                    <input type="number" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND">
+                                    <input type="text" min="0" class="form-control" id="Buy_now" name="Buy_now" placeholder="VND">
                                     <div class="invalid-feedback">Price should be a positive number</div>
                                 </div>
                             </div>
