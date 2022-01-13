@@ -39,7 +39,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth2": "^0.2.0",
     "pg": "^8.7.1",
-    "rand-token": "^1.0.1"
+    "rand-token": "^1.0.1",
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "express-handlebars-sections": "^1.0.1",

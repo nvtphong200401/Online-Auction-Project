@@ -6,6 +6,8 @@ import categoryModel from '../models/category.model.js';
 import fs from 'fs';
 import moment from 'moment';
 import nodemailer from 'nodemailer';
+import rmd from "rimraf";
+
 const router = express.Router();
 router.get('/', (req,res) => {
     res.redirect('/admin/category')
@@ -140,17 +142,21 @@ router.post('/product/del/:id', async (req, res) => {
     const seller = await ProductModel.getSeller(req.params.id);
     sendEmail(seller[0].Email, "Your product has violated our terms of policy so that we decided to delete it !", "Admin");
     //remove folder and files
-    const folder = "./public/imgs/sp/" + req.params.id + '/';
-    const img_files = fs.readdirSync(folder);
-    img_files.forEach((file) => {
-        fs.unlink(folder + file, (err) => {
-            if (err) throw err;
-        });
-    });
-    fs.rmdir(folder, (err) => {
+    rmd("./public/imgs/sp/" + req.params.id, (err) => {
         if (err) throw err;
     });
     await ProductModel.del(req.params.id);
+    // const folder = "./public/imgs/sp/" + req.params.id + '/';
+    // const img_files = fs.readdirSync(folder);
+    // img_files.forEach((file) => {
+    //     fs.unlink(folder + file, (err) => {
+    //         if (err) throw err;
+    //     });
+    // });
+    // fs.rmdir(folder, (err) => {
+    //     if (err) throw err;
+    // });
+    // await ProductModel.del(req.params.id);
 })
 router.put('/category/edit/:id', async (req, res) => {
     await categoryModel.edit(req.params.id, req.body.CatName);

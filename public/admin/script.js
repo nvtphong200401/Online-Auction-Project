@@ -18,6 +18,7 @@ function Edit(button) {
     else {
         CatName = CatName.html().trim();
     }
+    console.log(CatName);
     const CatID = $(button).parent().parent().find('th').html();
     $('#editCat').modal();
     $('#EditCatID').val(CatID);
@@ -107,7 +108,7 @@ function SaveCat() {
     })
     const t = $(`.row-${CatID}`).find('.CatName');
     if(t.find('a').length){
-        $(`.row-${CatID}`).find('.CatName').html(`<a href="./category/${CatID}">${value}</a>`);
+        $(`.row-${CatID}`).find('.CatName').html(`<a href="./category/${CatID}" class="text-success">${value}</a>`);
     }
     else {
         $(`.row-${CatID}`).find('.CatName').html(value)
