@@ -99,7 +99,7 @@ router.post('/sendverify', async (req, res) => {
     }
   }
   req.flash("success", "Please check verification in your email");
-  res.redirect('/auth');
+  res.redirect('/auth/');
 })
 
 router.post('/requestNewPassword', async (req, res) => {
@@ -120,11 +120,11 @@ router.post('/requestNewPassword', async (req, res) => {
     }
   }
   req.flash("success", "Please check new password in your email");
-  res.redirect('/auth');
+  res.redirect('/auth/');
 })
 router.get('/getNewPassword', async (req, res) => {
   const token = req.query.token;
-  if (token === undefined) res.redirect('/auth');
+  if (token === undefined) res.redirect('/auth/');
 
   const result = await verifyModel.verify_email(req.query.token);
   if (result.length > 0) {
@@ -141,7 +141,7 @@ router.get('/getNewPassword', async (req, res) => {
       layout: 'auth'
     });
   }
-  res.redirect('/auth')
+  res.redirect('/auth/')
 })
 router.post('/getNewPassword', async (req, res) => {
   const token = req.body.token;
@@ -154,7 +154,7 @@ router.post('/getNewPassword', async (req, res) => {
   await userModel.setNewPassword(email, newPassword);
   verifyModel.removeToken(email);
   req.flash("success", "Please use new password to continue");
-  res.redirect('/auth')
+  res.redirect('/auth/')
 })
 router.get('/verify-email', async (req, res) => {
   var type = 'success';
@@ -169,7 +169,7 @@ router.get('/verify-email', async (req, res) => {
     msg = 'Unknown request';
   }
   req.flash(type, msg);
-  return res.redirect('/auth');
+  return res.redirect('/auth/');
 })
 
 router.get('/', (req, res) => {
@@ -282,13 +282,13 @@ router.post('/', async (req, res) => {
 router.get('/facebook', passport.authenticate('facebook', {scope: ['email', 'user_birthday']}));
 router.get('/google', passport.authenticate('google', { scope: [ 'email', 'profile' ] }));
 
-router.get('/google/login', passport.authenticate('google', { failureRedirect: '/auth' }),
+router.get('/google/login', passport.authenticate('google', { failureRedirect: '/auth/' }),
   async (req, res) => {
     var user = {};
     const ID = await userModel.findLastUserID(); 
     user.ID =  +ID + 1;
     user.FullName = req.user.displayName;
-    user.DOB = '';
+    user.DOB = '12/4/1999';
     user.Email = req.user.email;
     user.Verified = 1;
     const li = user.FullName.split(' ');
@@ -313,7 +313,7 @@ router.get('/google/login', passport.authenticate('google', { failureRedirect: '
 });
 
 
-router.get('/facebook/login', passport.authenticate('facebook', { failureRedirect: '/auth' }),
+router.get('/facebook/login', passport.authenticate('facebook', { failureRedirect: '/auth/' }),
 async (req, res) => {
   var user = {};
   const u = req.user._json;

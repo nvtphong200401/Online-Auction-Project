@@ -192,7 +192,6 @@ setInterval(async () => {
                 sendEmail(seller.Email, `Your product ${product.ProName} has ended but no one seems to bid on it !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
             } else {
-                console.log(winner);
                 await productModel.addWinner(winner.ID, product.ProID);
                 sendEmail(seller.Email, `Your product ${product.ProName} has been sold to ${winner.FullName} !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");

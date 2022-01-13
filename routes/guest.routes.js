@@ -4,6 +4,7 @@ import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
 import userModel from "../models/users_model.js";
 import commentModel from "../models/comment.model.js";
+import auth from "../middleware/auth.mdware.js";
 
 
 const router = express.Router();
@@ -85,14 +86,8 @@ router.get('/byCat/:id/:page', async function (req, res) {
     });
 });
 
-router.get('/user/:id', async function (req, res) {
+router.get('/user/:id', auth, async function (req, res) {
 
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
         // get comment
         const id = req.params.id || 0;
 
@@ -124,7 +119,6 @@ router.get('/user/:id', async function (req, res) {
             commentList,
             empty: commentList.length === 0
         });
-    }
 });
 
 router.get('/search', async (req, res) => {

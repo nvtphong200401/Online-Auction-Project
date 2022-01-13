@@ -13,7 +13,7 @@ export default function (app) {
     // guestRoot
     app.use('/', guestRoute);
 
-    app.use('/bidder', bidderRoute);
+    app.use('/bidder',auth, bidderRoute);
 
     app.use('/watchlist', cartRoute);
 
@@ -23,7 +23,7 @@ export default function (app) {
 
     app.use('/admin', auth, adminRoute);
 
-    app.use('/seller', sellerRoute);
+    app.use('/seller',auth, sellerRoute);
     // 404 and 500 pages
     app.use(function (req, res, next) {
         res.render('404', { layout: false });

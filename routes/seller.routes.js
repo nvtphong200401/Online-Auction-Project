@@ -9,6 +9,7 @@ import categoryModel from "../models/category.model.js";
 import userModel from "../models/users_model.js";
 import commentModel from "../models/comment.model.js";
 import bidModel from "../models/bid.model.js";
+import auth from "../middleware/auth.mdware.js";
 
 const router = express.Router();
 
@@ -36,16 +37,10 @@ function sendEmail(email, message, title) {
     });
 }
 
-router.get('/', function (req, res) {
+router.get('/',auth, function (req, res) {
     res.redirect('/seller/product/list/active');
 });
-router.get('/product/list/active', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/product/list/active',auth, async function (req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
@@ -89,15 +84,8 @@ router.get('/product/list/active', async function (req, res) {
                 isExSeller: res.locals.exSeller,
             });
         }
-    }
 });
-router.get('/product/list/sold', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/product/list/sold',auth, async function (req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
@@ -148,7 +136,6 @@ router.get('/product/list/sold', async function (req, res) {
                 isExSeller: res.locals.exSeller
             });
         }
-    }
 });
 router.post('/review', async function (req, res) {
     const comment = {
@@ -191,13 +178,7 @@ router.post('/product/edit', async function (req, res) {
     await productModel.appendDescription(ProID, FullDesc);
     res.redirect('/seller/product/list/active');
 });
-router.get('/product/edit', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/product/edit',auth, async function (req, res) {
         if (res.locals.bidder) {
             res.redirect('/bidder/request');
         } else {
@@ -214,7 +195,6 @@ router.get('/product/edit', async function (req, res) {
                 maxLength: maxLength
             });
         }
-    }
 });
 router.post('/product/add', async function (req, res) {
     const maxProID = await productModel.findLastProID();
@@ -265,13 +245,8 @@ router.post('/product/add', async function (req, res) {
         }
     })
 });
-router.get('/product/add', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else if (req.session.authUser.Role !== (await userModel.getRole(req.session.authUser.ID))[0].Role) {
+router.get('/product/add',auth, async function (req, res) {
+    if (req.session.authUser.Role !== (await userModel.getRole(req.session.authUser.ID))[0].Role) {
         req.session.authUser.Role = (await userModel.getRole(req.session.authUser.ID))[0].Role;
         req.flash("add_fail", "Your seller account has expired")
         res.redirect('/seller/');

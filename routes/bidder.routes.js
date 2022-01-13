@@ -5,14 +5,16 @@ import bcrypt from "bcryptjs";
 import moment from "moment";
 import productModel from "../models/product.model.js";
 import categoryModel from "../models/category.model.js";
+import auth from "../middleware/auth.mdware.js";
 const router = express.Router();
+
 
 router.get('/request', function (req, res) {
     if (typeof (req.session.auth) === 'undefined') {
         req.session.auth = false;
     }
     if (req.session.auth === false) {
-        res.redirect('/auth');
+        res.redirect('/auth/');
     } else {
         if (res.locals.bidder || res.locals.exSeller) {
             if (req.session.authUser.Pending) {
@@ -37,13 +39,7 @@ router.post('/request', async function (req, res) {
     const url = req.headers.referer || '/';
     res.redirect(url);
 });
-router.get('/profile', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/profile',auth, async function (req, res) {
         // get comment
         const id = res.locals.authUser.ID;
         const commentList = await commentModel.findComment(id, true, 1, 5)
@@ -66,21 +62,14 @@ router.get('/profile', async function (req, res) {
             commentList,
             empty: commentList.length === 0
         });
-    }
 });
-router.get('/profile/edit', function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/profile/edit',auth, function (req, res) {
+
         res.render('vwBidder/edit', {
             err_email: req.flash('email_fail'),
             err_username: req.flash('username_fail'),
             layout: 'main'
         });
-    }
 });
 router.post('/profile/edit', async function (req, res) {
     const user = await userModel.findByUsername(res.locals.authUser.Username);
@@ -135,7 +124,7 @@ router.get('/profile/reset-password', function (req, res) {
         req.session.auth = false;
     }
     if (req.session.auth === false) {
-        res.redirect('/auth');
+        res.redirect('/auth/');
     } else {
         res.render('vwBidder/changepassword', {
             err_message: req.flash('fail'),
@@ -164,15 +153,9 @@ router.post('/profile/reset-password', async function (req, res) {
     req.session.cart = [];
 
     req.flash("success", "Please use new password to continue");
-    res.redirect('/auth')
+    res.redirect('/auth/')
 });
-router.get('/product/list/won', async function (req, res) {
-    if (typeof (req.session.auth) === 'undefined') {
-        req.session.auth = false;
-    }
-    if (req.session.auth === false) {
-        res.redirect('/auth');
-    } else {
+router.get('/product/list/won',auth, async function (req, res) {
         const limit = 10;
         const page = req.query.page || 1;
         const offset = (page - 1) * limit;
@@ -213,7 +196,6 @@ router.get('/product/list/won', async function (req, res) {
             pageNumbers,
             empty: productList.length === 0
         });
-    }
 });
 router.post('/review', async function (req, res) {
     const comment = {
@@ -232,7 +214,7 @@ router.get('/product/list/active', async function (req, res) {
         req.session.auth = false;
     }
     if (req.session.auth === false) {
-        res.redirect('/auth');
+        res.redirect('/auth/');
     } else {
         const limit = 10;
         const page = req.query.page || 1;
