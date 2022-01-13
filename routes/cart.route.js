@@ -1,5 +1,4 @@
 import express from 'express';
-import moment from 'moment';
 
 import cartModel from '../models/cart.model.js';
 import productModel from '../models/product.model.js';
@@ -28,6 +27,15 @@ router.get('/', async function (req, res) {
 
 });
 
+router.get('/check/:id', function (req, res) {
+    const id = req.params.id || 0;
+
+    if (cartModel.isInCart(req.session.cart, +id)) {
+        return res.json(true);
+    }
+    return res.json(false);
+});
+
 router.put('/add', async function (req, res) {
     const item = {
         id: +req.body.id
@@ -40,5 +48,6 @@ router.put('/del', async function (req, res) {
     cartModel.del(req.session.cart, +req.body.id);
     res.redirect(req.headers.referer);
 });
+
 
 export default router;

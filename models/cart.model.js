@@ -20,4 +20,13 @@ export default {
   getNumberOfItems(cart) {
     return cart.length;
   },
+
+  isInCart(cart, id) {
+    for (const i of cart) {
+      if (id === i.id) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
