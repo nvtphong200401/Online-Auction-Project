@@ -30,6 +30,23 @@
                     }
                 }
             });
+            const removeSlide = function() {
+                let n = $('#carousel-example2  .carousel-item').length;
+                if (n < 4)
+                {
+                    $('#carousel-example').removeClass('slide');
+                    $('#next-1').remove()
+                    $('#prev-1').remove()
+                }
+                n = $('#carousel-example2  .carousel-item').length;
+                if (n < 4)
+                {
+                    $('#carousel-example2').removeClass('slide');
+                    $('#next-2').remove()
+                    $('#prev-2').remove()
+                }
+            }
+            removeSlide();
             $('#carousel-example2').on('slide.bs.carousel', function (e) {
                 /*
                     CC 2.0 License Iatek LLC 2018 - Attribution required
@@ -122,12 +139,12 @@
                                     {{/each}}
                                 </div>
                                 <a class="carousel-control-prev bg-secondary" style="width: 5%" href="#carousel-example"
-                                   role="button" data-slide="prev">
+                                   role="button" data-slide="prev" id="next-1">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
                                 <a class="carousel-control-next bg-secondary" style="width: 5%" href="#carousel-example"
-                                   role="button" data-slide="next">
+                                   role="button" data-slide="next" id="prev-1">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
                                 </a>
@@ -513,12 +530,12 @@
                         {{/each}}
                     </div>
                     <a class="carousel-control-prev bg-secondary" style="width: 5%" href="#carousel-example2"
-                       role="button" data-slide="prev">
+                       role="button" data-slide="prev" id="next-2">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
                     <a class="carousel-control-next bg-secondary" style="width: 5%" href="#carousel-example2"
-                       role="button" data-slide="next">
+                       role="button" data-slide="next" id="prev-2">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
