@@ -7,6 +7,7 @@ export default function (app) {
     app.engine('hbs', engine({
         extname: '.hbs',
         defaultLayout: 'main.hbs',
+        section: hbs_sections(),
         helpers: {
             format_number(val) {
                 return numeral(val).format('0,0') + ' VND';
@@ -33,7 +34,7 @@ export default function (app) {
                 return username.replace(username.slice(0, split), "***");
             },
             section: hbs_sections()
-        }
+        },
     }));
     app.set('view engine', 'hbs');
     app.set('views', './views');
