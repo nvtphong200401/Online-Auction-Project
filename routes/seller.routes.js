@@ -10,6 +10,7 @@ import userModel from "../models/users_model.js";
 import commentModel from "../models/comment.model.js";
 import bidModel from "../models/bid.model.js";
 import auth from "../middleware/auth.mdware.js";
+import numeral from "numeral";
 
 const router = express.Router();
 
@@ -197,6 +198,7 @@ router.get('/product/edit',auth, async function (req, res) {
         }
 });
 router.post('/product/add', async function (req, res) {
+
     const maxProID = await productModel.findLastProID();
     const newProID = +maxProID + 1;
     fs.mkdir('./public/imgs/sp/' + newProID, {recursive: true}, (err) => {
@@ -221,6 +223,9 @@ router.post('/product/add', async function (req, res) {
         maxCount: 5
     }])(req, res, async function (err) {
         const product = req.body;
+        product.Start_price = numeral(req.body.Start_price).value();
+        product.Step_price = numeral(req.body.Step_price).value();
+        product.Buy_now = numeral(req.body.Buy_now).value();
         product.SID = res.locals.authUser.ID;
         product.CatID = await categoryModel.findByCatName(product.CatName);
         product.ProID = newProID;

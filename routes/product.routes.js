@@ -175,8 +175,23 @@ router.post('/:id', auth, async (req, res) => {
     }
 })
 router.post('/buy/:id', auth, async (req, res) => {
-    await productModel.buyNow(req.params.id, req.session.authUser.ID);
-    return res.redirect('/product/' + req.params.id);
+    const product = await productModel.findById(req.params.id);
+    if (product[0].AllowAll === 0) {
+        // calculate the score of user
+        const score = await commentModel.percentGoodComment(req.session.authUser.ID);
+        if (score < 0.8) {
+            err_message = "Your current point is too low to bid this product !";
+            req.flash('success', err_message);
+            return res.redirect('/product/' + req.params.id)
+        }
+    }
+    const seller = await productModel.getSeller(product[0].ProID);
+    const user = await userModel.findByID(req.session.authUser.ID);
+
+    
+    sendEmail(seller[0].Email, `${user.Username} has bought your product ${product[0].ProName} ! Visit <a href="http://localhost:3000/product/${product[0].ProID}">here</a> to see `,"Bid system");
+    await productModel.buyNow(product[0].ProID, req.session.authUser.ID);
+    return res.redirect('/product/' + product[0].ProID);
 })
 
 // perform check on expired product for winner and email user if necessary
@@ -187,7 +202,7 @@ setInterval(async () => {
         if (product.EndDate < now && product.Status === 0) {
             await productModel.setSold(product.ProID);
             const seller = await userModel.findByID(product.SID);
-            const winner = await productModel.getWinner(product.ProID) || await productModel.findHighestBID(product.ProID);
+            const winner = (await productModel.getWinner(product.ProID))[0] || await productModel.findHighestBID(product.ProID);
             if (winner === null) {
                 sendEmail(seller.Email, `Your product ${product.ProName} has ended but no one seems to bid on it !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
