@@ -1,11 +1,11 @@
 import kn from 'knex';
 
 export const connectionInfo = {
-  host: 'localhost',
+  host: '34.101.143.154',
   port: 3306,
   user: 'root',
-  password: '',
-  database: 'auction'
+  password: 'Czsbjt36684c4Mkv',
+  database: 'auction',
 };
 
 const knex = kn({
