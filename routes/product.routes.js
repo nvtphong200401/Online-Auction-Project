@@ -204,7 +204,7 @@ setInterval(async () => {
             await productModel.setSold(product.ProID);
             const seller = await userModel.findByID(product.SID);
             const winner = (await productModel.getWinner(product.ProID))[0] || await productModel.findHighestBID(product.ProID);
-            if (winner === null) {
+            if (winner === null || winner === undefined) {
                 sendEmail(seller.Email, `Your product ${product.ProName} has ended but no one seems to bid on it !
                 Go to <a href="http://localhost:3000/product/${product.ProID}">here</a> for more information!`, "Bid system");
             } else {

@@ -146,7 +146,7 @@ export default {
     },
     async findHighestBID(ProID) {
         const list = await this.findBidHistory(ProID);
-        return list[0];
+        return list[0] || null;
     },
 
     async findTopEnd() {
@@ -174,7 +174,7 @@ export default {
 
     async findTopPrice() {
         const today = moment().format('YYYY-MM-DD HH:mm:ss');
-        let list = await db.select('*').from('product as p');
+        let list = await db.select('*').from('product as p').where('EndDate', '>', today);
         await this.addDetail(list);
 
         if (list != null) {

@@ -179,7 +179,7 @@ router.get('/product/list/won',auth, async function (req, res) {
             product.CatName = cat[0].CatName;
             product.ID = i++;
             const seller = await userModel.findByID(product.SID);
-            const price = await productModel.findHighestBID(product.ProID) ;
+            const price = await productModel.findHighestBID(product.ProID);
             product.Price = price.Price;
             product.SellerName = seller.Username;
             if (product.Winner === product.SID) {
