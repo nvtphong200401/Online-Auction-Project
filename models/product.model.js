@@ -13,6 +13,7 @@ const OneHour = 1000 * 60 * 60;
 const OneDay = 1000 * 60 * 60 * 24;
 
 import db from '../utils/db.js';
+import bidModel from './bid.model.js';
 
 export default {
     addProduct(product) {
@@ -145,11 +146,7 @@ export default {
     },
     async findHighestBID(ProID) {
         const list = await this.findBidHistory(ProID);
-        const winner = await this.getBuyBID(ProID);
-        if (winner === undefined) {
-            return list[0];
-        }
-        return winner;
+        return list[0];
     },
 
     async findTopEnd() {
@@ -241,7 +238,13 @@ export default {
     getWinner(ProID){
         return db('user').join('product', 'user.ID', 'product.Winner').where('ProID', ProID);
     },
-    buyNow(ProID, BID){
+    async buyNow(ProID, BID){
+        const product = await this.findById(ProID);
+        try {
+            await bidModel.updateBid(BID, ProID, product[0].Buy_now);
+        } catch (error) {
+            await bidModel.addBid(BID, ProID, product[0].Buy_now);
+        }
         return db('product').where('ProID', ProID).update({'EndDate': moment().format('YYYY-MM-DD HH:mm:ss'), 'Winner' : BID});
     },
     cancelTransaction(ProID) {

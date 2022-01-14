@@ -69,7 +69,7 @@ router.get('/product/list/active',auth, async function (req, res) {
                 product.CatName = cat[0].CatName;
                 product.ID = i++;
                 const highestBid = await productModel.findHighestBID(product.ProID);
-                if (highestBid === undefined) {
+                if (highestBid === undefined || highestBid === null) {
                     product.HighestBid = "None";
                 } else {
                     product.HighestBid = highestBid.Price;
